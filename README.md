@@ -20,12 +20,14 @@ npm run build
 ## Testing with Electron
 
 ```bash
+npm install -g electron
 npm run start:electron
 ```
 
 ## Testing with Cordova
 
 ```bash
+npm install -g cordova
 npm run start:cordova
 ```
 
