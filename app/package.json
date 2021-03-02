@@ -6,14 +6,14 @@
     "commit": "git-cz",
     "ng": "ng",
     "start": "ng serve",
-    "build": "ng build",
+    "build": "ng build --base-href ./",
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build:electron": "ng build --base-href ./",
-    "start:electron": "concurrently \"ng serve\" \"wait-for-localhost 4200 && electron . --serve\"",
+    "build:electron": "electron . --serve",
+    "start:electron": "concurrently \"ng serve\" \"wait-for-localhost 4200 && npm run build:electron\"",
     "build:cordova": "(cd ../mobile && cordova emulate android)",
-    "start:cordova": "nodemon --watch src --exec \"npm run build:electron && npm run build:cordova\" -e html,ts,css"
+    "start:cordova": "nodemon --watch src --exec \"npm run build && npm run build:cordova\" -e html,ts,css"
   },
   "private": true,
   "dependencies": {
@@ -43,7 +43,6 @@
     "codelyzer": "^6.0.0",
     "electron": "^11.3.0",
     "electron-reload": "^1.5.0",
-    "electron-reloader": "^1.2.0",
     "jasmine-core": "~3.6.0",
     "jasmine-spec-reporter": "~5.0.0",
     "karma": "~6.1.0",
