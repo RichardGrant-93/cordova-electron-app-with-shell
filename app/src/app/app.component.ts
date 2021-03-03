@@ -23,4 +23,12 @@ export class AppComponent {
       text: 'Find Contracts'
     },
   ];
+
+  detectmob() {
+    if (window.innerWidth <= 800 && window.innerHeight <= 768) {
+      return true;
+    } else {
+      return false;
+    }
+  }
 }

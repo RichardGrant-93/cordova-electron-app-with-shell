@@ -1,6 +1,6 @@
 <!--https://www.synerzip.com/blogs/getting-started-with-angular-flex-layout/-->
 <mat-drawer-container #drawerContainer style="height:100vh;" [hasBackdrop]="false" [ngClass]="{'expanded': isExpanded}">
-  <mat-drawer #sidenav mode="side" opened class="example-sidenav">
+  <mat-drawer #sidenav mode="slide" opened class="example-sidenav">
     <div (click)="isExpanded = !isExpanded">
       <h1 style="width:100%; text-align:center;margin:0.5em 0 0 0;" class="text">CLHS</h1>
       <button mat-icon-button class="expander" aria-label="Menu" [disableRipple]="true">
