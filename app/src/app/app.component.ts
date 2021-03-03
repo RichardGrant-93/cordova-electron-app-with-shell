@@ -9,13 +9,18 @@ import { MatDrawerContainer } from '@angular/material/sidenav';
 export class AppComponent {
   title = 'app';
   isExpanded = true;
-  @ViewChild("drawerContainer") container: MatDrawerContainer;
-  constructor(){}
-  log(a: any){
-    console.log(a);
-  }
-
-  update(){
-    
-  }
+  navLinks = [
+    {
+      icon: 'help_center',
+      text: 'How it works'
+    },
+    {
+      icon: 'people',
+      text: 'Freelancers'
+    },
+    {
+      icon: 'receipt',
+      text: 'Find Contracts'
+    },
+  ];
 }
