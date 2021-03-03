@@ -6,7 +6,7 @@ $accent: map-get($app-theme, accent);
 mat-drawer-container{
     mat-drawer{
         overflow-y:initial;
-        background-color: mat-color($accent);
+        background-color: mat-color($accent) !important;
         .text{
             color:white;
         }
@@ -27,6 +27,9 @@ mat-drawer-container{
         
             &.expanded{
                 width: 15em;
+                @media screen and (max-width: 768px) {/*when mobile*/
+                    width: 100vw;
+                }
             }
         }
     }
@@ -39,8 +42,13 @@ mat-drawer-container{
         -moz-transition: margin-left 0.3s ease-in-out;
         -o-transition: margin-left 0.3s ease-in-out;
         transition: margin-left 0.3s ease-in-out;
+
+        @media screen and (max-width: 768px) {/*when mobile*/
+            width: calc(100vw - 5em);
+        }
+
         .main-content{
-            margin:2em 5em 2em 2em;
+            margin:2em;
             min-height: calc(calc(calc(100vh - 128px) - 4em) - 2px); /* mat-toolbar is 64 height. 100vh - (toolbar-height * 2) - (margin-top * 2) - (border-width * 2) */
             background: white;
             border: 1px solid mat-color($mat-gray, 400);
@@ -54,7 +62,9 @@ mat-drawer-container{
 
     &.expanded{
         mat-drawer-content{
-            margin-left: 15em !important;
+            @media screen and (min-width: 768px) {/*when desktop*/
+                margin-left: 15em !important;
+            }
         }
     }
 }
