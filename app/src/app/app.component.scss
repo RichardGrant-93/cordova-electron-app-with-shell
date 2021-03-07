@@ -3,6 +3,7 @@
 $primary: map-get($app-theme, primary);
 $accent: map-get($app-theme, accent);
 
+
 mat-drawer-container{
     mat-drawer{
         overflow-y:initial;
@@ -11,6 +12,7 @@ mat-drawer-container{
             color:white;
         }
     }
+
 
     mat-drawer-content{
         margin-left: 5em !important;
@@ -25,10 +27,21 @@ mat-drawer-container{
             width: calc(100vw - 5em);
         }
 
+
+        @mixin content-height-toolbar-compensation($toolbar-height){
+            min-height: calc(calc(calc(100vh - calc(#{$toolbar-height} * 2)) - 4em)); /* mat-toolbar is 64 height. 100vh - (toolbar-height * 2) - (margin-top * 2) */
+        }
         .main-content{
             margin:2em;
-            min-height: calc(calc(calc(100vh - 128px) - 4em) - 2px); /* mat-toolbar is 64 height. 100vh - (toolbar-height * 2) - (margin-top * 2) - (border-width * 2) */
+            @include content-height-toolbar-compensation(64px);
         }
+
+        @media (max-width: 599px){ /* mat-toolbard height is changed to 56 when width is <= 599 */
+            .main-content{
+                @include content-height-toolbar-compensation(56px);
+            }
+        }
+
         .footer, .header{
             color: mat-color($primary);
             background-color: white;
@@ -60,3 +73,5 @@ mat-drawer-container{
 .background-accent{
     background-color: mat-color($primary);
 }
+
+
