@@ -1,19 +1,7 @@
 <!--https://www.synerzip.com/blogs/getting-started-with-angular-flex-layout/-->
 <mat-drawer-container #drawerContainer style="height:100vh;" [hasBackdrop]="false" [ngClass]="{'expanded': isExpanded}">
   <mat-drawer #sidenav mode="side" opened class="example-sidenav">
-    <div (click)="isExpanded = !isExpanded">
-      <h1 style="width:100%; text-align:center;margin:0.5em 0 0 0;" class="text">CLHS</h1>
-      <button mat-icon-button class="expander" aria-label="Menu" [disableRipple]="true">
-        <mat-icon class="text">menu</mat-icon>
-      </button>
-    </div>
-    <mat-nav-list [ngClass]="{'expanded': isExpanded}">
-      
-      <mat-list-item *ngFor="let navLink of navLinks">
-        <mat-icon mat-list-icon class="text">{{navLink.icon}}</mat-icon>
-        <h4 mat-line class="text">{{navLink.text}}</h4>
-      </mat-list-item>
-    </mat-nav-list>
+    <lib-vertical-navigation [isExpanded]="isExpanded" (toggled)="onToggle($event)"></lib-vertical-navigation>
   </mat-drawer>
   
 
@@ -23,8 +11,8 @@
         <div fxFlex="25">Get shit done.</div>
         <div fxFlex="40" fxLayoutAlign="center"></div>
         <div fxFlex="35" fxLayoutAlign="end">
-          <button mat-button color="accent">Sign Up</button>
-          <button mat-flat-button color="accent">Login</button>
+          <button mat-button color="primary">Sign Up</button>
+          <button mat-flat-button color="primary">Login</button>
         </div>
       </div>
 
