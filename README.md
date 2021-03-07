@@ -1,6 +1,6 @@
 # cordova-electron-app-with-shell
 
-Angular Material Shell application for cordova electron applications that need to be redistributed as mobile and desktop.
+Angular Material Shell application for cordova electron applications that need to be redistributed as mobile and desktop. Please report bugs and issues and i will fix them as soon as i can.
 
 ## Setup
 
