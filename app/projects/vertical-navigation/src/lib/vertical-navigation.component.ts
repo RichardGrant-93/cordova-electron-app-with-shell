@@ -1,0 +1,47 @@
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { NavLink } from './models/navLink.model';
+import { MaterialIcon } from './models/materialIcon.model';
+import { TooltipPosition } from '@angular/material/tooltip';
+import { FormControl } from '@angular/forms';
+
+@Component({
+  selector: 'lib-vertical-navigation',
+  templateUrl: './vertical-navigation.component.html',
+  styleUrls: ['./vertical-navigation.component.scss']
+})
+export class VerticalNavigationComponent implements OnInit {
+  @Input() isExpanded: boolean = true;  
+
+  @Input() navLinks: NavLink[] = [
+    {
+      icon: MaterialIcon.help_center,
+      text: 'How it works'
+    },
+    {
+      icon: MaterialIcon.people,
+      text: 'Freelancers'
+    },
+    {
+      icon: MaterialIcon.receipt,
+      text: 'Find Contracts'
+    },
+  ];
+
+  @Input() public showToolTip: boolean = true;
+
+  @Output() toggled: EventEmitter<boolean> = new EventEmitter<boolean>();
+
+  positionOptions: TooltipPosition[] = ['below', 'above', 'left', 'right'];
+  position = new FormControl(this.positionOptions[3]);
+
+  constructor() { }
+
+  ngOnInit(): void {
+  }
+
+  toggle(){
+    this.isExpanded = !this.isExpanded;
+    this.toggled.emit(this.isExpanded);
+  }
+
+}

@@ -15,7 +15,15 @@
     "lib": [
       "es2018",
       "dom"
-    ]
+    ],
+    "paths": {
+      "@app/*": ["src/app/*"],
+      "@library/*": ["projects/*"],
+      "vertical-navigation": [
+        "dist/vertical-navigation/vertical-navigation",
+        "dist/vertical-navigation"
+      ]
+    }
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false

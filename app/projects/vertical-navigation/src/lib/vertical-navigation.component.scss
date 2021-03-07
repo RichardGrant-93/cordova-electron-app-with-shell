@@ -1,0 +1,41 @@
+@import '../../../../src/custom-theme.scss';
+
+$primary: map-get($app-theme, primary);
+$accent: map-get($app-theme, accent);
+
+.text{
+    color:white;
+}
+
+.expander{
+    width:100%;
+    .text{
+        color:white;
+    }
+}
+
+
+mat-nav-list{
+    h4{
+        display:none !important;
+    }
+    width:5em;
+    -webkit-transition: width 0.3s ease-in-out;
+    -moz-transition: width 0.3s ease-in-out;
+    -o-transition: width 0.3s ease-in-out;
+    transition: width 0.3s ease-in-out;
+
+    &.expanded{
+        h4{
+            display:inline-block !important;
+        }
+        width: 15em;
+        @media screen and (max-width: 768px) {/*when mobile*/
+            width: 100vw;
+        }
+    }
+}
+
+::ng-deep .nav-tooltip{
+    background-color:mat-color($primary);
+}

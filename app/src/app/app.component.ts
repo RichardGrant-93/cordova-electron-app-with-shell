@@ -31,4 +31,8 @@ export class AppComponent {
       return false;
     }
   }
+
+  onToggle(toggleStatus: boolean){
+    this.isExpanded = toggleStatus;
+  }
 }

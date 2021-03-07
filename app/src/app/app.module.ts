@@ -1,9 +1,11 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
-
-import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlexModule } from '@angular/flex-layout';
+
+import { AppComponent } from '@app/app.component';
+
+import { VerticalNavigationModule } from '@library/vertical-navigation/src/public-api';
 
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
@@ -28,6 +30,7 @@ const material = [
     BrowserModule,
     BrowserAnimationsModule,
     FlexModule,
+    VerticalNavigationModule,
     ...material
   ],
   providers: [],

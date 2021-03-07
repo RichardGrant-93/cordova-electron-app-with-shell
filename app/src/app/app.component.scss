@@ -6,38 +6,16 @@ $accent: map-get($app-theme, accent);
 mat-drawer-container{
     mat-drawer{
         overflow-y:initial;
-        background-color: mat-color($accent) !important;
+        background-color: mat-color($primary) !important;
         .text{
             color:white;
-        }
-
-        .expander{
-            width:100%;
-            .text{
-                color:white;
-            }
-        }
-
-        mat-nav-list{
-            width:5em;
-            -webkit-transition: width 0.3s ease-in-out;
-            -moz-transition: width 0.3s ease-in-out;
-            -o-transition: width 0.3s ease-in-out;
-            transition: width 0.3s ease-in-out;
-        
-            &.expanded{
-                width: 15em;
-                @media screen and (max-width: 768px) {/*when mobile*/
-                    width: 100vw;
-                }
-            }
         }
     }
 
     mat-drawer-content{
         margin-left: 5em !important;
         min-height:100vh;
-        background-color: mat-color($mat-gray, 300);
+        background-color: mat-color($accent);
         -webkit-transition: margin-left 0.3s ease-in-out;
         -moz-transition: margin-left 0.3s ease-in-out;
         -o-transition: margin-left 0.3s ease-in-out;
@@ -50,12 +28,9 @@ mat-drawer-container{
         .main-content{
             margin:2em;
             min-height: calc(calc(calc(100vh - 128px) - 4em) - 2px); /* mat-toolbar is 64 height. 100vh - (toolbar-height * 2) - (margin-top * 2) - (border-width * 2) */
-            background: white;
-            border: 1px solid mat-color($mat-gray, 400);
-            border-radius: 4px;
         }
         .footer, .header{
-            color: mat-color($accent);
+            color: mat-color($primary);
             background-color: white;
         }
     }
@@ -75,7 +50,7 @@ mat-drawer-container{
 }
 
 .color-accent{
-    color: mat-color($accent);
+    color: mat-color($primary);
 }
 
 .background-primary{
@@ -83,5 +58,5 @@ mat-drawer-container{
 }
 
 .background-accent{
-    background-color: mat-color($accent);
+    background-color: mat-color($primary);
 }
