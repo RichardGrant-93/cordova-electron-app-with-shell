@@ -1,6 +1,6 @@
-# Contact Less Home Services UI
+# cordova-electron-app-with-shell
 
-Contact Less Home Services UI is the interface for Contact Less Home Services.
+Angular Material Shell application for cordova electron applications that need to be redistributed as mobile and desktop.
 
 ## Setup
 
@@ -33,9 +33,6 @@ npm run start:cordova
 
 
 ## Contributing
-This is a private repository maintained by contact-less-home-services.com. If you would like to participate in this repository you are welcome to reach out to [admin](mailto:admin@richard-grant.com)
+This is a public repository maintained by contact-less-home-services.com. If you have questions, feel free to reach out [admin](mailto:admin@richard-grant.com)
 
 All new feature functionality requires unit testing.
-
-## License
-None
