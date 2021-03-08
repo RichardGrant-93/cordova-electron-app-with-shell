@@ -23,7 +23,7 @@ mat-drawer-container{
         -o-transition: margin-left 0.3s ease-in-out;
         transition: margin-left 0.3s ease-in-out;
 
-        @media screen and (max-width: 768px) {/*when mobile*/
+        @media only screen and (max-width: 768px) {/*when mobile*/
             width: calc(100vw - 5em);
         }
 
@@ -36,11 +36,18 @@ mat-drawer-container{
             @include content-height-toolbar-compensation(64px);
         }
 
-        @media (max-width: 599px){ /* mat-toolbard height is changed to 56 when width is <= 599 */
+        @media only screen and (max-width: 599px){ /* mat-toolbard height is changed to 56 when width is <= 599 */
             .main-content{
                 @include content-height-toolbar-compensation(56px);
             }
         }
+
+        @media only screen and (max-width: 412px) {/*when small mobile*/
+            .main-content{
+                margin:0.5em !important;
+            }
+        }
+        
 
         .footer, .header{
             color: mat-color($primary);
