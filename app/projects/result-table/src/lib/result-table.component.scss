@@ -1,0 +1,55 @@
+@import '../../../../src/custom-theme.scss';
+
+$primary: map-get($app-theme, primary);
+$accent: map-get($app-theme, accent);
+
+table{
+    width:100%;
+}
+
+@media screen and (max-width: 960px) {
+    .mat-table {
+      border: 0;
+      vertical-align: middle;
+      background:transparent;
+    }
+  
+    .mat-table caption {
+      font-size: 1em;
+    }
+
+    .mat-table .mat-header-row{
+        display:none;
+    }
+
+    .mat-table .mat-row{
+        padding:1rem 0;
+        background:white;
+        margin: 0.5rem 0;
+        display: table;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .mat-table .mat-row:nth-child(even){
+        background: mat-color($mat-grey, 200);
+    }
+    
+    .mat-table .mat-cell {
+      display: block;
+      width:100%;
+      padding: 0;
+      text-align: center;
+      border:0;
+      padding: 0.5em 0;
+    }
+
+    .mat-table .mat-cell:before {
+      content: attr(data-label);
+      float: left;
+      text-transform: uppercase;
+      font-weight: normal;
+      width:50%;
+      text-align:right;
+    }
+}

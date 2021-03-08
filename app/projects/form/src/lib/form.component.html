@@ -1,0 +1,20 @@
+<form *ngFor="let form of formTemplate; let formIndex=index" [formGroup]="forms[formIndex]">
+    <div fxLayout="row wrap" fxLayoutWrap>
+        <mat-form-field *ngFor="let field of formTemplate[formIndex].fields" fxLayout="column" [fxFlex]="100 / formTemplate[formIndex].fields.length" [fxFlex.xs]="100" [fxFlex.sm]="(100 / formTemplate[formIndex].fields.length)*2">
+            <mat-label>{{field.placeholder}}</mat-label>
+            <ng-container *ngIf="field.inputType === formInputType.AUTO_COMPLETE_TEXT_INPUT">
+                <input type="text"
+                    [placeholder]="field.placeholder"
+                    [aria-label]="field.placeholder"
+                    matInput
+                    [formControlName]="field.name"
+                    [matAutocomplete]="auto" style="min-width:100px;">
+                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
+                    <mat-option *ngFor="let option of field.options" [value]="option.value">
+                        {{option.value}}
+                    </mat-option>
+                </mat-autocomplete>
+            </ng-container>
+        </mat-form-field>
+    </div>
+</form>
