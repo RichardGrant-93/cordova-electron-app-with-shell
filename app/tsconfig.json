@@ -18,7 +18,21 @@
     ],
     "paths": {
       "@app/*": ["src/app/*"],
-      "@library/*": ["projects/*"],
+      "@library/*": [
+        "projects/*"
+      ],
+      "form": [
+        "dist/form/form",
+        "dist/form"
+      ],
+      "result-table": [
+        "dist/result-table/result-table",
+        "dist/result-table"
+      ],
+      "results": [
+        "dist/results/results",
+        "dist/results"
+      ],
       "vertical-navigation": [
         "dist/vertical-navigation/vertical-navigation",
         "dist/vertical-navigation"
