@@ -25,6 +25,10 @@
         "dist/form/form",
         "dist/form"
       ],
+      "pagination": [
+        "dist/pagination/pagination",
+        "dist/pagination"
+      ],
       "result-table": [
         "dist/result-table/result-table",
         "dist/result-table"
@@ -32,6 +36,10 @@
       "results": [
         "dist/results/results",
         "dist/results"
+      ],
+      "search": [
+        "dist/search/search",
+        "dist/search"
       ],
       "vertical-navigation": [
         "dist/vertical-navigation/vertical-navigation",

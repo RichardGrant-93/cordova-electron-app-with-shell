@@ -1,16 +1,15 @@
 <!--https://www.synerzip.com/blogs/getting-started-with-angular-flex-layout/-->
-<mat-drawer-container #drawerContainer style="height:100vh;" [hasBackdrop]="false" [ngClass]="{'expanded': isExpanded}">
+<mat-drawer-container #drawerContainer style="height:100vh;" [hasBackdrop]="false" [ngClass]="{'expanded': isExpanded}" class="mat-app-background">
   <mat-drawer #sidenav mode="side" opened class="example-sidenav">
-    <lib-vertical-navigation [isExpanded]="isExpanded" (toggled)="onToggle($event)"></lib-vertical-navigation>
+    <lib-vertical-navigation [isExpanded]="isExpanded" (toggled)="onToggle($event)" [navLinks]="navLinks"></lib-vertical-navigation>
   </mat-drawer>
   
 
-  <mat-drawer-content>
+  <mat-drawer-content class="mat-app-background">
     <mat-toolbar class="header">
     <div fxLayout="row" width="100%" fxFlex="100">
-        <div fxFlex="25">Get shit done.</div>
-        <div fxFlex="40" fxLayoutAlign="center"></div>
-        <div fxFlex="35" fxLayoutAlign="end">
+        <div fxFlex="50">Get shit done.</div>
+        <div fxFlex="50" fxLayoutAlign="end">
           <button mat-button color="primary">Sign Up</button>
           <button mat-flat-button color="primary">Login</button>
         </div>
@@ -19,9 +18,9 @@
     </mat-toolbar>
 
     <div class="main-content">
-      <lib-form></lib-form>
-      <lib-result-table></lib-result-table>
-    <div fxLayout="row">
+      <!--<lib-search [formTemplate]="formTemplate" [actionButtons]="actionButtons"></lib-search>-->
+      <router-outlet></router-outlet>
+    <!--<div fxLayout="row">
       <div fxFlex="33"> Child - One </div>
       <div fxFlex="33"> Header </div>
       <div fxFlex="33"> NAV </div>
@@ -33,9 +32,7 @@
       <div fxFlex="35" fxLayoutAlign="space-around center">
         <div fxFlex="50" fxFlex.lt-lg="80"> Sub-child - One</div>
       </div>
-    </div>
-
-    
+    </div>-->
   </div>
 
     <mat-toolbar class="footer">Footer</mat-toolbar>

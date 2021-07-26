@@ -13,12 +13,16 @@
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
 $app-primary: mat-palette($mat-blue, 900);
-$app-accent: mat-palette($mat-blue-grey, 900);
+$app-accent: mat-palette($mat-green, 300);
+$app-background: rgb(241, 242, 244);
 
 //182248
 
 // The warn palette is optional (defaults to red).
 $app-warn: mat-palette($mat-red);
+
+$mat-light-theme-background: map_merge($mat-light-theme-background, (background: $app-background));
+//$mat-light-theme-foreground: map_merge($mat-light-theme-foreground, (divider: yellow));
 
 // Create the theme object. A theme consists of configurations for individual
 // theming systems such as "color" or "typography".
@@ -35,3 +39,49 @@ $app-theme: mat-light-theme((
 // that you are using.
 @include angular-material-theme($app-theme);
 
+
+::ng-deep {
+  .mat-option {
+    &.mat-active {
+      background: mat-color(map-get($app-theme, primary), 0.1) !important;
+    }
+    &.mat-selected {
+      background: mat-color(map-get($app-theme, primary)) !important;
+    color:white !important;
+    }
+    &:hover:not(.mat-option-disabled) {
+      background: mat-color(map-get($app-theme, primary)) !important;
+      color:white !important;
+    }
+  }
+
+  .mat-tooltip {
+    background-color: mat-color(map-get($app-theme, primary));
+  }
+}
+
+:root{
+  --radius-md: 6px;
+}
+
+
+.module {
+  border-radius: var(--radius-md);
+  border:1px solid #e0e0e0;
+  margin-bottom:2rem;
+  overflow:hidden;
+}
+
+::ng-deep{
+  @media only screen and (max-width: 960px) {
+    .module{
+      border:0;
+    }
+    .module .mat-row{
+      border-radius: var(--radius-md);
+      border:1px solid #e0e0e0;
+      overflow:hidden;
+    }
+  
+  }
+}

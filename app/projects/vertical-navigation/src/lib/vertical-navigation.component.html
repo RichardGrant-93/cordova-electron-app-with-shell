@@ -15,7 +15,7 @@
             matTooltipClass="nav-tooltip"
         >
             <mat-icon mat-list-icon class="text">{{navLink.icon}}</mat-icon>
-                <h4 mat-line class="text">{{navLink.text}}</h4>
+                <a mat-line class="text" [routerLink]="navLink.route">{{navLink.text}}</a>
         </mat-list-item>
     </ng-container>
     <ng-template #noTooltip>
@@ -23,7 +23,7 @@
             *ngFor="let navLink of navLinks"
         >
             <mat-icon mat-list-icon class="text">{{navLink.icon}}</mat-icon>
-                <h4 mat-line class="text">{{navLink.text}}</h4>
+                <a mat-line class="text" [routerLink]="navLink.route">{{navLink.text}}</a>
         </mat-list-item>
     </ng-template>
 </mat-nav-list>

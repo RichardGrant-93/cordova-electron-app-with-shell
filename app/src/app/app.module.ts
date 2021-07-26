@@ -12,13 +12,14 @@ import { MatSidenavModule } from '@angular/material/sidenav'
 import { MatListModule } from '@angular/material/list';
 
 import { VerticalNavigationModule } from '@library/vertical-navigation/src/public-api';
-import { FormModule } from '@library/form/src/public-api';
-import { ResultTableModule } from '@library/result-table/src/public-api';
+import { SearchModule } from '@library/search/src/public-api';
+import { TableSearchComponent } from './table-search/table-search.component';
+import { AppRoutingModule } from './app-routing.module';
+
 
 const application_modules = [
   VerticalNavigationModule,
-  FormModule,
-  ResultTableModule
+  SearchModule
 ];
 
 const material = [
@@ -32,10 +33,12 @@ const material = [
 
 @NgModule({
   declarations: [
-    AppComponent
+    AppComponent,
+    TableSearchComponent
   ],
   imports: [
     BrowserModule,
+    AppRoutingModule,
     BrowserAnimationsModule,
     FlexModule,
     ...application_modules,

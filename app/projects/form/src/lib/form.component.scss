@@ -1,7 +1,32 @@
-form{
-    background-color: white;
-    padding:1em;
+@import '../../../../src/custom-theme.scss';
+
+$primary: map-get($app-theme, primary);
+$accent: map-get($app-theme, accent);
+$background: map-get($app-theme, background);
+
+.bgWhite{
+    background: white;
+}
+
+.forms{
+    padding:1rem;
     mat-form-field{
         padding:0 1rem;
     }
+}
+
+
+.actions{
+    text-align: right;
+    padding-top:1rem;
+}
+
+.actions .actionButtons{
+    margin:0.2rem 0.2rem;
+}
+
+@media only screen and (max-width: 960px) {
+    .actions .actionButtons{
+        width:100%;
+    }    
 }

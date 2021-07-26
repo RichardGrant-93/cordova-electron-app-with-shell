@@ -1,19 +1,29 @@
+import { CurrencyPipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+
+export enum AdvancedTypes{
+  MONEY
+};
+
+export interface AdvancedType<T1>{
+  type: AdvancedTypes,
+  value: T1
+};
 
 export interface contracts {
   contractId: string;
   jobType: string;
   contractType: string;
   distance: number;
-  averagePrice: number;
+  averagePrice: AdvancedType<number>;
   clientRating: number;
   sqft: number;
   completionEstimate: string;
 }
 
 const ELEMENT_DATA: contracts[] = [
-  {contractId: '123', jobType: 'Cut Grass', contractType: 'Recurring', distance: 50, averagePrice: 60, clientRating: 5, sqft: 500, completionEstimate: '5 hours'},
-  {contractId: '123', jobType: 'Cut Grass', contractType: 'Recurring', distance: 50, averagePrice: 60, clientRating: 5, sqft: 500, completionEstimate: '5 hours'}
+  {contractId: '123', jobType: 'Cut Grass', contractType: 'Recurring', distance: 50, averagePrice: { type: AdvancedTypes.MONEY, value: 60 }, clientRating: 5, sqft: 500, completionEstimate: '5 hours'},
+  {contractId: '123', jobType: 'Cut Grass', contractType: 'Recurring', distance: 50, averagePrice: { type: AdvancedTypes.MONEY, value: 60 }, clientRating: 5, sqft: 500, completionEstimate: '5 hours'}
 ];
 
 
@@ -25,10 +35,10 @@ const ELEMENT_DATA: contracts[] = [
 export class ResultTableComponent implements OnInit {
   hiddenColumns: string[] = ['contractId'];
   dataSource = ELEMENT_DATA;
+  advancedTypes = AdvancedTypes;
 
 
   constructor() { 
-
   }
 
   ngOnInit(): void {
