@@ -2,12 +2,15 @@
 
 $primary: map-get($app-theme, primary);
 $accent: map-get($app-theme, accent);
+$background: map-get($app-theme, background);
 
 
 mat-drawer-container{
     mat-drawer{
         overflow-y:initial;
-        background-color: mat-color($primary) !important;
+        //background-color: mat-color($primary) !important;
+        background-color:mat-color($primary) !important;
+        background-image: linear-gradient(mat-color($primary) 0%, mat-color($accent) 150%);
         .text{
             color:white;
         }
@@ -17,7 +20,6 @@ mat-drawer-container{
     mat-drawer-content{
         margin-left: 5em !important;
         min-height:100vh;
-        background-color: mat-color($accent);
         -webkit-transition: margin-left 0.3s ease-in-out;
         -moz-transition: margin-left 0.3s ease-in-out;
         -o-transition: margin-left 0.3s ease-in-out;
@@ -63,22 +65,3 @@ mat-drawer-container{
         }
     }
 }
-
-
-.color-primary{
-    color: mat-color($primary);
-}
-
-.color-accent{
-    color: mat-color($primary);
-}
-
-.background-primary{
-    background-color: mat-color($primary);
-}
-
-.background-accent{
-    background-color: mat-color($primary);
-}
-
-

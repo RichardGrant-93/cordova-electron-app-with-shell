@@ -12,20 +12,7 @@ import { FormControl } from '@angular/forms';
 export class VerticalNavigationComponent implements OnInit {
   @Input() isExpanded: boolean = true;  
 
-  @Input() navLinks: NavLink[] = [
-    {
-      icon: MaterialIcon.help_center,
-      text: 'How it works'
-    },
-    {
-      icon: MaterialIcon.people,
-      text: 'Freelancers'
-    },
-    {
-      icon: MaterialIcon.receipt,
-      text: 'Find Contracts'
-    },
-  ];
+  @Input() navLinks: NavLink[] = [];
 
   @Input() public showToolTip: boolean = true;
 

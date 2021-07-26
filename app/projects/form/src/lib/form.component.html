@@ -1,20 +1,32 @@
-<form *ngFor="let form of formTemplate; let formIndex=index" [formGroup]="forms[formIndex]">
-    <div fxLayout="row wrap" fxLayoutWrap>
-        <mat-form-field *ngFor="let field of formTemplate[formIndex].fields" fxLayout="column" [fxFlex]="100 / formTemplate[formIndex].fields.length" [fxFlex.xs]="100" [fxFlex.sm]="(100 / formTemplate[formIndex].fields.length)*2">
-            <mat-label>{{field.placeholder}}</mat-label>
-            <ng-container *ngIf="field.inputType === formInputType.AUTO_COMPLETE_TEXT_INPUT">
-                <input type="text"
-                    [placeholder]="field.placeholder"
-                    [aria-label]="field.placeholder"
-                    matInput
-                    [formControlName]="field.name"
-                    [matAutocomplete]="auto" style="min-width:100px;">
-                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                    <mat-option *ngFor="let option of field.options" [value]="option.value">
-                        {{option.value}}
-                    </mat-option>
-                </mat-autocomplete>
-            </ng-container>
-        </mat-form-field>
+<div class="forms bgWhite" *ngIf="formTemplate.length > 0; else formTemplateDoesNotExist">
+    <form *ngFor="let form of formTemplate; let formIndex=index" [formGroup]="forms[formIndex]">
+        <div fxLayout="row wrap" fxLayoutWrap>
+            <mat-form-field *ngFor="let field of formTemplate[formIndex].fields" [formArray]="forms[formIndex]" fxLayout="column" [fxFlex]="100 / formTemplate[formIndex].fields.length" [fxFlex.xs]="100" [fxFlex.sm]="(100 / formTemplate[formIndex].fields.length)*2">
+                <mat-label>{{field.placeholder}}</mat-label>
+                <ng-container *ngIf="field.inputType === formInputType.AUTO_COMPLETE_TEXT_INPUT">
+                    <input type="text"
+                        #autoInput
+                        [placeholder]="field.placeholder"
+                        [aria-label]="field.placeholder"
+                        matInput
+                        [formControlName]="field.name"
+                        [matAutocomplete]="auto" style="min-width:100px;">
+                    <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="getOptionText" (closed)="onClose($event, autoInput, auto, formIndex, field.name)" (optionSelected)="onSelectedOption($event, autoInput)">
+                        <mat-option *ngFor="let option of field.options | filterArrayOfObjects : 'value' : autoInput.value" [value]="option">
+                            {{option.value}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </ng-container>
+            </mat-form-field>
+        </div>
+    </form>
+
+    <div class="actions">
+        <button mat-raised-button [color]="actionButton.style" *ngFor="let actionButton of actionButtons" class="actionButtons">{{actionButton.text}}</button>
     </div>
-</form>
+
+</div>
+
+<ng-template #formTemplateDoesNotExist>
+    Form Template Does Not Exist
+</ng-template>
