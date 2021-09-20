@@ -1,6 +1,4 @@
-import { Component, Input } from '@angular/core';
-import { ActionButton } from '@library/form/src/lib/models/actionButton.model';
-import { Form, FormField, FormInputType, Lookup } from '@library/form/src/lib/models/form.model';
+import { Component } from '@angular/core';
 import { MaterialIcon } from '@library/vertical-navigation/src/lib/models/materialIcon.model';
 
 @Component({
@@ -13,17 +11,7 @@ export class AppComponent {
   isExpanded = true;
   navLinks = [
     {
-      icon: MaterialIcon.help_center,
-      text: 'How it works',
-      router: ''
-    },
-    {
-      icon: MaterialIcon.people,
-      text: 'Freelancers',
-      router: ''
-    },
-    {
-      icon: MaterialIcon.receipt,
+      icon: MaterialIcon.search,
       text: 'Find Contracts',
       route: '/search/table/search'
     },
