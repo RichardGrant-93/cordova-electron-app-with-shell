@@ -2,6 +2,6 @@
     <lib-form [formTemplate]="formTemplate" [actionButtons]="actionButtons"></lib-form>
 </div>
 <div class="module">
-    <lib-result-table></lib-result-table>
-    <lib-pagination [length]="200" [pageSize]="10" [pageSizeOptions]=[5,10,20,100,200]></lib-pagination>
+    <lib-result-table [data]="data | async"></lib-result-table>
+    <lib-pagination [length]="200" [pageSize]="10" [pageSizeOptions]=[5,10,20,100,200] (page)="onPage($event)"></lib-pagination>
 </div>

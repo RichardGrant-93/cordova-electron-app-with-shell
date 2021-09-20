@@ -6,6 +6,9 @@ const material = [
   MatPaginatorModule
 ];
 
+/**
+ * Pagination.
+ */
 @NgModule({
   declarations: [PaginationComponent],
   imports: [

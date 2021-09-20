@@ -1,8 +1,8 @@
 import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { Form, FormField, FormInputType, Lookup } from './models/form.model';
-import { isObjectValidation, validateValueWithList } from './validators/validOption';
+import { validateValueWithList } from './validators/validOption';
 
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActionButton } from './models/actionButton.model';
 import { ActionEmit } from './models/actionEmit.model';
 
@@ -24,13 +24,6 @@ export class FormComponent implements OnInit {
 
   forms: FormGroup[];
 
-
-  name = "Angular";
-  testForm: FormGroup;
-  get selects() {
-    return this.testForm.get("selects") as FormArray;
-  }
-
   constructor(private fb: FormBuilder) {
     
   }
@@ -48,18 +41,6 @@ export class FormComponent implements OnInit {
           };
         }).reduce(((result, current) => Object.assign(result, current)), {}) //then reduce the array of objects to a flat object {[field:name]: Control}
       );
-    });
-
-    /*
-      Form Control is either an object or string.
-    */
-
-    this.forms.forEach((form, formIndex)=>{//each form
-      Object.keys(form.controls).forEach((fieldName: string)=>{//each field name
-        this.forms[0].controls[fieldName].valueChanges.subscribe((change)=>{//field valueChanges
-            //this.setToMatch(formIndex, fieldName, change);
-        });
-      });
     });
   }
 

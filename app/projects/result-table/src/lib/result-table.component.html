@@ -1,5 +1,5 @@
 
-<table mat-table [dataSource]="dataSource" class="mat-elevation-z8" [trackBy]="getContractId">
+<table mat-table [dataSource]="data" class="mat-elevation-z8" [trackBy]="getContractId">
     <ng-container *ngFor="let column of columns" [matColumnDef]="column">
         <th mat-header-cell *matHeaderCellDef="let row"> {{ header(column) }} </th>
         <td mat-cell *matCellDef="let row" [attr.data-label]="header(column)">

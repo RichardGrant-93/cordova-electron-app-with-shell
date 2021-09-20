@@ -7,7 +7,9 @@ const material = [
   MatTableModule
 ]
 
-
+/**
+* display list of results
+*/
 @NgModule({
   declarations: [ResultTableComponent],
   imports: [

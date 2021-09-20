@@ -49,5 +49,14 @@
   },
   "angularCompilerOptions": {
     "enableI18nLegacyMessageIdFormat": false
+  },
+  "typedocOptions": {
+    "entryPoints": ["src", "projects"],
+    "out": "docs",
+    "readme": ["../README.md"],
+    "plugin": "typedoc-neo-theme",
+    "outline": [{
+      "pages": "src/table-search"
+    }]
   }
 }
