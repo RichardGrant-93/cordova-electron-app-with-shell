@@ -1,8 +1,12 @@
 import { AbstractControl } from '@angular/forms';
 import { Lookup } from '../models/form.model';
 
+/**
+ * 
+ * @param validOptions All possible values of control
+ */
 export function validateValueWithList<T1>(validOptions: Lookup<T1>[]) {
-    return (control: AbstractControl): { [key: string]: any } => {
+    return (control: AbstractControl): { [key: string]: any } | null => {
 
         let validation: { [key: string]: any } = {};
         let controlValue = control.value;
@@ -40,19 +44,4 @@ export function validateValueWithList<T1>(validOptions: Lookup<T1>[]) {
 
         return Object.keys(validation).length > 0? validation : null;
     };
-}
-
-export function isObjectValidation<T1>(control: AbstractControl): { [key: string]: any } {
-
-    const value = control.value;
-
-    if (!value) {
-        return null;
-    }
-
-    return typeof (value) === typeof ({}) ? null : { invalidType: true };
-}
-
-function TypeOf<T>() {
-    throw new Error('Function not implemented.');
 }

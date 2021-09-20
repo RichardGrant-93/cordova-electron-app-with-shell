@@ -17,12 +17,14 @@ export interface TableSearchState{
 export class TableSearchComponent extends ComponentStore<TableSearchState> implements OnInit {
   
   public formInputType = FormInputType;
-  
+
   @Input() actionButtons = [
     {style: "primary", text: "search"},
   ] as ActionButton[];
 
-  
+  /**
+  * Initialize [[FormComponent]] with custom fields.
+  */
   constructor() {
     super({
       searchForm: [

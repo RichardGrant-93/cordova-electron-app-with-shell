@@ -17,7 +17,9 @@ const material = [
 ];
 
 
-
+/**
+ * Dynamic form builder.
+ */
 @NgModule({
   declarations: [FormComponent, filterArrayOfObjects],
   imports: [

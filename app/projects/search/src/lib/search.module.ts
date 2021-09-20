@@ -4,6 +4,7 @@ import { SearchComponent } from './search.component';
 import { FormModule } from '@library/form/src/public-api';
 import { PaginationModule } from '@library/pagination/src/public-api';
 import { ResultTableModule } from '@library/result-table/src/public-api';
+import { CommonModule } from '@angular/common';
 
 const application_modules = [
   FormModule,
@@ -11,10 +12,13 @@ const application_modules = [
   PaginationModule
 ];
 
-
+/**
+* Join [[FormModule]] and [[ResultTableModule]] for [[SearchComponent]] functionality.
+*/
 @NgModule({
   declarations: [SearchComponent],
   imports: [
+    CommonModule,
     ...application_modules
   ],
   exports: [SearchComponent]
