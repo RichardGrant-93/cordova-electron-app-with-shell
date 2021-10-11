@@ -4,9 +4,11 @@ import { validateValueWithList } from './validators/validOption';
 
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActionButton } from './models/actionButton.model';
-import { ActionEmit } from './models/actionEmit.model';
+import { Action, ActionEmit } from './models/actionEmit.model';
 
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatSlideToggleChange } from '@angular/material/slide-toggle';
+import { tap } from 'rxjs/operators';
 
 @Component({
   selector: 'lib-form',
@@ -17,6 +19,7 @@ export class FormComponent implements OnInit {
 
   @Input() formTemplate: Form[] = [];
   @Input() actionButtons: ActionButton[] = [];
+  @Input() emitOnChange: boolean = false;
 
   @Output() action:EventEmitter<ActionEmit<Form>> = new EventEmitter();
 
@@ -36,12 +39,52 @@ export class FormComponent implements OnInit {
           [field.name]: //to an object key
           new FormControl(
             field.defaultValue, //and value
-            this.getValidator<string>(field.inputType, field.options)
+            ...this.getFieldTypeValidators(field)
           )
           };
         }).reduce(((result, current) => Object.assign(result, current)), {}) //then reduce the array of objects to a flat object {[field:name]: Control}
       );
     });
+
+    this.forms.forEach((form, formIndex)=>{
+      this.action.emit({
+        action: 'initial',
+        actionType: Action.BUTTON,
+        form: {
+          fields: formIndex >= 0? this.forms[formIndex].value : null,
+          index: formIndex
+        }
+      });
+      if(this.emitOnChange){
+        form.valueChanges.pipe(tap(()=>{
+          this.action.emit({
+            actionType: Action.FORM_CHANGE,
+            form: {
+              fields: form.value,
+              index: formIndex
+            },
+          });
+        })).subscribe();
+      }
+    });
+  }
+
+  private getFieldTypeValidators(formField: FormField<any>){
+    switch(formField.inputType){
+      case FormInputType.AUTO_COMPLETE_TEXT_INPUT: {
+        return [this.getValidator<string>(formField.inputType, formField.options)];
+      };
+      case FormInputType.SWITCH: {
+        return [];
+      };
+      case FormInputType.TEXT_INPUT: {
+        return [];
+      };
+      case FormInputType.TEXT_INPUT_NUMBER: {
+        return [];
+      };
+    }
+    return [];
   }
 
   private setToMatch(formIndex: number, fieldName: string, test: any, selectFirstMatch: boolean = false, setToDefaultOnNull: boolean = false){
@@ -87,6 +130,21 @@ export class FormComponent implements OnInit {
   onSelectedOption(event: MatAutocompleteSelectedEvent, input: HTMLInputElement){
     console.log("onSelectedOption2", event, input);
     input.blur();
+  }
+
+  onSlideToggle(event: MatSlideToggleChange, formControl: FormControl){
+    formControl.setValue(event.checked);
+  }
+
+  onAction(action: string, formIndex: number){
+    this.action.emit({
+      action: action,
+      actionType: Action.BUTTON,
+      form: {
+        fields: formIndex >= 0? this.forms[formIndex].value : null,
+        index: formIndex
+      }
+    });
   }
 
 }

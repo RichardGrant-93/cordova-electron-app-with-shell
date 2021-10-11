@@ -9,7 +9,7 @@ import { CommonModule } from '@angular/common';
 const application_modules = [
   FormModule,
   ResultTableModule,
-  PaginationModule
+  PaginationModule,
 ];
 
 /**

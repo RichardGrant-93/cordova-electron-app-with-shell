@@ -4,15 +4,22 @@ $primary: map-get($app-theme, primary);
 $accent: map-get($app-theme, accent);
 $background: map-get($app-theme, background);
 
+$warn: map-get($app-theme, warn);
+
+.bgWhite{
+  background: white;
+}
+
 table{
     width:100%;
+    background:white;
 }
 table th{
   font-weight:bolder;
   font-size:1rem;
 }
 table th, table td{
-    text-align:center;
+    padding:0.5rem;
 }
 
 @media only screen and (max-width: 960px) {
@@ -37,7 +44,7 @@ table th, table td{
       margin-bottom:0;
     }
 
-    .mat-table .mat-row{
+    .mat-table .mat-row {
         padding:1rem 0;
         background:white;
         margin: 1rem 0;

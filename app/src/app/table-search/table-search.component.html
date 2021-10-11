@@ -1,1 +1,1 @@
-<lib-search [formTemplate]="searchForm$ | async" [actionButtons]="actionButtons"></lib-search>
+<lib-search [formTemplate]="searchForm$ | async" [actionButtons]="actionButtons" [data$]="data$" [columns]="getColumns(data$ | async)" [emitOnChange]="true" (emitOnChange)="onFormChange($event)"></lib-search>

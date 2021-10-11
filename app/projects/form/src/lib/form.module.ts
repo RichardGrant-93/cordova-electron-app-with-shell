@@ -9,11 +9,15 @@ import {MatInputModule} from '@angular/material/input';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
 import { filterArrayOfObjects } from './pipes/filterArrayOfObjects.pipe';
 import { MatButtonModule } from '@angular/material/button';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatFormFieldModule } from '@angular/material/form-field';
 
 const material = [
   MatInputModule,
   MatAutocompleteModule,
-  MatButtonModule
+  MatButtonModule,
+  MatSlideToggleModule,
+  MatFormFieldModule,
 ];
 
 

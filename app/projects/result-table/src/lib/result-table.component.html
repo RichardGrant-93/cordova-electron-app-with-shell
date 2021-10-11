@@ -1,24 +1,23 @@
+<div class="bgwhite">
+    <ng-container>
+        <table mat-table [dataSource]="data$" class="mat-elevation-z8" [trackBy]="trackById">
 
-<table mat-table [dataSource]="data" class="mat-elevation-z8" [trackBy]="getContractId">
-    <ng-container *ngFor="let column of columns" [matColumnDef]="column">
-        <th mat-header-cell *matHeaderCellDef="let row"> {{ header(column) }} </th>
-        <td mat-cell *matCellDef="let row" [attr.data-label]="header(column)">
-
-            <ng-container *ngTemplateOutlet="row[column]?.type !== undefined ? advanced : simple; context: {cell: row[column]}">
+            <ng-container *ngFor="let column of columns" [matColumnDef]="column">
+                <th mat-header-cell *matHeaderCellDef="let row"> {{ header(column) }} </th>
+                <td mat-cell *matCellDef="let row" [attr.data-label]="header(column)">
+                    <lib-advanced-types [advancedType]="(row[column]?.type !== undefined)? row[column] : {type: advancedTypes.TEXT, text: row[column]}"></lib-advanced-types>
+                </td>
             </ng-container>
-        </td>
+            <ng-container matColumnDef="noResult">
+                <td mat-footer-cell *matFooterCellDef [attr.colspan]="columns.length"><lib-shimmer [style.height.px]="50"></lib-shimmer></td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="columns"></tr>
+            <tr mat-row *matRowDef="let row; columns: columns;"></tr>
+
+            <ng-container *ngFor="let dummy of ' '.repeat(5).split(''), let x = index">
+                <tr mat-footer-row *matFooterRowDef="['noResult']" [hidden]="!(isLoading$ | async)"></tr>
+            </ng-container>
+           
+        </table>
     </ng-container>
-
-    <tr mat-header-row *matHeaderRowDef="columns"></tr>
-    <tr mat-row *matRowDef="let row; columns: columns;"></tr>
-</table>
-
-<ng-template #advanced let-cell='cell'>
-    <ng-container *ngIf="cell.type === advancedTypes.MONEY">
-        <span>{{ cell.value | currency }}</span>
-    </ng-container>
-</ng-template>
-
-<ng-template #simple let-cell='cell'>
-    <span>{{cell}}</span>
-</ng-template>
+</div>

@@ -1,0 +1,62 @@
+@import '../../../../../src/custom-theme.scss';
+
+$primary: map-get($app-theme, primary);
+$accent: map-get($app-theme, accent);
+$background: map-get($app-theme, background);
+
+$warn: map-get($app-theme, warn);
+
+.chips{
+    mat-chip{
+      width:100%;
+      margin: 0 2rem;
+      text-align:center;
+      display: inline-block;
+    }
+  }
+  
+  ::ng-deep{
+    .clipboardTooltip{
+      background-color: mat-color($mat-grey, 700, 0.9) !important;
+    }
+  }
+  
+  .centerText{
+    text-align: center;
+  }
+  
+  ::ng-deep mat-list-item.centerText{
+    padding-top: 0 !important;
+    height: inherit !important;
+    .mat-list-item-content{
+      display: inherit !important;
+    }
+  }
+  
+  .bgColor{
+    &[data-bgColor="accent"]{
+      background-color: mat-color($accent, 600) !important;
+    }
+    &[data-bgColor="warn"]{
+      background-color: mat-color($warn) !important;
+    }
+    &[data-bgColor="white"]{
+      background-color:white !important;
+    }
+  }
+  
+  .color{
+    &[data-color="accent"] , &[data-color="accent"] *{
+      color: mat-color($accent, 600) !important;
+    }
+    &[data-color="warn"], &[data-color="warn"] *{
+      color: mat-color($warn) !important;
+    }
+    &[data-color="white"], &[data-color="white"] *{
+      color: white !important;
+    }
+  }
+
+::ng-deep lib-advanced-types.list span{
+    display:block;
+}

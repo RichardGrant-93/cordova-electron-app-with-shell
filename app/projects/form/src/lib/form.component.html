@@ -1,10 +1,10 @@
-<div class="forms bgWhite" *ngIf="formTemplate.length > 0; else formTemplateDoesNotExist">
-    <form *ngFor="let form of formTemplate; let formIndex=index" [formGroup]="forms[formIndex]">
+<div class="forms" *ngIf="formTemplate.length > 0; else formTemplateDoesNotExist">
+    <form *ngFor="let form of formTemplate; let formIndex=index" [formGroup]="forms[formIndex]" class="bgWhite">
         <div fxLayout="row wrap" fxLayoutWrap>
             <mat-form-field *ngFor="let field of formTemplate[formIndex].fields" [formArray]="forms[formIndex]" fxLayout="column" [fxFlex]="100 / formTemplate[formIndex].fields.length" [fxFlex.xs]="100" [fxFlex.sm]="(100 / formTemplate[formIndex].fields.length)*2">
                 <mat-label>{{field.placeholder}}</mat-label>
                 <ng-container *ngIf="field.inputType === formInputType.AUTO_COMPLETE_TEXT_INPUT">
-                    <input type="text"
+                    <input type="text" data-lpignore="true"
                         #autoInput
                         [placeholder]="field.placeholder"
                         [aria-label]="field.placeholder"
@@ -17,12 +17,40 @@
                         </mat-option>
                     </mat-autocomplete>
                 </ng-container>
+
+                <ng-container *ngIf="field.inputType === formInputType.SWITCH">
+                    <input type="text" data-lpignore="true"
+                        [placeholder]="field.placeholder"
+                        [aria-label]="field.placeholder"
+                        matInput
+                        [formControlName]="field.name"
+                        [matAutocomplete]="auto" style="min-width:100px;" hidden>
+                    <mat-slide-toggle (change)="onSlideToggle($event, forms[formIndex].get(field.name))"></mat-slide-toggle>
+                </ng-container>
+
+                <ng-container *ngIf="field.inputType === formInputType.TEXT_INPUT">
+                    <input type="text" data-lpignore="true"
+                        [placeholder]="field.placeholder"
+                        [aria-label]="field.placeholder"
+                        matInput
+                        [formControlName]="field.name"
+                        style="min-width:100px;">
+                </ng-container>
+
+                <ng-container *ngIf="field.inputType === formInputType.TEXT_INPUT_NUMBER">
+                    <input type="number" data-lpignore="true"
+                        [placeholder]="field.placeholder"
+                        [aria-label]="field.placeholder"
+                        matInput
+                        [formControlName]="field.name"
+                        style="min-width:100px;">
+                </ng-container>
             </mat-form-field>
         </div>
     </form>
 
     <div class="actions">
-        <button mat-raised-button [color]="actionButton.style" *ngFor="let actionButton of actionButtons" class="actionButtons">{{actionButton.text}}</button>
+        <button mat-raised-button [color]="actionButton.style" *ngFor="let actionButton of actionButtons" class="actionButtons" (click)="onAction(actionButton.text, actionButton.outputForm)">{{actionButton.text}}</button>
     </div>
 
 </div>

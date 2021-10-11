@@ -1,0 +1,48 @@
+
+<ng-container [ngSwitch]="advancedType.type">
+    <span *ngSwitchCase="advancedTypes.MONEY">{{ advancedType.value | currency }}</span>
+
+    <a *ngSwitchCase="advancedTypes.LINK" mat-button [color]="advancedType?.attributes?.color" [href]="advancedType.href" [attr.target]="advancedType?.attributes?.target">{{advancedType.text}}</a>
+
+
+    <mat-chip-list *ngSwitchCase="advancedTypes.CHIP" class="chips">
+        <mat-chip
+            [class.bgColor]="!!advancedType?.attributes?.bgColor" 
+            [attr.data-bgColor]="advancedType?.attributes?.bgColor" 
+            [class.color]="!!advancedType?.attributes?.color" 
+            [attr.data-color]="advancedType?.attributes?.color"
+        >
+            {{advancedType.text}}
+        </mat-chip>
+    </mat-chip-list>
+
+    <ng-container *ngSwitchCase="advancedTypes.LIST">
+        <lib-advanced-types class="list" [advancedType]="item" *ngFor="let item of advancedType.items" [class.centerText]="advancedType?.attributes?.centerText"></lib-advanced-types>
+    </ng-container>
+
+
+    <span 
+        *ngSwitchCase="advancedTypes.TEXT"
+        [class.color]="!!advancedType?.attributes?.color" 
+        [attr.data-color]="advancedType?.attributes?.color"
+    >
+        {{advancedType.text}}
+    </span>
+
+</ng-container>
+
+
+<!--
+<ng-template #copyText let-text='text'>
+    <span
+        matTooltip="Copied to clipboard." 
+        #textTooltip="matTooltip" 
+        (click)="onClickChip(textTooltip)" 
+        (mouseout)="disableTooltip(textTooltip)"
+        matTooltipClass="clipboardTooltip" 
+        [matTooltipDisabled]="true" 
+        [cdkCopyToClipboard]="text"
+    >
+        {{text}}
+    </span>
+</ng-template>-->

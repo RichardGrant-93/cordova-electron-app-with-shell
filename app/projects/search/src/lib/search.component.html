@@ -1,7 +1,7 @@
-<div class="module">
-    <lib-form [formTemplate]="formTemplate" [actionButtons]="actionButtons"></lib-form>
+<div>
+    <lib-form [formTemplate]="formTemplate" [actionButtons]="actionButtons" [emitOnChange]="emitOnChange" (action)="onAction($event)"></lib-form>
 </div>
 <div class="module">
-    <lib-result-table [data]="data | async"></lib-result-table>
+    <lib-result-table [data$]="data$" [columns]="columns"></lib-result-table>
     <lib-pagination [length]="200" [pageSize]="10" [pageSizeOptions]=[5,10,20,100,200] (page)="onPage($event)"></lib-pagination>
 </div>

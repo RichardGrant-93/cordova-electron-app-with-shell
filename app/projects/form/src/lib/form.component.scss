@@ -9,7 +9,7 @@ $background: map-get($app-theme, background);
 }
 
 .forms{
-    padding:1rem;
+    padding:1rem 0;
     mat-form-field{
         padding:0 1rem;
     }
@@ -29,4 +29,21 @@ $background: map-get($app-theme, background);
     .actions .actionButtons{
         width:100%;
     }    
+}
+
+mat-slide-toggle{
+    padding-bottom:3px;
+    height: initial;
+}
+
+form{
+    padding: 24px;
+    border: 1px solid #e0e0e0;
+    border-radius: var(--radius-md);
+}
+
+
+::ng-deep mat-form-field .mat-form-field-wrapper .mat-form-field-infix{
+    height: 24px;
+    padding-bottom:0;
 }
