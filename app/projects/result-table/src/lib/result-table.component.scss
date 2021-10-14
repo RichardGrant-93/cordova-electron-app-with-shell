@@ -45,7 +45,7 @@ table th, table td{
     }
 
     .mat-table .mat-row {
-        padding:1rem 0;
+        padding:0;
         background:white;
         margin: 1rem 0;
         display: table;
@@ -55,6 +55,7 @@ table th, table td{
 
     .mat-table .mat-row .mat-cell{
       background:white;
+      font-size:0.7rem;
     }
 
     .mat-table .mat-row .mat-cell:nth-child(even){

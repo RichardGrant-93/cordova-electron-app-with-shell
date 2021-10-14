@@ -1,18 +1,12 @@
-<div (click)="toggle()">
-    <h1 style="width:100%; text-align:center;margin:0.5em 0 0 0;" class="text">$</h1>
-    <button mat-icon-button class="expander" aria-label="Menu" [disableRipple]="true">
-        <mat-icon class="text">menu</mat-icon>
-    </button>
-</div>
-
+<div class="header-spacer"></div>
 <mat-nav-list [ngClass]="{'expanded': isExpanded}">
     <ng-container *ngIf="!isExpanded && showToolTip; else noTooltip">
         <a mat-list-item 
             *ngFor="let navLink of navLinks"
             [matTooltip]="navLink.text"
-            [matTooltipPosition]="position.value"
+            [matTooltipPosition]="position"
             [matTooltipHideDelay]="0"
-            matTooltipClass="nav-tooltip"
+            matTooltipClass="vertical-nav-tooltip"
             [routerLink]="navLink.route"
         >
             <mat-icon mat-list-icon class="text">{{navLink.icon}}</mat-icon>

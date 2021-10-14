@@ -21,6 +21,10 @@
       "@library/*": [
         "projects/*"
       ],
+      "avatar": [
+        "dist/avatar/avatar",
+        "dist/avatar"
+      ],
       "form": [
         "dist/form/form",
         "dist/form"

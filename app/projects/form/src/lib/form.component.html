@@ -1,16 +1,19 @@
-<div class="forms" *ngIf="formTemplate.length > 0; else formTemplateDoesNotExist">
+<div class="forms theme1" *ngIf="formTemplate.length > 0; else formTemplateDoesNotExist">
     <form *ngFor="let form of formTemplate; let formIndex=index" [formGroup]="forms[formIndex]" class="bgWhite">
         <div fxLayout="row wrap" fxLayoutWrap>
             <mat-form-field *ngFor="let field of formTemplate[formIndex].fields" [formArray]="forms[formIndex]" fxLayout="column" [fxFlex]="100 / formTemplate[formIndex].fields.length" [fxFlex.xs]="100" [fxFlex.sm]="(100 / formTemplate[formIndex].fields.length)*2">
                 <mat-label>{{field.placeholder}}</mat-label>
                 <ng-container *ngIf="field.inputType === formInputType.AUTO_COMPLETE_TEXT_INPUT">
-                    <input type="text" data-lpignore="true"
+                    <div class="inputWrapper" fxLayout="row" fxLayoutAlign="center">
+                        <input type="text" data-lpignore="true"
                         #autoInput
                         [placeholder]="field.placeholder"
                         [aria-label]="field.placeholder"
                         matInput
                         [formControlName]="field.name"
                         [matAutocomplete]="auto" style="min-width:100px;">
+                        <mat-icon mat-list-icon fxFlexAlign="center">{{dropdownIcon}}</mat-icon>
+                    </div>
                     <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="getOptionText" (closed)="onClose($event, autoInput, auto, formIndex, field.name)" (optionSelected)="onSelectedOption($event, autoInput)">
                         <mat-option *ngFor="let option of field.options | filterArrayOfObjects : 'value' : autoInput.value" [value]="option">
                             {{option.value}}

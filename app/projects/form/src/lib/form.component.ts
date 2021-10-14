@@ -9,6 +9,7 @@ import { Action, ActionEmit } from './models/actionEmit.model';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatSlideToggleChange } from '@angular/material/slide-toggle';
 import { tap } from 'rxjs/operators';
+import { MaterialIcon } from '@library/vertical-navigation/src/lib/models/materialIcon.model';
 
 @Component({
   selector: 'lib-form',
@@ -24,6 +25,7 @@ export class FormComponent implements OnInit {
   @Output() action:EventEmitter<ActionEmit<Form>> = new EventEmitter();
 
   public formInputType = FormInputType;
+  public dropdownIcon: MaterialIcon = MaterialIcon.arrow_drop_down;
 
   forms: FormGroup[];
 

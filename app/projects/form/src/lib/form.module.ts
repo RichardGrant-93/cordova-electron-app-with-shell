@@ -11,6 +11,7 @@ import { filterArrayOfObjects } from './pipes/filterArrayOfObjects.pipe';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatFormFieldModule } from '@angular/material/form-field';
+import { MatIconModule } from '@angular/material/icon';
 
 const material = [
   MatInputModule,
@@ -18,6 +19,7 @@ const material = [
   MatButtonModule,
   MatSlideToggleModule,
   MatFormFieldModule,
+  MatIconModule,
 ];
 
 

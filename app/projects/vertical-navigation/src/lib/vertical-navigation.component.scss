@@ -1,25 +1,19 @@
 @import '../../../../src/custom-theme.scss';
+@include mat-core();
 
 $primary: map-get($app-theme, primary);
 $accent: map-get($app-theme, accent);
 
 .text{
-    color:white;
+    color: mat-color($primary);
 }
-
-.expander{
-    width:100%;
-    .text{
-        color:white;
-    }
-}
-
 
 mat-nav-list{
+    padding:1rem 0;
+    width:5em;
     h4{
         display:none !important;
     }
-    width:5em;
     -webkit-transition: width 0.3s ease-in-out;
     -moz-transition: width 0.3s ease-in-out;
     -o-transition: width 0.3s ease-in-out;
@@ -29,9 +23,25 @@ mat-nav-list{
         h4{
             display:inline-block !important;
         }
-        width: 15em;
-        @media screen and (max-width: 768px) {/*when mobile*/
-            width: 100vw;
+        width: $navigation-slider-amount;
+        &.mobile-full-screen{
+            @media screen and (max-width: 768px) {/*when mobile*/
+                width: 100vw;
+            }
         }
     }
+}
+
+::ng-deep .mat-list-text{
+    padding-left: 0 !important;
+}
+
+mat-icon{
+    padding:8px !important;
+}
+
+::ng-deep .mat-tooltip.vertical-nav-tooltip{
+    position:relative;
+    right: 1em;
+    top: 1em;
 }

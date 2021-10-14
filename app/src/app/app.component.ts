@@ -15,7 +15,30 @@ export class AppComponent {
       text: 'Find Contracts',
       route: '/search/table/search'
     },
-  ]
+  ];
+
+  avatarMenuLinks = [
+    {
+      icon: MaterialIcon.manage_accounts,
+      text: 'Account Settings',
+      route: '/search/table/search'
+    },
+    {
+      icon: MaterialIcon.public,
+      text: 'Organization Settings',
+      route: '/search/table/search'
+    },
+    {
+      icon: MaterialIcon.settings_applications,
+      text: 'App Settings',
+      route: '/search/table/search'
+    },
+    {
+      icon: MaterialIcon.help,
+      text: 'Support',
+      route: '/search/table/search'
+    },
+  ];
   
 
   detectmob() {

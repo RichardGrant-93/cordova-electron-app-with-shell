@@ -1,26 +1,36 @@
+<mat-toolbar class="header no-padding-left">
+  <div fxLayout="row" width="100%" fxFlex="100">
+    <div fxFlex="50">
+      <button mat-icon-button class="expander" aria-label="Menu" [disableRipple]="true" (click)="onToggle(!isExpanded)">
+        <mat-icon class="text">menu</mat-icon>
+      </button>
+    </div>
+  </div>
+  <div fxFlex="50" fxLayoutAlign="end">
+    <lib-avatar name="Richard Grant" [navLinks]="avatarMenuLinks"></lib-avatar>
+    <!--
+    <button mat-button color="primary">Sign Up</button>
+    <button mat-flat-button color="primary">Login</button>
+    -->
+  </div>
+</mat-toolbar>
+
+
 <!--https://www.synerzip.com/blogs/getting-started-with-angular-flex-layout/-->
-<mat-drawer-container #drawerContainer style="height:100vh;" [hasBackdrop]="false" [ngClass]="{'expanded': isExpanded}" class="mat-app-background">
-  <mat-drawer #sidenav mode="side" opened class="example-sidenav">
-    <lib-vertical-navigation [isExpanded]="isExpanded" (toggled)="onToggle($event)" [navLinks]="navLinks"></lib-vertical-navigation>
+<mat-drawer-container #drawerContainer style="height:100vh;" [hasBackdrop]="false" [ngClass]="{'expanded': isExpanded}"
+  class="mat-app-background slide desktop-only-slide" style="--desktop-navigation-slider-amount: 15em;">
+  <mat-drawer #sidenav mode="side" opened class="sidenav desktop-only-slide" style="--desktop-navigation-slider-amount: 15em;">
+    <lib-vertical-navigation [isExpanded]="isExpanded" (toggled)="onToggle($event)" [navLinks]="navLinks">
+    </lib-vertical-navigation>
   </mat-drawer>
-  
+
 
   <mat-drawer-content class="mat-app-background">
-    <mat-toolbar class="header">
-    <div fxLayout="row" width="100%" fxFlex="100">
-        <div fxFlex="50">Get shit done.</div>
-        <div fxFlex="50" fxLayoutAlign="end">
-          <button mat-button color="primary">Sign Up</button>
-          <button mat-flat-button color="primary">Login</button>
-        </div>
-      </div>
-
-    </mat-toolbar>
-
-    <div class="main-content">
+    <div class="main-content no-margin-top">
+      <div class="header-spacer"></div>
       <!--<lib-search [formTemplate]="formTemplate" [actionButtons]="actionButtons"></lib-search>-->
       <router-outlet></router-outlet>
-    <!--<div fxLayout="row">
+      <!--<div fxLayout="row">
       <div fxFlex="33"> Child - One </div>
       <div fxFlex="33"> Header </div>
       <div fxFlex="33"> NAV </div>
@@ -33,8 +43,7 @@
         <div fxFlex="50" fxFlex.lt-lg="80"> Sub-child - One</div>
       </div>
     </div>-->
-  </div>
-
+    </div>
     <mat-toolbar class="footer">Footer</mat-toolbar>
   </mat-drawer-content>
 </mat-drawer-container>

@@ -1,19 +1,47 @@
 @import '../custom-theme.scss';
+@import '@angular/material/_theming.scss';
 
 $primary: map-get($app-theme, primary);
 $accent: map-get($app-theme, accent);
 $background: map-get($app-theme, background);
 
+button.expander{
+    @include header-height('height');
+    .text{
+        color: rgba(0,0,0, 0.33);
+    }
+}
+
+::ng-deep .header-spacer{
+    @include header-height('height');
+}
+
+button.expander, mat-nav-list{
+    width:5em;
+}
+
+.header{
+    color: mat-color($primary);
+    background-color: white;
+    position:absolute;
+    z-index: 1000;
+}
+
+::ng-deep .sidenav mat-nav-list.expanded{
+    width: $navigation-slider-amount !important;
+}
+
+::ng-deep .sidenav.desktop-only-slide mat-nav-list.expanded{
+    @media screen and (min-width: 768px) {/*when desktop*/
+        width: var(--desktop-navigation-slider-amount) !important;
+    }
+}
 
 mat-drawer-container{
     mat-drawer{
         overflow-y:initial;
-        //background-color: mat-color($primary) !important;
-        background-color:mat-color($primary) !important;
-        background-image: linear-gradient(mat-color($primary) 0%, mat-color($accent) 150%);
-        .text{
-            color:white;
-        }
+        background-color:transparent;
+        border:0;
     }
 
 
@@ -34,7 +62,7 @@ mat-drawer-container{
             min-height: calc(calc(calc(100vh - calc(#{$toolbar-height} * 2)) - 4em)); /* mat-toolbar is 64 height. 100vh - (toolbar-height * 2) - (margin-top * 2) */
         }
         .main-content{
-            margin:2em;
+            margin:2em 2em 2em 0;
             @include content-height-toolbar-compensation(64px);
         }
 
@@ -46,22 +74,37 @@ mat-drawer-container{
 
         @media only screen and (max-width: 412px) {/*when small mobile*/
             .main-content{
-                margin:0.5em !important;
+                margin:0 0.5em 0 0 !important;
             }
         }
-        
-
-        .footer, .header{
+        .footer{
             color: mat-color($primary);
-            background-color: white;
+            background-color: transparent;
+            padding-right:2em !important;
+            padding-left: 0 !important;
         }
     }
 
     &.expanded{
-        mat-drawer-content{
-            @media screen and (min-width: 768px) {/*when desktop*/
-                margin-left: 15em !important;
+        &.slide{
+            mat-drawer-content{
+                margin-left: $navigation-slider-amount !important;
+            }
+        }
+        &.desktop-only-slide{
+            mat-drawer-content{
+                @media screen and (min-width: 768px) {/*when desktop*/
+                    margin-left: var(--desktop-navigation-slider-amount) !important;
+                }
             }
         }
     }
+}
+
+.no-padding-left{
+    padding-left:0;
+}
+
+.no-margin-top{
+    margin-top:0 !important;
 }

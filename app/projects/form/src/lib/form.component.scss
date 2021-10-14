@@ -26,6 +26,9 @@ $background: map-get($app-theme, background);
 }
 
 @media only screen and (max-width: 960px) {
+    form{
+        font-size:0.7rem !important;
+    }
     .actions .actionButtons{
         width:100%;
     }    
@@ -38,7 +41,7 @@ mat-slide-toggle{
 
 form{
     padding: 24px;
-    border: 1px solid #e0e0e0;
+    border: 1px solid $border-color;
     border-radius: var(--radius-md);
 }
 
@@ -46,4 +49,66 @@ form{
 ::ng-deep mat-form-field .mat-form-field-wrapper .mat-form-field-infix{
     height: 24px;
     padding-bottom:0;
+}
+
+::ng-deep {
+    .mat-option {
+        background: darken(mat-color($primary), 15%) !important;
+        .mat-option-text{
+            color:white;
+        }
+        &:hover:not(.mat-option-disabled) {
+            background: mat-color($primary) !important;
+        }
+    }
+}
+
+
+::ng-deep .forms.theme1{
+    form{
+        background: transparent !important;
+        border: 0 !important;
+        mat-form-field{
+            height: 100%;
+            &:not(:last-child){
+                margin-bottom:10px;
+            }
+            .mat-form-field-underline{
+                display: none;
+            }
+            .mat-form-field-infix{
+                height:100%;
+            }
+            .mat-form-field-wrapper{
+                padding:0;
+            }
+            input{
+                box-sizing: border-box;
+                padding: 1rem;
+                background:white;
+                margin-top:1px;
+                cursor: pointer;
+            }
+            label{
+                box-sizing: border-box;
+                margin: 1rem;
+            }
+            &.mat-form-field-should-float label{
+                transform: translateY(-2rem) scale(0.75) perspective(100px) translateZ(0.001px) !important;
+                -ms-transform: translateY(-2rem) scale(0.75) !important;
+            }
+            .inputWrapper{
+                background:white;
+                cursor:pointer;
+                mat-icon{
+                    color: darken($app-background, 50%);
+                }
+                &:hover{
+                    mat-icon{
+                        color: mat-color($primary);
+                    }
+                }
+            }
+        }
+    }
 }

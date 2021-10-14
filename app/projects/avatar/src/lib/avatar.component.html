@@ -1,0 +1,24 @@
+<div 
+    mat-icon-button
+    [matMenuTriggerFor]="settingsMenu"
+    [matTooltip]="'Settings'"
+    [matTooltipPosition]="position"
+    [matTooltipHideDelay]="0"
+    matTooltipClass="profile-header-nav-tooltip"
+    class="avatar-wrapper"
+>
+    <div class="avatar noselect cyan">
+        <span>{{ initials }}</span>
+    </div>
+</div>
+
+<mat-menu #settingsMenu class="settingsMenu">
+    <button mat-menu-item *ngFor="let navLink of navLinks">
+        <mat-icon mat-list-icon>{{navLink.icon}}</mat-icon>
+        <span mat-line>{{navLink.text}}</span>
+    </button>
+    <mat-divider></mat-divider>
+    <button mat-menu-item alignItems="center" class="settingsMenufooter">
+        <span mat-line>Logout</span>
+    </button>
+</mat-menu>

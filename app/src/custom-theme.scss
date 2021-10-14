@@ -9,14 +9,17 @@
 // Be sure that you only ever include this mixin once!
 @include mat-core();
 
+$navigation-slider-amount: 80vw;
+
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$app-primary: mat-palette($mat-blue, 900);
-$app-accent: mat-palette($mat-green, 300);
+$app-primary: mat-palette($mat-indigo, 500);
+$app-accent: mat-palette($mat-cyan, 600);
 $app-background: rgb(241, 242, 244);
 
-//182248
+
+$border-color: #e0e0e0;
 
 // The warn palette is optional (defaults to red).
 $app-warn: mat-palette($mat-red);
@@ -30,44 +33,36 @@ $app-theme: mat-light-theme((
   color: (
     primary: $app-primary,
     accent: $app-accent,
-    warn: $app-warn,
+    warn: $app-warn
   )
 ));
+
+$density-scale: mat-get-density-config(mat-get-density-config(mat-private-legacy-get-theme($app-theme)));
+$header-height-desktop: mat-private-density-prop-value($mat-toolbar-desktop-density-config, $density-scale, height);
+$header-height-mobile: mat-private-density-prop-value($mat-toolbar-mobile-density-config, $density-scale, height);
 
 // Include theme styles for core and each component used in your app.
 // Alternatively, you can import and @include the theme mixins for each component
 // that you are using.
 @include angular-material-theme($app-theme);
 
-
-::ng-deep {
-  .mat-option {
-    &.mat-active {
-      background: mat-color(map-get($app-theme, primary), 0.1) !important;
-    }
-    &.mat-selected {
-      background: mat-color(map-get($app-theme, primary)) !important;
-    color:white !important;
-    }
-    &:hover:not(.mat-option-disabled) {
-      background: mat-color(map-get($app-theme, primary)) !important;
-      color:white !important;
-    }
-  }
-
-  .mat-tooltip {
-    background-color: mat-color(map-get($app-theme, primary));
-  }
-}
-
 :root{
   --radius-md: 6px;
 }
 
 
+::ng-deep{
+  .mat-tooltip {
+    background-color: white;
+    color: mat-color(map-get($app-theme, primary)) !important;
+    border: 1px solid $border-color;
+    box-shadow:0 0 5px $border-color;
+  }
+}
+
 .module {
   border-radius: var(--radius-md);
-  border:1px solid #e0e0e0;
+  border:1px solid $border-color;
   margin-bottom:2rem;
   overflow:hidden;
 }
@@ -79,9 +74,16 @@ $app-theme: mat-light-theme((
     }
     .module .mat-row{
       border-radius: var(--radius-md);
-      border:1px solid #e0e0e0;
+      border:1px solid $border-color;
       overflow:hidden;
     }
   
+  }
+}
+
+@mixin header-height($propertyName:'height', $subtract: 0, $divideBy: 1){
+  #{$propertyName}: ($header-height-desktop - $subtract) / $divideBy;
+  @media ($mat-xsmall) {
+      #{$propertyName}: ($header-height-mobile - $subtract) / $divideBy;
   }
 }

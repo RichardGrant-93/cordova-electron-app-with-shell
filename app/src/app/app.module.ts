@@ -15,11 +15,13 @@ import { VerticalNavigationModule } from '@library/vertical-navigation/src/publi
 import { SearchModule } from '@library/search/src/public-api';
 import { TableSearchComponent } from './table-search/table-search.component';
 import { AppRoutingModule } from './app-routing.module';
+import { AvatarModule } from '@library/avatar/src/public-api';
 
 
 const application_modules = [
   VerticalNavigationModule,
-  SearchModule
+  SearchModule,
+  AvatarModule,
 ];
 
 const material = [

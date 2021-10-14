@@ -18,8 +18,7 @@ export class VerticalNavigationComponent implements OnInit {
 
   @Output() toggled: EventEmitter<boolean> = new EventEmitter<boolean>();
 
-  positionOptions: TooltipPosition[] = ['below', 'above', 'left', 'right'];
-  position = new FormControl(this.positionOptions[3]);
+  position: TooltipPosition = 'right';
 
   constructor() { }
 
