@@ -1,4 +1,8 @@
 @import '../../../../src/custom-theme.scss';
+@import '~@angular/material/theming';
+
+@include mat-core();
+
 
 $primary: map-get($app-theme, primary);
 $accent: map-get($app-theme, accent);
@@ -18,7 +22,7 @@ $background: map-get($app-theme, background);
 
 .actions{
     text-align: right;
-    padding-top:1rem;
+    padding:0 1rem;
 }
 
 .actions .actionButtons{
@@ -40,11 +44,10 @@ mat-slide-toggle{
 }
 
 form{
-    padding: 24px;
+    padding: 1rem;
     border: 1px solid $border-color;
     border-radius: var(--radius-md);
 }
-
 
 ::ng-deep mat-form-field .mat-form-field-wrapper .mat-form-field-infix{
     height: 24px;
@@ -63,11 +66,24 @@ form{
     }
 }
 
-
+::ng-deep mat-form-field input{
+    padding: 0.5rem !important;
+}
+::ng-deep mat-form-field label{
+    margin:0 0.5rem;
+}
+.forms.theme1{
+    form{
+        background: transparent;
+    }
+}
 ::ng-deep .forms.theme1{
     form{
-        background: transparent !important;
         border: 0 !important;
+        $input-width: 70px;
+        $padding-height: 0.5rem;
+        $input-horizontal-padding: 1rem;
+        $input-border-size: 1px;
         mat-form-field{
             height: 100%;
             &:not(:last-child){
@@ -78,37 +94,98 @@ form{
             }
             .mat-form-field-infix{
                 height:100%;
+                max-width:100%; //width of select
+                .mat-form-field-label-wrapper{
+                    min-width: calc(#{$input-width} + (#{$input-horizontal-padding} * 2) - (#{$input-border-size} * 2) );
+                }
+            }
+            &.input-type-1{//CHIP
+                .mat-form-field-infix {
+                    label{
+                        transform: translateY(0.1rem) scale(1) perspective(100px) translateZ(0.001px) !important;
+                    }
+                }
+                &.mat-form-field-should-float label{
+                    $translateY: (((($padding-height) * 0.75) * -1) - 1);
+                    $scale: 0.75;
+                    transform: translateY($translateY) scale($scale) perspective(100px) translateZ(0.001px) !important;
+                    -ms-transform: translateY($translateY) scale($scale) !important;
+                }
+            }
+            &.input-type-2 .mat-form-field-infix .mat-slide-toggle-label,
+            &.input-type-2 .mat-form-field-infix .mat-form-field-label{
+                transform: none !important;
+            }
+            &.input-type-2 .mat-form-field-infix .mat-form-field-label{//switch
+                width:100%;
+                margin: 0;
+                padding: 0.3rem 0 0 3rem;
+                transform: none !important;
+
+                mat-label{
+                    display: -webkit-box;
+                    -webkit-line-clamp: 3;
+                    -webkit-box-orient: vertical;
+                    overflow: hidden;
+                }
+            }
+            .mat-form-field-flex{
+                height:100%;
             }
             .mat-form-field-wrapper{
                 padding:0;
-            }
-            input{
-                box-sizing: border-box;
-                padding: 1rem;
-                background:white;
-                margin-top:1px;
-                cursor: pointer;
+                cursor:pointer;
             }
             label{
                 box-sizing: border-box;
-                margin: 1rem;
-            }
-            &.mat-form-field-should-float label{
-                transform: translateY(-2rem) scale(0.75) perspective(100px) translateZ(0.001px) !important;
-                -ms-transform: translateY(-2rem) scale(0.75) !important;
-            }
-            .inputWrapper{
-                background:white;
+                padding: ($padding-height) 0;
                 cursor:pointer;
-                mat-icon{
-                    color: darken($app-background, 50%);
+                height:100%;
+                mat-label{
+                    white-space: pre-wrap;
                 }
-                &:hover{
-                    mat-icon{
-                        color: mat-color($primary);
-                    }
-                }
+                transform: translateY(0.1rem) scale(1) perspective(100px) translateZ(0.001px) !important;
+            }
+            &.opened label, &.mat-form-field-should-float label{
+                $translateY: ((($padding-height * 0.75) * -1) - 1);
+                $scale: 0.75;
+                transform: translateY($translateY) scale($scale) perspective(100px) translateZ(0.001px) !important;
+                -ms-transform: translateY($translateY) scale($scale) !important;
             }
         }
     }
+}
+
+.componentInput{
+    padding:0.5rem 1rem;
+}
+
+.field-padding{
+    padding: 0 0.5rem;
+}
+
+form{
+    padding:1rem 0.5rem;
+}
+
+mat-form-field{
+    padding:0 !important;
+}
+
+input{
+    color: black;
+}
+
+.input-type-0 mat-label,
+.input-type-1 mat-label{
+    white-space: nowrap !important;
+}
+
+.noselect {
+    -webkit-touch-callout: none; /* iOS Safari */
+    -webkit-user-select: none; /* Safari */
+    -khtml-user-select: none; /* Konqueror HTML */
+    -moz-user-select: none; /* Old versions of Firefox */
+    -ms-user-select: none; /* Internet Explorer/Edge */
+    user-select: none; /* Non-prefixed version, currently supported by Chrome, Edge, Opera and Firefox */
 }

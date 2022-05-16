@@ -1,0 +1,20 @@
+@import '../../../../src/custom-theme.scss';
+
+$primary: map-get($app-theme, primary);
+$accent: map-get($app-theme, accent);
+
+.toolbar{
+    background-color:white;
+    color: $app-background;
+    margin-bottom:1rem;
+    border-bottom-left-radius: 3px;
+    border-bottom-right-radius: 3px;
+    overflow:hidden;
+
+    border: 1px solid #e0e0e0;
+    border-top: 0;
+}
+
+button{
+    color: #5991a3 !important;
+}

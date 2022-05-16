@@ -1,6 +1,6 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { MatTooltip } from '@angular/material/tooltip';
-import { AdvancedType, AdvancedTypes } from '../result-table.component';
+import { AdvancedType, AdvancedTypes } from './advanced-types.models';
 
 @Component({
   selector: 'lib-advanced-types',

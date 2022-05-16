@@ -9,18 +9,14 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button'
 import { MatSidenavModule } from '@angular/material/sidenav'
-import { MatListModule } from '@angular/material/list';
 
 import { VerticalNavigationModule } from '@library/vertical-navigation/src/public-api';
-import { SearchModule } from '@library/search/src/public-api';
-import { TableSearchComponent } from './table-search/table-search.component';
 import { AppRoutingModule } from './app-routing.module';
 import { AvatarModule } from '@library/avatar/src/public-api';
 
 
-const application_modules = [
+const library_modules = [
   VerticalNavigationModule,
-  SearchModule,
   AvatarModule,
 ];
 
@@ -28,23 +24,21 @@ const material = [
   MatToolbarModule,
   MatIconModule,
   MatButtonModule,
-  MatSidenavModule,
-  MatListModule
+  MatSidenavModule
 ];
 
 
 @NgModule({
   declarations: [
     AppComponent,
-    TableSearchComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     BrowserAnimationsModule,
     FlexModule,
-    ...application_modules,
-    ...material
+    ...library_modules,
+    ...material,
   ],
   providers: [],
   bootstrap: [AppComponent]

@@ -1,0 +1,8 @@
+<mat-menu class="matMenu" [class]="className">
+    <lib-nav-link [navLinks]="menuItems" (buttonClick)="onButtonClick($event)"></lib-nav-link>
+    <mat-divider></mat-divider>
+    <button mat-menu-item *ngFor="let navLink of footerItems" alignItems="center" class="matMenufooter" [class]="className" [routerLink]="navLink.route">
+        <mat-icon mat-list-icon *ngIf="navLink.icon">{{navLink.icon}}</mat-icon>
+        <span mat-line>{{navLink.text}}</span>
+    </button>
+</mat-menu>

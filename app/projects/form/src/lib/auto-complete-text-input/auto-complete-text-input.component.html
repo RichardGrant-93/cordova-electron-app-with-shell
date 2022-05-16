@@ -1,0 +1,17 @@
+<div class="inputIconWrapper">
+    <div class="inputWrapper">
+        <input type="text" data-lpignore="true" #autoInput [placeholder]="placeholder"
+            [attr.aria-label]="placeholder" matInput [value]="value?.value"
+            [matAutocomplete]="auto" style="min-width:100px;" (input)="onChange()"/>
+    </div>
+    <mat-icon mat-list-icon>{{dropdownIcon}}</mat-icon>
+</div>
+<mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="getOptionText"
+    (closed)="onClose($event)"
+    (opened)="onOpen($event)"
+    (optionSelected)="onSelectedOption($event)" class="auto-complete">
+    <mat-option *ngFor="let option of options | filterArrayOfObjects : 'value' : autoInput.value"
+        [value]="option">
+        {{option.value}}
+    </mat-option>
+</mat-autocomplete>

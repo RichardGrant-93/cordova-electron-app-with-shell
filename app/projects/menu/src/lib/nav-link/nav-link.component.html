@@ -1,0 +1,21 @@
+<ng-container *ngFor="let navLink of navLinks">
+    <ng-container *ngTemplateOutlet="!!navLink.route? link : button; context: {navLink: navLink}" >
+    </ng-container>
+</ng-container>
+
+<ng-template #button let-navLink="navLink">
+    <button mat-menu-item (click)="onButtonClick(navLink)">
+        <mat-icon mat-list-icon *ngIf="navLink.icon">{{navLink.icon}}</mat-icon>
+        <span mat-line>{{navLink.text}}</span>
+    </button>
+</ng-template>
+
+<ng-template #link let-navLink="navLink">
+    <a
+        mat-menu-item
+        (click)="navigate(navLink.route)"
+    >
+        <mat-icon mat-list-icon *ngIf="navLink.icon">{{navLink.icon}}</mat-icon>
+        <span mat-line>{{navLink.text}}</span>
+    </a>
+</ng-template>

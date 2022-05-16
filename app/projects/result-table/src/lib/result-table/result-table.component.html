@@ -1,0 +1,42 @@
+<div class="bgwhite">
+    <ng-container *ngIf="((data$ | async)?.length > 0) || (isLoading$$ | async); else noResultsTemplate">
+        <table mat-table [dataSource]="data$" class="mat-elevation-z0" [trackBy]="trackById" multiTemplateDataRows>
+
+            <ng-container *ngFor="let column of processedColumns" [matColumnDef]="column">
+                <th mat-header-cell *matHeaderCellDef="let row"> {{ hideColumnNames.indexOf(column) === -1? header(column): '' }} </th>
+
+                <td mat-cell *matCellDef="let row" [attr.data-label]="hideColumnNames.indexOf(column) === -1? header(column): ''" [class]="column">
+                    <ng-container [ngSwitch]="columnIsProcessed(column)">
+                        <ng-container *ngSwitchCase="true">
+                            <lib-kebab-menu [navLinks]="actions" (kebabButtonClick)="onKebabButtonClick($event, row)"></lib-kebab-menu>
+                        </ng-container>
+                        <ng-container *ngSwitchCase="false">
+                            <lib-advanced-types [advancedType]="(row[column]?.type !== undefined)? row[column] : {type: advancedTypes.TEXT, text: row[column]}"></lib-advanced-types>
+                        </ng-container>
+                    </ng-container>
+                </td>
+            </ng-container>
+            <ng-container matColumnDef="noResult">
+                <td mat-footer-cell *matFooterCellDef [attr.colspan]="processedColumns.length"><lib-shimmer [style.height.px]="50"></lib-shimmer></td>
+            </ng-container>
+            <ng-container matColumnDef="details">
+                <td mat-cell *matCellDef="let row" [attr.colspan]="processedColumns.length">
+                    <ng-container *ngTemplateOutlet="detailTemplate; context: {id: row[identifier]}">
+                    </ng-container>
+                </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="processedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: processedColumns; let rowIndex = dataIndex;" class="data-item" [class.last-data-item]="(data$ | async)?.length === (rowIndex+1)" [class.details-opened]="row[identifier] === (selectedDetailId$$ | async)"></tr>
+            <tr mat-row *matRowDef="let row; columns: ['details']; let rowIndex = dataIndex;" class="details" [class.last-data-details]="(data$ | async)?.length === (rowIndex+1)" [class.hidden]="row[identifier] !== (selectedDetailId$$ | async)"></tr>
+
+            <ng-container *ngFor="let dummy of ' '.repeat(5).split(''), let x = index">
+                <tr mat-footer-row *matFooterRowDef="['noResult']" [hidden]="!(isLoading$$ | async)"></tr>
+            </ng-container>
+           
+        </table>
+    </ng-container>
+</div>
+
+<ng-template #noResultsTemplate>
+    <ng-container *ngTemplateOutlet="noResultTemplate"></ng-container>
+</ng-template>

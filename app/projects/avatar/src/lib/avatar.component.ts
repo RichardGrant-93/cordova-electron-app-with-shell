@@ -1,7 +1,8 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MenuPositionY } from '@angular/material/menu';
 import { TooltipPosition } from '@angular/material/tooltip';
-import { NavLink } from '@library/vertical-navigation/src/lib/models/navLink.model';
+import { MenuComponent } from '@library/menu/src/projects';
+import { NavLink } from '@library/menu/src/lib/nav-link/models/navLink.model';
 
 @Component({
   selector: 'lib-avatar',
@@ -11,8 +12,7 @@ import { NavLink } from '@library/vertical-navigation/src/lib/models/navLink.mod
 export class AvatarComponent implements OnInit {
   @Input() name: string = '';
   @Input() navLinks: NavLink[] = [];
-
-  menuPos: MenuPositionY;
+  @Input() footerNavLinks: NavLink[] = [{text: 'Logout', route: ''}];
 
   position: TooltipPosition = 'below';
 

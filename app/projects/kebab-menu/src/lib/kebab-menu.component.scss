@@ -1,0 +1,34 @@
+@import '../../../../src/custom-theme.scss';
+$primary: map-get($app-theme, primary);
+$secondary: map-get($app-theme, accent);
+
+button.kebab-wrapper{
+    border:0;
+    color:mat-color($primary);
+    cursor:pointer;
+    background-color: transparent;
+}
+button.kebab-wrapper:hover, button.kebab-wrapper[aria-expanded]{
+    color: mat-color($secondary);
+}
+
+::ng-deep .matMenu.kebabMenu{
+    .mat-menu-content{
+        border: 1px solid #d1d1d1;
+    }
+    .mat-menu-item{
+        background-color:white !important;
+        &, *, a{
+            color: #666 !important;
+        }
+        &:hover{
+            background-color: white !important;
+            &, *{
+                color: mat-color($secondary) !important;
+            }
+        }
+    }
+    mat-divider{
+        border-top-color: #d1d1d1 !important;
+    }
+}

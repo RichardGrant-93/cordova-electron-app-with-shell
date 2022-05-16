@@ -1,6 +1,10 @@
 import { NgModule } from "@angular/core";
 import { RouterModule, Routes } from "@angular/router";
 import { TableSearchComponent } from "./table-search.component";
+import { TableSearchStore } from './component-store/table-search.store';
+import { SearchModule } from "@library/search/src/public-api";
+import { CommonModule } from "@angular/common";
+import { DetailsModule } from "./details/details.module";
 
 export const routes: Routes = [
     {
@@ -9,8 +13,27 @@ export const routes: Routes = [
     },
 ];
 
+const child_modules = [
+    DetailsModule
+];
+
+const library_modules = [
+    SearchModule
+];
+  
+const material = [
+];
+
 @NgModule({
-    imports: [RouterModule.forChild(routes),],
+    imports: [
+        ...child_modules,
+        ...library_modules, 
+        ...material,
+        CommonModule,
+        RouterModule.forChild(routes),
+    ],
     exports: [],
+    providers: [TableSearchStore],
+    declarations: [TableSearchComponent],
 })
 export class TableSearchModule { }

@@ -1,0 +1,11 @@
+<lib-toolbar [actions]="toolbarActions" (buttonClick)="onToolbarAction($event)"></lib-toolbar>
+
+<div (window:resize)="onResize()"></div>
+<div class="module stretch-to-bottom">
+    <div class="canvasWrapper" (resize)="onResize()">
+        <div class="canvasInnerWrapper" #canvasWrapper><canvas ui-canvas mouse-controller (mousewheel)="onZoom($event)"></canvas></div>
+        <div class="panel">
+            <app-field-builder (action)="onAction($event)"></app-field-builder>
+        </div>
+    </div>
+</div>

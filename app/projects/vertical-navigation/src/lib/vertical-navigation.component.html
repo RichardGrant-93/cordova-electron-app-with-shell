@@ -1,25 +1,30 @@
-<div class="header-spacer"></div>
-<mat-nav-list [ngClass]="{'expanded': isExpanded}">
-    <ng-container *ngIf="!isExpanded && showToolTip; else noTooltip">
-        <a mat-list-item 
-            *ngFor="let navLink of navLinks"
-            [matTooltip]="navLink.text"
-            [matTooltipPosition]="position"
-            [matTooltipHideDelay]="0"
-            matTooltipClass="vertical-nav-tooltip"
-            [routerLink]="navLink.route"
-        >
-            <mat-icon mat-list-icon class="text">{{navLink.icon}}</mat-icon>
-            <span mat-line class="text">{{navLink.text}}</span>
-        </a>
-    </ng-container>
-    <ng-template #noTooltip>
-        <a mat-list-item 
-            *ngFor="let navLink of navLinks"
-            [routerLink]="navLink.route"
-        >
-            <mat-icon mat-list-icon class="text">{{navLink.icon}}</mat-icon>
-            <span mat-line class="text">{{navLink.text}}</span>
-        </a>
-    </ng-template>
-</mat-nav-list>
+<ng-container *ngTemplateOutlet="template">
+
+</ng-container>
+<ng-template #template>
+    <div class="header-spacer"></div>
+    <mat-nav-list [ngClass]="{'expanded': isExpanded}">
+        <ng-container *ngIf="!isExpanded && showToolTip; else noTooltip">
+            <a mat-list-item 
+                *ngFor="let navLink of navLinks"
+                [matTooltip]="navLink.text"
+                [matTooltipPosition]="position"
+                [matTooltipHideDelay]="0"
+                matTooltipClass="vertical-nav-tooltip"
+                [routerLink]="navLink.route"
+            >
+                <mat-icon mat-list-icon class="text">{{navLink.icon}}</mat-icon>
+                <span mat-line class="text">{{navLink.text}}</span>
+            </a>
+        </ng-container>
+        <ng-template #noTooltip>
+            <a mat-list-item 
+                *ngFor="let navLink of navLinks"
+                [routerLink]="navLink.route"
+            >
+                <mat-icon mat-list-icon class="text">{{navLink.icon}}</mat-icon>
+                <span mat-line class="text">{{navLink.text}}</span>
+            </a>
+        </ng-template>
+    </mat-nav-list>
+</ng-template>

@@ -1,0 +1,5 @@
+<div class="toolbar">
+    <ng-container *ngFor="let action of actions">
+        <button mat-button (click)="onButtonClick(action)"><mat-icon>{{action.icon}}</mat-icon> {{action.text}}</button>
+    </ng-container>
+</div>

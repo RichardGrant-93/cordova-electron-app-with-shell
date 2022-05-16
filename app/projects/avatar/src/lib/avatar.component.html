@@ -1,6 +1,6 @@
 <div 
     mat-icon-button
-    [matMenuTriggerFor]="settingsMenu"
+    [matMenuTriggerFor]="menuComponent.matMenu"
     [matTooltip]="'Settings'"
     [matTooltipPosition]="position"
     [matTooltipHideDelay]="0"
@@ -12,13 +12,4 @@
     </div>
 </div>
 
-<mat-menu #settingsMenu class="settingsMenu">
-    <button mat-menu-item *ngFor="let navLink of navLinks">
-        <mat-icon mat-list-icon>{{navLink.icon}}</mat-icon>
-        <span mat-line>{{navLink.text}}</span>
-    </button>
-    <mat-divider></mat-divider>
-    <button mat-menu-item alignItems="center" class="settingsMenufooter">
-        <span mat-line>Logout</span>
-    </button>
-</mat-menu>
+<lib-menu #menuComponent [menuItems]="navLinks" [footerItems]="footerNavLinks" className="settingsMenu"></lib-menu>

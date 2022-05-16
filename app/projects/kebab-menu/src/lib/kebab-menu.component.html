@@ -1,0 +1,13 @@
+<button 
+    mat-icon-button
+    [matMenuTriggerFor]="menuComponent.matMenu"
+    [matTooltip]="'Options'"
+    [matTooltipPosition]="position"
+    [matTooltipHideDelay]="0"
+    matTooltipClass="kebab-tooltip"
+    class="kebab-wrapper"
+>
+    <mat-icon>{{icon}}</mat-icon>
+</button>
+
+<lib-menu #menuComponent [menuItems]="navLinks" [footerItems]="footerNavLinks" className="kebabMenu" (buttonClick)="onKebabButtonClick($event)"></lib-menu>

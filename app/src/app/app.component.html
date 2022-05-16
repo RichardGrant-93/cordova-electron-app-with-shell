@@ -20,8 +20,7 @@
 <mat-drawer-container #drawerContainer style="height:100vh;" [hasBackdrop]="false" [ngClass]="{'expanded': isExpanded}"
   class="mat-app-background slide desktop-only-slide" style="--desktop-navigation-slider-amount: 15em;">
   <mat-drawer #sidenav mode="side" opened class="sidenav desktop-only-slide" style="--desktop-navigation-slider-amount: 15em;">
-    <lib-vertical-navigation [isExpanded]="isExpanded" (toggled)="onToggle($event)" [navLinks]="navLinks">
-    </lib-vertical-navigation>
+    <lib-vertical-navigation [isExpanded]="isExpanded" (toggled)="onToggle($event)" [navLinks]="navLinks"></lib-vertical-navigation>
   </mat-drawer>
 
 
@@ -29,7 +28,7 @@
     <div class="main-content no-margin-top">
       <div class="header-spacer"></div>
       <!--<lib-search [formTemplate]="formTemplate" [actionButtons]="actionButtons"></lib-search>-->
-      <router-outlet></router-outlet>
+      <div class="router-outlet-wrapper"><router-outlet></router-outlet></div>
       <!--<div fxLayout="row">
       <div fxFlex="33"> Child - One </div>
       <div fxFlex="33"> Header </div>

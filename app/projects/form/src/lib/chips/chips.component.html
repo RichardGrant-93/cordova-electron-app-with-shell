@@ -1,0 +1,25 @@
+<mat-chip-list #chipList aria-label="selection" [class.hasChips]="hasChips">
+    <div>
+        <mat-chip [disableRipple]="true" *ngFor="let chip of chips" (removed)="removeChip(chip)" class="noselect">{{chip.value}}
+            <mat-icon matChipRemove>cancel</mat-icon>
+        </mat-chip>
+    </div>
+    <div class="inputIconWrapper">
+        <div class="inputWrapper">
+            <input type="text" MatChipInput [matChipInputFor]="chipList" data-lpignore="true" #autoInput [placeholder]="placeholder"
+                [attr.aria-label]="placeholder" matInput
+                [matAutocomplete]="auto" style="min-width:100px; width:100%;" [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                (matChipInputTokenEnd)="addChip($event)"/>
+        </div>
+        <mat-icon mat-list-icon class="noselect">{{dropdownIcon}}</mat-icon>
+    </div>
+</mat-chip-list>
+
+
+<mat-autocomplete #auto="matAutocomplete" [displayWith]="getOptionText"
+    (optionSelected)="onChipSelectedOption($event)" class="auto-complete noselect">
+    <mat-option *ngFor="let option of options | filterArrayOfObjects : 'value' : autoInput.value"
+        [value]="option" class="noselect">
+        {{option.value}}
+    </mat-option>
+</mat-autocomplete>

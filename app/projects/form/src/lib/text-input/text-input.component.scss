@@ -1,0 +1,27 @@
+@import '../../../../../src/custom-theme.scss';
+@import '~@angular/material/theming';
+
+@include mat-core();
+
+
+$primary: map-get($app-theme, primary);
+$accent: map-get($app-theme, accent);
+$background: map-get($app-theme, background);
+
+
+$input-width: 70px;
+$padding-height: 0.5rem;
+$input-horizontal-padding: 1rem;
+$input-border-size: 1px;
+
+.text-input{
+    background:white;
+    border:$input-border-size solid $border-color;
+    border-radius: 4px;
+}
+input{
+    padding: 0.5rem;
+    box-sizing: border-box;
+    border:0 !important;
+    margin-top:0.2px !important;
+}

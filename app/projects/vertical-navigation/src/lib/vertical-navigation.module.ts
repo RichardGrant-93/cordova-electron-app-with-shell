@@ -10,6 +10,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { VerticalNavigationComponent } from './vertical-navigation.component';
 
+const child_modules = [];
+const library_modules = [];
+
 const material = [
   MatToolbarModule,
   MatIconModule,
@@ -25,6 +28,8 @@ const material = [
     CommonModule,
     RouterModule,
     FlexModule,
+    ...child_modules,
+    ...library_modules,
     ...material
   ],
   exports: [VerticalNavigationComponent]

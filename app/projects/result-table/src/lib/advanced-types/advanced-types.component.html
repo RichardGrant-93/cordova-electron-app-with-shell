@@ -1,8 +1,8 @@
 
 <ng-container [ngSwitch]="advancedType.type">
-    <span *ngSwitchCase="advancedTypes.MONEY">{{ advancedType.value | currency }}</span>
+    <span *ngSwitchCase="advancedTypes.MONEY">{{ ' ' + (advancedType.value | currency) + ' ' }}</span>
 
-    <a *ngSwitchCase="advancedTypes.LINK" mat-button [color]="advancedType?.attributes?.color" [href]="advancedType.href" [attr.target]="advancedType?.attributes?.target">{{advancedType.text}}</a>
+    <a *ngSwitchCase="advancedTypes.LINK" mat-button [color]="advancedType?.attributes?.color" [href]="advancedType.href" [attr.target]="advancedType?.attributes?.target">{{' ' + advancedType.text + ' '}}</a>
 
 
     <mat-chip-list *ngSwitchCase="advancedTypes.CHIP" class="chips">
@@ -12,7 +12,7 @@
             [class.color]="!!advancedType?.attributes?.color" 
             [attr.data-color]="advancedType?.attributes?.color"
         >
-            {{advancedType.text}}
+            {{' ' + advancedType.text + ' '}}
         </mat-chip>
     </mat-chip-list>
 
@@ -26,7 +26,7 @@
         [class.color]="!!advancedType?.attributes?.color" 
         [attr.data-color]="advancedType?.attributes?.color"
     >
-        {{advancedType.text}}
+        {{' ' + advancedType.text + ' '}}
     </span>
 
 </ng-container>

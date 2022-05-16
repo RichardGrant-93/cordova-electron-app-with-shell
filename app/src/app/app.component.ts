@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
 import { MaterialIcon } from '@library/vertical-navigation/src/lib/models/materialIcon.model';
 
 @Component({
@@ -9,6 +9,8 @@ import { MaterialIcon } from '@library/vertical-navigation/src/lib/models/materi
 export class AppComponent {
   title = 'app';
   isExpanded = true;
+  finishedLoading = false;
+  isFullscreen = false;
   navLinks = [
     {
       icon: MaterialIcon.search,
@@ -38,8 +40,17 @@ export class AppComponent {
       text: 'Support',
       route: '/search/table/search'
     },
+    {
+      icon: MaterialIcon.memory,
+      text: 'Database Schema',
+      route: '/database-schema/database-schema'
+    },
   ];
-  
+
+  @ViewChild('drawerContainer', {read: ElementRef, static: false}) drawerContainer: ElementRef<HTMLElement>;
+
+  constructor(private cd: ChangeDetectorRef){
+  }
 
   detectmob() {
     if (window.innerWidth <= 800 && window.innerHeight <= 768) {
@@ -51,5 +62,22 @@ export class AppComponent {
 
   onToggle(toggleStatus: boolean){
     this.isExpanded = toggleStatus;
+  }
+
+  whichTransitionEvent(){
+    var t;
+    var el = document.createElement('fakeelement');
+    var transitions = {
+      'transition':'transitionEnd',
+      'OTransition':'oTransitionEnd',
+      'MozTransition':'transitionEnd',
+      'WebkitTransition':'webkitTransitionEnd',
+    }
+
+    for(t in transitions){
+        if( el.style[t] !== undefined ){
+            return transitions[t];
+        }
+    }
   }
 }

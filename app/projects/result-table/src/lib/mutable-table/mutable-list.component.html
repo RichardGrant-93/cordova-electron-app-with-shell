@@ -1,0 +1,29 @@
+<div class="header-actions">
+    <lib-form 
+        [formTemplate$$]="headerFormTemplate$$" 
+        [actionButtons$$]="headerFormActionButtons$$" 
+        [emitOnChange]="headerFormEmitOnChange" 
+        [actionButtonsRaised]="headerActionButtonsRaised" 
+        (action)="onHeaderFormAction($event)"
+    ></lib-form>
+</div>
+
+<div class="module">
+    <lib-result-table 
+        [data$]="data$" 
+        [isLoading$$]="isLoading$$" 
+        [actions$$]="actions$$" 
+        [columns]="columns" 
+        [identifier]="identifier" 
+        [hideColumnNames]="hideColumnNames" 
+        [noResultTemplate]="noResultTemplate" 
+        (action)="onKebabAction($event)"
+        class="mutable-table"
+    ></lib-result-table>
+</div>
+
+<ng-template #noResultTemplate>
+    <div class="no-result module">
+        {{noResultString}} <button mat-button color="primary">Add New</button>
+    </div>
+</ng-template>

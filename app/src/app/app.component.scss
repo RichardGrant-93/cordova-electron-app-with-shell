@@ -48,6 +48,8 @@ mat-drawer-container{
     mat-drawer-content{
         margin-left: 5em !important;
         min-height:100vh;
+
+        //BUG causes canvas cursor position to be off.
         -webkit-transition: margin-left 0.3s ease-in-out;
         -moz-transition: margin-left 0.3s ease-in-out;
         -o-transition: margin-left 0.3s ease-in-out;
@@ -59,10 +61,12 @@ mat-drawer-container{
 
 
         @mixin content-height-toolbar-compensation($toolbar-height){
-            min-height: calc(calc(calc(100vh - calc(#{$toolbar-height} * 2)) - 4em)); /* mat-toolbar is 64 height. 100vh - (toolbar-height * 2) - (margin-top * 2) */
+            min-height: calc(100vh - (#{$toolbar-height} * 2) + 2rem); /* mat-toolbar is 64 height. 100vh - (toolbar-height * 2) - (margin-top * 2) */
         }
         .main-content{
             margin:2em 2em 2em 0;
+            display: flex;
+            flex-direction: column;
             @include content-height-toolbar-compensation(64px);
         }
 
@@ -107,4 +111,14 @@ mat-drawer-container{
 
 .no-margin-top{
     margin-top:0 !important;
+}
+
+::ng-deep .router-outlet-wrapper{
+    display:contents;
+}
+
+::ng-deep .router-outlet-wrapper app-database-schema {
+    flex-grow: 1;
+    display: flex;
+    flex-direction: column;
 }

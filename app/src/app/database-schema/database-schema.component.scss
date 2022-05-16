@@ -1,0 +1,61 @@
+@import '../../custom-theme.scss';
+@import '@angular/material/_theming.scss';
+
+$primary: map-get($app-theme, primary);
+$accent: map-get($app-theme, accent);
+$background: map-get($app-theme, background);
+
+.module{
+    margin: 0;
+    background:white;
+    padding:0;
+    position:relative;
+}
+
+.canvasWrapper{
+    position:absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+    bottom: 0;
+    .canvasInnerWrapper{
+        width:100%;
+        height:100%;
+        position:absolute;
+    }
+}
+
+.content-wrapper{
+    position:absolute;
+    right:200vw;
+    width:100vw;
+    height:100vh;
+}
+
+canvas{
+    background-color:#1c1e24;
+    font-size:12px; 
+    line-height:12px; 
+    font-family: Roboto, "Helvetica Neue", sans-serif;
+    width:100%;
+    height:100%;
+}
+
+.stretch-to-bottom{
+    height:100%;
+}
+
+.panel{
+    position:absolute;
+    right:0;
+    top:0;
+    bottom:0;
+    padding:1rem;
+    color:white;
+    width:50%;
+    border-left: 4px solid mat-color($accent);
+    opacity: 0.95;
+    font-size:12px;
+    background-color: #2e3136;
+    overflow-y: auto;
+}

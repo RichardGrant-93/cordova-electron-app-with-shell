@@ -1,1 +1,22 @@
-<lib-search [formTemplate]="searchForm$ | async" [actionButtons]="actionButtons" [data$]="data$" [columns]="getColumns(data$ | async)" [emitOnChange]="true" (emitOnChange)="onFormChange($event)"></lib-search>
+<lib-search 
+    [formTemplate$$]="searchForm$$" 
+    [actionButtons$$]="actionButtons$$" 
+    [data$]="data$"
+    identifier="contractId"
+    [columns]="getColumns(data$ | async)"
+    [hideColumnNames]="hideColumnNames$$ | async"
+    [emitOnChange]="true"
+    [resultKebabActions$$]="resultKebabActions$$"
+    [selectedDetailId$$]="selectedDetailId$$"
+    [detailTemplate]="details"
+    (emitOnChange)="onFormChange($event)" 
+    (action)="onAction($event)"
+    (resultKebabAction)="onResultKebabAction($event)"
+>
+</lib-search>
+
+<ng-template #details let-id="id">
+    <div class="search-result-details">
+        <app-details [id]="id" type="Contract" (action)="onDetailAction($event)"></app-details>
+    </div>
+</ng-template>

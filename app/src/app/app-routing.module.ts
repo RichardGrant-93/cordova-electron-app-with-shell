@@ -11,7 +11,11 @@ const routes: Routes = [
             loadChildren: () => import('./table-search/table-search.module').then(m => m.TableSearchModule)
         }   
       ]
-    }
+    },
+    {
+      path: 'database-schema',
+      loadChildren: () => import('./database-schema/database-schema.module').then(m => m.DatabaseSchemaModule),
+    },
   ];
   
   @NgModule({

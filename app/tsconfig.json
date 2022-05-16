@@ -25,9 +25,29 @@
         "dist/avatar/avatar",
         "dist/avatar"
       ],
+      "canvas-ui": [
+        "dist/canvas-ui/canvas-ui",
+        "dist/canvas-ui"
+      ],
       "form": [
         "dist/form/form",
         "dist/form"
+      ],
+      "kebab-menu": [
+        "dist/kebab-menu/kebab-menu",
+        "dist/kebab-menu"
+      ],
+      "menu": [
+        "dist/menu/menu",
+        "dist/menu"
+      ],
+      "mouse-controller": [
+        "dist/mouse-controller/mouse-controller",
+        "dist/mouse-controller"
+      ],
+      "mutable-list": [
+        "dist/mutable-list/mutable-list",
+        "dist/mutable-list"
       ],
       "pagination": [
         "dist/pagination/pagination",
@@ -44,6 +64,14 @@
       "search": [
         "dist/search/search",
         "dist/search"
+      ],
+      "toolbar": [
+        "dist/toolbar/toolbar",
+        "dist/toolbar"
+      ],
+      "ui-canvas": [
+        "dist/ui-canvas/ui-canvas",
+        "dist/ui-canvas"
       ],
       "vertical-navigation": [
         "dist/vertical-navigation/vertical-navigation",

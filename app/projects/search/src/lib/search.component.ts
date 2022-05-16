@@ -1,10 +1,12 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator/paginator';
 import { ActionButton } from '@library/form/src/lib/models/actionButton.model';
 import { ActionEmit } from '@library/form/src/lib/models/actionEmit.model';
 import { Form } from '@library/form/src/lib/models/form.model';
-import { AdvancedType, AdvancedTypes } from '@library/result-table/src/public-api';
-import { Observable, of } from 'rxjs';
+import { KebabActionEmit } from '@library/result-table/src/lib/result-table/result-table.component';
+import { AdvancedType } from '@library/result-table/src/public-api';
+import { NavLink } from '@library/menu/src/lib/nav-link/models/navLink.model';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 export interface contracts {
   contractId: string;
@@ -23,13 +25,21 @@ export interface contracts {
   styleUrls: ['./search.component.scss']
 })
 export class SearchComponent implements OnInit {
-  @Input() formTemplate: Form[] = [];
-  @Input() actionButtons: ActionButton[] = [];
+  @Input() formTemplate$$: BehaviorSubject<Form[]> = new BehaviorSubject([]);
+  @Input() actionButtons$$: BehaviorSubject<ActionButton[]> = new BehaviorSubject([]);
   @Input() data$: Observable<any[]> = new Observable();
   @Input() columns: string[] = [];
+  @Input() hideColumnNames: string[] = [];
   @Input() emitOnChange: boolean = false;
+  @Input() selectedDetailId$$: BehaviorSubject<string> = new BehaviorSubject(undefined);;
 
+  @Input() resultKebabActions$$: BehaviorSubject<NavLink[]> = new BehaviorSubject([]);
+
+  @Input() detailTemplate: TemplateRef<any>;
+  @Input() identifier: string;
+  
   @Output() action:EventEmitter<ActionEmit<Form>> = new EventEmitter();
+  @Output() resultKebabAction: EventEmitter<KebabActionEmit<any>> = new EventEmitter();
 
   constructor() { }
   
@@ -46,6 +56,10 @@ export class SearchComponent implements OnInit {
       actionType: event.actionType,
       form: event.form
     });
+  }
+
+  onResultKebabAction(kebabAction: KebabActionEmit<any>){
+    this.resultKebabAction.emit(kebabAction);
   }
 
 }

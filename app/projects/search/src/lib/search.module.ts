@@ -3,14 +3,17 @@ import { SearchComponent } from './search.component';
 
 import { FormModule } from '@library/form/src/public-api';
 import { PaginationModule } from '@library/pagination/src/public-api';
-import { ResultTableModule } from '@library/result-table/src/public-api';
+import { ResultTableMainModule } from '@library/result-table/src/public-api';
 import { CommonModule } from '@angular/common';
+import { ResultTableModule } from '@library/result-table/src/lib/result-table/result-table.module';
 
-const application_modules = [
+const child_modules = [];
+const library_modules = [
   FormModule,
   ResultTableModule,
   PaginationModule,
 ];
+const material = [];
 
 /**
 * Join [[FormModule]] and [[ResultTableModule]] for [[SearchComponent]] functionality.
@@ -19,7 +22,9 @@ const application_modules = [
   declarations: [SearchComponent],
   imports: [
     CommonModule,
-    ...application_modules
+    ...child_modules,
+    ...library_modules,
+    ...material,
   ],
   exports: [SearchComponent]
 })

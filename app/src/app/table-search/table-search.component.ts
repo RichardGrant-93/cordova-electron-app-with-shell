@@ -1,98 +1,43 @@
-import { Component, Injectable, Input, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { ActionButton } from '@library/form/src/lib/models/actionButton.model';
 import { ActionEmit } from '@library/form/src/lib/models/actionEmit.model';
-import { Form, FormField, FormInputType, Lookup } from '@library/form/src/lib/models/form.model';
+import { Form, FormInputType } from '@library/form/src/lib/models/form.model';
+import { KebabActionEmit } from '@library/result-table/src/lib/result-table/result-table.component';
 import { AdvancedTypes } from '@library/result-table/src/public-api';
 import { contracts } from '@library/search/src/public-api';
-import { ComponentStore } from '@ngrx/component-store';
-import { Observable, of } from 'rxjs';
+import { NavLink } from '@library/menu/src/lib/nav-link/models/navLink.model';
+import { BehaviorSubject, Observable, of } from 'rxjs';
+import { KebabActions } from './component-store/table-search.models';
+import { TableSearchStore } from './component-store/table-search.store';
+import { DetailActionButton } from './details/component-store/details.model';
 
 const ELEMENT_DATA: Observable<contracts[]> = of([
   {contractId: '123', jobType: 'Cut Grass', contractType: 'Recurring', distance: 50, averagePrice: { type: AdvancedTypes.MONEY, value: 60 }, clientRating: 5, sqft: 500, completionEstimate: '5 hours'},
-  {contractId: '123', jobType: 'Cut Grass', contractType: 'Recurring', distance: 50, averagePrice: { type: AdvancedTypes.MONEY, value: 60 }, clientRating: 5, sqft: 500, completionEstimate: '5 hours'}
+  {contractId: '456', jobType: 'Cut Grass', contractType: 'Recurring', distance: 50, averagePrice: { type: AdvancedTypes.MONEY, value: 60 }, clientRating: 5, sqft: 500, completionEstimate: '5 hours'}
 ]);
-
-export interface TableSearchState{
-  searchForm: Form[]
-}
 
 @Component({
   selector: 'app-table-search',
   templateUrl: './table-search.component.html',
-  styleUrls: ['./table-search.component.css']
+  styleUrls: ['./table-search.component.scss'],
 })
 @Injectable()
-export class TableSearchComponent extends ComponentStore<TableSearchState> implements OnInit {
+export class TableSearchComponent implements OnInit {
   
   public formInputType = FormInputType;
 
   public data$ = ELEMENT_DATA;
 
-  @Input() actionButtons = [
-    {style: "primary", text: "search"},
-  ] as ActionButton[];
+  readonly searchForm$$: BehaviorSubject<Form[]> = this.tableSearchStore.searchForm$$;
+  readonly resultKebabActions$$: BehaviorSubject<NavLink[]> = this.tableSearchStore.resultKebabActions$$;
+  readonly actionButtons$$: BehaviorSubject<ActionButton[]> = this.tableSearchStore.actionButtons$$;
+  readonly selectedDetailId$$: BehaviorSubject<string> = this.tableSearchStore.selectedDetailId$$;
+  readonly hideColumnNames$$: BehaviorSubject<string[]> = this.tableSearchStore.hideColumnNames$$;
 
   /**
   * Initialize [[FormComponent]] with custom fields.
   */
-  constructor() {
-    super({
-      searchForm: [
-        {
-          fields: [
-            {
-              inputType: FormInputType.AUTO_COMPLETE_TEXT_INPUT,
-              defaultValue: { id: null, value: '' } as Lookup<string>,
-              name: 'input1',
-              placeholder: "Choose an option",
-              options: [
-                {id: 1, value: 'Item 1'},
-                {id: 2, value: 'Item 2'},
-                {id: 3, value: 'Item 3'}
-              ] as Lookup<string>[],
-              col: 2
-            } as FormField<string>,
-            {
-              inputType: FormInputType.AUTO_COMPLETE_TEXT_INPUT,
-              defaultValue: { id: null, value: '' } as Lookup<string>,
-              name: 'input2',
-              placeholder: "Choose an option",
-              options: [
-                {id: 1, value: 'Item 1'},
-                {id: 2, value: 'Item 2'},
-                {id: 3, value: 'Item 3'}
-              ] as Lookup<string>[],
-              col: 2
-            } as FormField<string>,
-            {
-              inputType: FormInputType.AUTO_COMPLETE_TEXT_INPUT,
-              defaultValue: { id: null, value: '' } as Lookup<string>,
-              name: 'input3',
-              placeholder: "Choose an option",
-              options: [
-                {id: 1, value: 'Item 1'},
-                {id: 2, value: 'Item 2'},
-                {id: 3, value: 'Item 3'}
-              ] as Lookup<string>[],
-              col: 2
-            } as FormField<string>,
-            {
-              inputType: FormInputType.AUTO_COMPLETE_TEXT_INPUT,
-              defaultValue: { id: null, value: '' } as Lookup<string>,
-              name: 'input4',
-              placeholder: "Choose an option",
-              options: [
-                {id: 1, value: 'Item 1'},
-                {id: 1, value: 'Item 2'},
-                {id: 1, value: 'Item 3'}
-              ] as Lookup<string>[],
-              col: 2
-            } as FormField<string>
-          ] as FormField<any>[]
-        }
-      ] as Form[]
-    })
-  }
+  constructor(private tableSearchStore: TableSearchStore) { }
 
   ngOnInit(): void {
   }
@@ -105,6 +50,28 @@ export class TableSearchComponent extends ComponentStore<TableSearchState> imple
     return Object.keys(data[0]);
   }
 
-  readonly searchForm$: Observable<Form[]> = this.select(state => state.searchForm);
+  onAction(formAction: ActionEmit<Form>){
 
+  }
+
+  onResultKebabAction(kebabAction: KebabActionEmit<any>){
+    switch(kebabAction.action){
+      case KebabActions.ViewEdit:{
+        this.tableSearchStore.loadSelectedDetailId(kebabAction.row?.contractId);
+        break;
+      }
+    };
+  }
+
+  onDetailAction(action: ActionEmit<Form>){
+    switch(action.action){
+      case DetailActionButton.Save: {
+        break;
+      };
+      case DetailActionButton.Cancel: {
+        this.tableSearchStore.loadSelectedDetailId(null);
+        break;
+      };
+    }
+  }
 }

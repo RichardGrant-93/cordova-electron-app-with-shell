@@ -1,0 +1,8 @@
+<div class="field-builder">
+    Column Properties
+    <lib-form [formTemplate$$]="forms$$" [actionButtons$$]="actionButtons$$" [emitOnChange]="true" (action)="onAction($event)">
+        <ng-template #customTemplate let-field="field" let-formIndex="formIndex">
+            <lib-kebab-menu [navLinks]="field.parameters?.navLinks" (kebabButtonClick)="onKebabButtonClick($event, formIndex)"></lib-kebab-menu>
+        </ng-template>
+    </lib-form>
+</div>

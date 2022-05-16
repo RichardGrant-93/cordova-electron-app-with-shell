@@ -1,0 +1,57 @@
+@import '../../../custom-theme.scss';
+@import '@angular/material/_theming.scss';
+
+$primary: map-get($app-theme, primary);
+$accent: map-get($app-theme, accent);
+$background: map-get($app-theme, background);
+
+lib-kebab-menu{
+    padding:1rem 0;
+}
+
+::ng-deep .field-builder{
+    .mat-form-field-should-float label{
+        color: white !important;
+    }
+    label{
+        /*
+        default placeholder colors:
+        In Chrome #a9a9a9
+        in Firefox #777777
+        */
+        color: #a9a9a9 !important;
+    }
+    .input-type-0, .input-type-1, .input-type-3, .input-type-4, .input-type-5{
+        label{
+            padding: 0.3rem !important;
+        }
+    }
+    
+    input{
+        color: black !important;
+        padding: 0.3rem !important;
+    }
+    
+    .forms.theme1 form:nth-child(odd){
+        background: #202020d9 !important;
+    }
+    
+    button.kebab-wrapper{
+        color: white !important;
+        background-color: mat-color($accent) !important;
+        border-radius:4px;
+    }
+    
+    button.kebab-wrapper[aria-expanded="true"], button.kebab-wrapper:hover{
+        color: mat-color($accent) !important;
+        background-color: white !important;
+    }
+    
+    form{
+        padding:0.5rem !important;
+    }
+    
+    .actions button{
+        width: 100%;
+    }
+}

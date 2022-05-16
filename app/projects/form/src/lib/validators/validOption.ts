@@ -3,45 +3,22 @@ import { Lookup } from '../models/form.model';
 
 /**
  * 
- * @param validOptions All possible values of control
+ * @param options All possible values of control
+ * @param isRequired value is required
+ * @parm mustBeValidOption value must be within options
  */
-export function validateValueWithList<T1>(validOptions: Lookup<T1>[]) {
+export function validOption<T1>(options: Lookup<T1>[], isRequired: boolean, mustBeValidOption: boolean) {
     return (control: AbstractControl): { [key: string]: any } | null => {
-
-        let validation: { [key: string]: any } = {};
-        let controlValue = control.value;
-        if (!controlValue) {
-            return null;
-        }
-
-        let match: Lookup<T1>[] = [];
-        if(validOptions.length < 0)
-            validation.noValidOptions = true;
-
-        if(typeof validOptions[0].value === typeof String()){
-            if(typeof controlValue === typeof String()){
-                const testValue: string = controlValue.toString().toLowerCase();
-                match = validOptions.filter((option: Lookup<T1>) => {
-                    return (option.value).toString().toLowerCase().indexOf(testValue) > -1;
-                });
-            }else if(typeof controlValue.value === typeof String()){ //controlValue is an object so if it has .value use that to test
-                const testValue: string = controlValue.value.toString().toLowerCase();
-                match = validOptions.filter((option: Lookup<T1>) => {
-                    return (option.value).toString().toLowerCase().indexOf(testValue) > -1;
-                });
-            }else{
-                validation.controlValueTypeDoesNotMatchValidOptions = true;
-            }
-        }else{ //validOptions value is Object so check if objects matches controlValue
-            const testValue: T1 = controlValue;
-            match = validOptions.filter((option: Lookup<T1>) => {
-                return option.value === testValue;
-            });
-        }
-    
-        if(match.length === 0)
-            validation.noMatches = true;
-
-        return Object.keys(validation).length > 0? validation : null;
+        const value = (control.value as Lookup<string>);
+        const test = value?.value || '';
+          if(value === null && isRequired)
+            return {valueIsNull: true};
+          const contains = options.filter((option)=>{
+            return option.value.toString().toLowerCase().indexOf(test.toString().toLowerCase()) !== -1;
+          });
+          if (contains.length === 0 && mustBeValidOption) {
+              return {valueNotInOptions: true};
+          }
+          return null;
     };
 }

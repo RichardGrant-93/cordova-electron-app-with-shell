@@ -1,0 +1,24 @@
+<mat-card class="module details">
+    <mat-card-title>{{type}} Details</mat-card-title>
+    <mat-card-subtitle>id: {{id}}</mat-card-subtitle>
+    <lib-form [formTemplate$$]="forms$$" [actionButtons$$]="actionButtons$$" (action)="onAction($event)">
+        <ng-template #customTemplate let-field="field" let-formIndex="formIndex">
+            <lib-mutable-list 
+                [data$]="field?.parameters?.data$" 
+                [isLoading$$]="field?.parameters?.isLoading$$" 
+                [columns]="field?.parameters?.columns" 
+                [actions$$]="field?.parameters?.actions$$" 
+                [identifier]="field?.parameters?.identifier" 
+                [noResultString]="field?.parameters?.noResultString" 
+                [headerFormTemplate$$]="field?.parameters?.headerFormTemplate$$"
+                [headerFormActionButtons$$]="field?.parameters?.headerFormActionButtons$$"
+                [headerFormEmitOnChange]="field?.parameters?.headerFormEmitOnChange"
+                [actionButtonsRaised]="false"
+                [hideColumnNames]="field?.parameters?.hideColumnNames"
+                (headerFormAction)="onListHeaderFormAction($event)"
+                (action)="onListAction($event)"
+            >
+            </lib-mutable-list>
+        </ng-template>
+    </lib-form>
+</mat-card>

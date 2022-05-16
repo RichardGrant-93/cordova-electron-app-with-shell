@@ -1,0 +1,119 @@
+@import '../../../../../src/custom-theme.scss';
+
+$primary: map-get($app-theme, primary);
+$accent: map-get($app-theme, accent);
+$background: map-get($app-theme, background);
+
+$warn: map-get($app-theme, warn);
+
+.bgWhite{
+  background: white;
+}
+
+table{
+    width:100%;
+    background:white;
+}
+table th{
+  font-weight:bolder;
+  font-size:1rem;
+}
+table th, table td{
+    padding:0.5rem;
+}
+
+@media only screen and (max-width: 960px) {
+    .mat-table {
+      border: 0;
+      vertical-align: middle;
+      background:transparent;
+    }
+  
+    .mat-table caption {
+      font-size: 1em;
+    }
+
+    .mat-table .mat-header-row{
+        display:none;
+    }
+
+    .mat-table .mat-row:first-child{
+      margin-top:0;
+    }
+    .mat-table .mat-row:last-child{
+      margin-bottom:0;
+    }
+
+    .mat-table .mat-row {
+        padding:0;
+        background:white;
+        margin: 1rem 0;
+        display: table;
+        width: 100%;
+        box-sizing: border-box;
+    }
+
+    .mat-table .mat-row .mat-cell{
+      background:white;
+      font-size:0.7rem;
+    }
+
+    .mat-table .mat-row .mat-cell:nth-child(even){
+        background: mat-color($mat-grey, 200);
+    }
+    
+    .mat-table .mat-cell.center{
+      width:100%;
+      &> span{
+        width:100%;
+      }
+    }
+
+    .mat-table .mat-cell > span{
+      padding:0;
+    }
+
+    .mat-table .mat-cell {
+      display: inline-block; //inline-flex for center
+      //align-items: center;
+      padding: 0;
+      width:100%;
+      text-align: center;
+      border:0;
+      padding: 0.5em 0.5em;
+      box-sizing: border-box;
+    }
+
+    .mat-table .mat-cell > span{
+      padding-left:0.5rem;
+    }
+
+    .mat-table .mat-cell:before {
+      content: attr(data-label);
+      text-transform: uppercase;
+      font-weight: bold;
+    }
+}
+
+.data-item:nth-child(4n - 1){
+  background-color: mat-color($mat-grey, 200);
+}
+
+.hidden{
+  display:none !important;
+  visibility: hidden !important;
+}
+
+tr.details, tr.details > td{
+  background: darken($app-background, 50%) !important;
+  padding: 1rem;
+}
+
+
+.mat-cell.Actions{
+  text-align: right;
+}
+
+.last-data-item:not(.details-opened) td, .last-data-details td{
+  border:0;
+}

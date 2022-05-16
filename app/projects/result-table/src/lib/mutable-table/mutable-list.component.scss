@@ -1,0 +1,19 @@
+@import '../../../../../src/custom-theme.scss';
+
+$primary: map-get($app-theme, primary);
+$accent: map-get($app-theme, accent);
+$background: map-get($app-theme, background);
+
+.no-result{
+    background-color: mat-color($mat-grey, 200);
+    color:black;
+    text-align: center;
+    padding: 6rem 0;
+    button{
+        padding:0;
+    }
+}
+
+::ng-deep .mutable-table lib-form .actions{
+    padding:0 !important;
+}

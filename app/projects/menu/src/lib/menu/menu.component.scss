@@ -1,0 +1,46 @@
+@import '../../../../../src/custom-theme.scss';
+$primary: map-get($app-theme, primary);
+$secondary: map-get($app-theme, accent);
+
+::ng-deep .matMenu{
+    margin-right: -1rem;
+    box-shadow:none !important;
+    min-height:auto !important;
+    border-top-left-radius: 0 !important;
+    border-top-right-radius: 0 !important;
+    border-bottom-right-radius: 0 !important;
+
+    .mat-menu-item{
+        background-color: darken(mat-color($primary), 35%) !important;
+        &:not(:last-child){
+            border-top-left-radius: 0 !important;
+            border-top-right-radius: 0 !important;
+            border-bottom-left-radius: 0 !important;
+            border-bottom-right-radius: 0 !important;
+        }
+        &:last-child{
+            border-bottom-right-radius: 0 !important;
+            border-top-left-radius: 0 !important;
+            border-top-right-radius: 0 !important;
+        }
+        &, *{
+            color: white !important;
+        }
+        &:hover{
+            background-color: darken(mat-color($primary), 30%) !important;
+            &, *{
+                color: mat-color($secondary) !important;
+            }
+        }
+    }
+    .mat-menu-content{
+        padding: 0 !important;
+    }
+
+    mat-divider{
+        border-top-color: darken(mat-color($primary), 20%) !important;
+    }
+    .matMenufooter{
+        text-align:center;
+    }
+}

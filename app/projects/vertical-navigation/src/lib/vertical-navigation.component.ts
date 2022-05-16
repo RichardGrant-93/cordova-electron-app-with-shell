@@ -1,5 +1,5 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { NavLink } from './models/navLink.model';
+import { AfterViewChecked, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { NavLink } from '../../../menu/src/lib/nav-link/models/navLink.model';
 import { MaterialIcon } from './models/materialIcon.model';
 import { TooltipPosition } from '@angular/material/tooltip';
 import { FormControl } from '@angular/forms';
@@ -9,7 +9,7 @@ import { FormControl } from '@angular/forms';
   templateUrl: './vertical-navigation.component.html',
   styleUrls: ['./vertical-navigation.component.scss']
 })
-export class VerticalNavigationComponent implements OnInit {
+export class VerticalNavigationComponent {
   @Input() isExpanded: boolean = true;  
 
   @Input() navLinks: NavLink[] = [];
@@ -19,11 +19,6 @@ export class VerticalNavigationComponent implements OnInit {
   @Output() toggled: EventEmitter<boolean> = new EventEmitter<boolean>();
 
   position: TooltipPosition = 'right';
-
-  constructor() { }
-
-  ngOnInit(): void {
-  }
 
   toggle(){
     this.isExpanded = !this.isExpanded;

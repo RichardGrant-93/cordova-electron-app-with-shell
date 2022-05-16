@@ -1,0 +1,13 @@
+<div class="text-input">
+    <input 
+        [type]="type" 
+        data-lpignore="true" 
+        [placeholder]="placeholder"
+        [attr.aria-label]="placeholder" 
+        matInput 
+        [value]="value"
+        style="min-width:100px;"
+        #input
+        (input)="onInput($event)"
+    />
+</div>

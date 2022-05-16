@@ -1,0 +1,36 @@
+<table>
+    <tbody>
+        <tr>
+            <td>font:</td>
+            <td><input type="color" #font (input)="onColorChange($event, 'fontColor')" [value]="colors_['fontColor']"/></td>
+        </tr>
+        <tr>
+            <td>border:</td>
+            <td><input type="color" #border (input)="onColorChange($event, 'borderColor')" [value]="colors_['borderColor']"/></td>
+        </tr>
+        <tr>
+            <td>background:</td>
+            <td><input type="color" #background (input)="onColorChange($event, 'backgroundColor')" [value]="colors_['backgroundColor']"/></td>
+        </tr>
+        <tr>
+            <td>canvasBackground:</td>
+            <td><input type="color" #canvasBackground (input)="onColorChange($event, 'canvasBackgroundColor')" [value]="colors_['canvasBackgroundColor']"/></td>
+        </tr>
+        <tr>
+            <td>row:</td>
+            <td><input type="color" #canvasBackground (input)="onColorChange($event, 'rowColor')" [value]="colors_['rowColor']"/></td>
+        </tr>
+        <tr>
+            <td>alternateRow:</td>
+            <td><input type="color" #canvasBackground (input)="onColorChange($event, 'alternateRowColor')" [value]="colors_['alternateRowColor']"/></td>
+        </tr>
+        <tr>
+            <td>get nodes:</td>
+            <td><button mat-stroked-button color="primary" (click)="getNodesClick()">GET NODES</button></td>
+        </tr>
+    </tbody>
+</table>
+
+<div class="actions">
+    <button mat-flat-button color="warn" (click)="close()">CLOSE</button>
+</div>
