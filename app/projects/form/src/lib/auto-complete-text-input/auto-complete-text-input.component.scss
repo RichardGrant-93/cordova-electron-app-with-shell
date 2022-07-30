@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '../../../../../src/custom-theme.scss';
 @import '~@angular/material/theming';
 
@@ -52,13 +53,13 @@ $input-border-size: 1px;
     }
     &:hover{
         mat-icon{
-            color: mat-color($primary);
+            color: mat.get-color-from-palette($primary);
         }
     }
 }
 
 ::ng-deep .auto-complete, ::ng-deep .auto-complete .mat-option{
-    background: darken(mat-color($accent, 0.54), 15%) !important;
+    background: darken(mat.get-color-from-palette($accent, 0.54), 15%) !important;
 }
 ::ng-deep .auto-complete{
     .mat-option {
@@ -66,7 +67,7 @@ $input-border-size: 1px;
             color: white;
         }
         &:hover:not(.mat-option-disabled) {
-            background: darken(mat-color($accent, 0.54), 30%) !important;
+            background: darken(mat.get-color-from-palette($accent, 0.54), 30%) !important;
         }
     }
 }

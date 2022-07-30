@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '../../../../../src/custom-theme.scss';
 
 $primary: map-get($app-theme, primary);
@@ -59,7 +60,7 @@ table th, table td{
     }
 
     .mat-table .mat-row .mat-cell:nth-child(even){
-        background: mat-color($mat-grey, 200);
+        background: mat.get-color-from-palette(mat.$grey-palette, 200);
     }
     
     .mat-table .mat-cell.center{
@@ -96,7 +97,7 @@ table th, table td{
 }
 
 .data-item:nth-child(4n - 1){
-  background-color: mat-color($mat-grey, 200);
+  background-color: mat.get-color-from-palette(mat.$grey-palette, 200);
 }
 
 .hidden{
@@ -105,7 +106,7 @@ table th, table td{
 }
 
 tr.details, tr.details > td{
-  background-color: darken(mat-color($accent), 20%) !important;
+  background-color: darken(mat.get-color-from-palette($accent), 20%) !important;
   padding: 1rem;
 }
 

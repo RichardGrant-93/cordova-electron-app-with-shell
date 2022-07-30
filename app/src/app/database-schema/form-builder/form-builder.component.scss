@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '../../../custom-theme.scss';
 @import '@angular/material/_theming.scss';
 
@@ -73,9 +74,9 @@ $background: map-get($app-theme, background);
 ::ng-deep app-form-builder .form-builder.formtype-Builder{
     div:nth-child(odd) > app-form-builder{
         .form-builder:not(.formtype-CheckConstraints) form:nth-child(odd){
-            background: rgba(darken(mat-color($primary), 20%), 0.8);
+            background: rgba(darken(mat.get-color-from-palette($primary), 20%), 0.8);
         }
-        background: rgba(darken(mat-color($primary), 20%), 0.25);
+        background: rgba(darken(mat.get-color-from-palette($primary), 20%), 0.25);
     }
 }
 

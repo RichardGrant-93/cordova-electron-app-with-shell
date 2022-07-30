@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '../../custom-theme.scss';
 @import '@angular/material/_theming.scss';
 
@@ -54,18 +55,18 @@ canvas{
 ::ng-deep app-database-schema lib-slideout .slideout-container{
     .slideout-slideout-wrapper{
         color:white;
-        border-left: 1px solid darken(mat-color($primary), 0%); //mat-color($primary, 0.12);
+        border-left: 1px solid darken(mat.get-color-from-palette($primary), 0%); //mat-color($primary, 0.12);
         opacity: 0.95;
         font-size:12px;
-        background-color: darken(mat-color($primary, 0.65), 0%); //mat-color($primary, 0.12); //#00b8ff1f;
+        background-color: darken(mat.get-color-from-palette($primary, 0.65), 0%); //mat-color($primary, 0.12); //#00b8ff1f;
         overflow-y: auto;
     }
     button.slideout-button{
         background-color: white !important;
-        border-color: darken(mat-color($primary), 0%);//mat-color($primary, 0.12);
+        border-color: darken(mat.get-color-from-palette($primary), 0%);//mat-color($primary, 0.12);
         box-shadow: 0px 3px 5px -1px rgb(255 255 255 / 20%), 0px 6px 10px 0px rgb(0 172 193 / 20%), 0px 1px 18px 0px rgb(72 188 202 / 20%) !important;
         mat-icon{
-            color: darken(mat-color($primary), 0%) !important;
+            color: darken(mat.get-color-from-palette($primary), 0%) !important;
         }
     }
 

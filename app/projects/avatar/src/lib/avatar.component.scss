@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '../../../../src/custom-theme.scss';
 $primary: map-get($app-theme, primary);
 $secondary: map-get($app-theme, accent);
@@ -19,7 +20,7 @@ $avatar-height: 40px;
 }
 
 .avatar-wrapper{
-    background-color: mat-color($primary);
+    background-color: mat.get-color-from-palette($primary);
     border-radius:100%;
     box-shadow:0 0 5px $border-color;
 }

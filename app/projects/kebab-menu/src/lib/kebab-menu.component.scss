@@ -1,15 +1,16 @@
+@use '~@angular/material' as mat;
 @import '../../../../src/custom-theme.scss';
 $primary: map-get($app-theme, primary);
 $secondary: map-get($app-theme, accent);
 
 button.kebab-wrapper{
     border:0;
-    color:mat-color($primary);
+    color:mat.get-color-from-palette($primary);
     cursor:pointer;
     background-color: transparent;
 }
 button.kebab-wrapper:hover, button.kebab-wrapper[aria-expanded]{
-    color: mat-color($secondary);
+    color: mat.get-color-from-palette($secondary);
 }
 
 ::ng-deep .matMenu.kebabMenu{
@@ -24,7 +25,7 @@ button.kebab-wrapper:hover, button.kebab-wrapper[aria-expanded]{
         &:hover{
             background-color: white !important;
             &, *{
-                color: mat-color($secondary) !important;
+                color: mat.get-color-from-palette($secondary) !important;
             }
         }
     }

@@ -1,3 +1,4 @@
+@use '~@angular/material' as mat;
 @import '../../../../src/custom-theme.scss';
 
 $primary: map-get($app-theme, primary);
@@ -13,7 +14,7 @@ $background: map-get($app-theme, background);
     color: transparent;
     overflow: hidden;
     position: relative;
-    background-color: mat-color($mat-grey, 200);
+    background-color: mat.get-color-from-palette(mat.$grey-palette, 200);
     background-image: linear-gradient(
         90deg,
         transparent calc(43% - 0.5em),

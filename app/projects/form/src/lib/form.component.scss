@@ -1,7 +1,8 @@
+@use '~@angular/material' as mat;
 @import '../../../../src/custom-theme.scss';
 @import '~@angular/material/theming';
 
-@include mat-core();
+@include mat.core();
 
 
 $primary: map-get($app-theme, primary);
@@ -161,5 +162,5 @@ input{
 }
 
 ::ng-deep lib-form .mat-form-field-should-float .mat-form-field-label{
-    color: mat-color($accent);
+    color: mat.get-color-from-palette($accent);
 }
