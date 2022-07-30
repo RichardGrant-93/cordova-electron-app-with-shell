@@ -1,0 +1,9 @@
+<div class="slideout-container">
+    <div class="slideout-body-wrapper"><ng-container *ngTemplateOutlet="body"></ng-container></div>
+    <div class="slideout-slideout-wrapper" #slideoutSlideoutWrapper [class.closeSlideout]="!isSlideoutOpen" [class.preventPointerEvents]="preventPointerEvents | async">
+        <ng-container *ngTemplateOutlet="slideout"></ng-container>
+    </div>
+    <button class="slideout-button" [class.closeSlideout]="!isSlideoutOpen" (click)="slideoutToggle()" #slideoutButton mat-mini-fab aria-label="Example icon button with a filter list icon">
+        <mat-icon>{{bumperIcon}}</mat-icon>
+    </button>
+</div>

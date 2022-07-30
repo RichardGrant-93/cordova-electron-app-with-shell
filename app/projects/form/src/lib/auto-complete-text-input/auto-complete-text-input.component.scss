@@ -1,8 +1,6 @@
 @import '../../../../../src/custom-theme.scss';
 @import '~@angular/material/theming';
 
-@include mat-core();
-
 
 $primary: map-get($app-theme, primary);
 $accent: map-get($app-theme, accent);
@@ -55,6 +53,20 @@ $input-border-size: 1px;
     &:hover{
         mat-icon{
             color: mat-color($primary);
+        }
+    }
+}
+
+::ng-deep .auto-complete, ::ng-deep .auto-complete .mat-option{
+    background: darken(mat-color($accent, 0.54), 15%) !important;
+}
+::ng-deep .auto-complete{
+    .mat-option {
+        .mat-option-text{
+            color: white;
+        }
+        &:hover:not(.mat-option-disabled) {
+            background: darken(mat-color($accent, 0.54), 30%) !important;
         }
     }
 }

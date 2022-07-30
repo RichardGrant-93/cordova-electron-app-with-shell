@@ -1,0 +1,18 @@
+
+<div 
+    mat-icon-button
+    #uiCanvasContextMenuTrigger="matMenuTrigger"
+    [matMenuTriggerFor]="menuComponent.matMenu"
+    [matTooltip]="'Settings'"
+    [matTooltipPosition]="position"
+    [matTooltipHideDelay]="0"
+    matTooltipClass="profile-header-nav-tooltip"
+    class="avatar-wrapper"
+    [style.position]="'absolute'"
+    [style.left.px]="menuX"
+    [style.top.px]="menuY"
+    [style.visibility]="'hidden'"
+>
+</div>
+
+<lib-menu #menuComponent [menuItems]="navLinks" [footerItems]="footerNavLinks" className="canvasUiContextMenu" (buttonClick)="onButtonClick($event)"></lib-menu>

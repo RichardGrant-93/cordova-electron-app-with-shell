@@ -3,6 +3,7 @@ import { NavLink } from '../../../menu/src/lib/nav-link/models/navLink.model';
 import { MaterialIcon } from './models/materialIcon.model';
 import { TooltipPosition } from '@angular/material/tooltip';
 import { FormControl } from '@angular/forms';
+import { BehaviorSubject } from 'rxjs';
 
 @Component({
   selector: 'lib-vertical-navigation',

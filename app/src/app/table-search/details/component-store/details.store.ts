@@ -5,8 +5,7 @@ import { ComponentField, Form, FormField, FormInputType, Lookup } from '@library
 import { MutableList } from '@library/result-table/src/lib/mutable-table/mutable-list.component';
 import { MutableListActionButton } from '@library/result-table/src/lib/mutable-table/mutable-list.models';
 import { ComponentStore } from '@ngrx/component-store';
-import { BehaviorSubject, combineLatest, observable, Observable, of } from 'rxjs';
-import { map } from 'rxjs/operators';
+import { BehaviorSubject, Observable, of } from 'rxjs';
 import { DetailActionButton } from './details.model';
 
 export interface DetailsState {
@@ -68,6 +67,7 @@ const initialState: DetailsState = {
         } as FormField<string>,
         {
           inputType: FormInputType.CUSTOM,
+          name: 'mutableList',
           col: 12,
           parameters: {
             headerFormTemplate$$: new BehaviorSubject([]),

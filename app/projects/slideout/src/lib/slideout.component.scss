@@ -1,0 +1,101 @@
+@import '../../../../src/custom-theme.scss';
+@include mat-core();
+
+$primary: map-get($app-theme, primary);
+$accent: map-get($app-theme, accent);
+$slideoutWidth: 0px;
+$slideoutPaddingWhenClosed:1rem;
+$slideoutButtonOffset: 3rem;
+
+:root{
+  --slideoutWidth: #{$slideoutWidth};
+}
+.slideout-slideout-wrapper{
+    position:absolute;
+    top:0;
+    bottom:0;
+    max-width: 650px;
+    overflow-y: auto;
+    -webkit-animation: openPanel 0.5s forwards;
+    animation: openPanel 0.5s forwards;
+    padding: 1rem 1rem 1rem #{$slideoutButtonOffset - 1rem};
+    &.closeSlideout{
+        -webkit-animation: closePanel 0.5s forwards;
+        animation: closePanel 0.5s forwards;
+    }
+}
+
+@-webkit-keyframes openPanel {
+      0% { right: calc( (#{$slideoutPaddingWhenClosed} * 2) - #{var(--slideoutWidth)}) }
+    100% { right: 0; }
+}
+
+@keyframes openPanel {
+      0% { right: calc( (#{$slideoutPaddingWhenClosed} * 2) - #{var(--slideoutWidth)}) }
+    100% { right: 0; }
+}
+
+@-webkit-keyframes closePanel {
+      0% { right: 0; }
+    100% { right: calc( (#{$slideoutPaddingWhenClosed} * 2) - #{var(--slideoutWidth)}); }
+}
+
+@keyframes closePanel {
+      0% { right: 0; }
+    100% { right: calc( (#{$slideoutPaddingWhenClosed} * 2) - #{var(--slideoutWidth)}); }
+}
+
+
+.slideout-button{
+    position:absolute;
+    top: 45px;
+    -webkit-animation: panelIsOpen 0.5s forwards;
+    animation: panelIsOpen 0.5s forwards;
+    margin-right: -5px;
+
+    background-color: white !important;
+    border: 1px solid mat-color($accent);
+    box-sizing: content-box;
+
+
+    mat-icon{
+        color: mat-color($accent);
+        transform: rotate( -180deg ) scale(1);            
+        transition: transform 800ms ease;
+    }
+
+    &.closeSlideout{
+        -webkit-animation: panelIsClosed 0.5s forwards;
+        mat-icon{
+            animation: panelIsClosed 0.5s forwards;
+            transform: rotate( 0deg ) scale(1.5);
+        }
+    }
+}
+
+@-webkit-keyframes panelIsOpen {
+    0% { right: #{$slideoutPaddingWhenClosed} }
+  100% { right: calc( #{var(--slideoutWidth)} - #{$slideoutPaddingWhenClosed} ) }
+}
+
+@keyframes panelIsOpen {
+    0% { right: #{$slideoutPaddingWhenClosed} }
+  100% { right: calc( #{var(--slideoutWidth)} - #{$slideoutPaddingWhenClosed} ) }
+}
+
+@-webkit-keyframes panelIsClosed {
+    0% { right: calc( #{var(--slideoutWidth)} - #{$slideoutPaddingWhenClosed}) }
+  100% { right: calc( #{$slideoutPaddingWhenClosed} ) }
+}
+
+@keyframes panelIsClosed {
+    0% { right: calc( #{var(--slideoutWidth)} - #{$slideoutPaddingWhenClosed}) }
+  100% { right: calc( #{$slideoutPaddingWhenClosed}  ) }
+}
+
+.preventPointerEvents{
+  pointer-events: none;
+}
+.slideout-container, .slideout-body-wrapper{
+  height:100%;
+}

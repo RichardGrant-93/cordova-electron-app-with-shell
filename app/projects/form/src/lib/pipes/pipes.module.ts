@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { filterArrayOfObjects } from '../pipes/filterArrayOfObjects.pipe';
+import { FilterArrayOfObjects } from '../pipes/filterArrayOfObjects.pipe';
 
 const child_modules = [
 ];
@@ -16,14 +16,14 @@ const material = [
  * Dynamic form builder.
  */
 @NgModule({
-  declarations: [filterArrayOfObjects],
+  declarations: [FilterArrayOfObjects],
   imports: [
     CommonModule,
     ...child_modules,
     ...library_modules,
     ...material
   ],
-  exports: [filterArrayOfObjects],
-  providers: [filterArrayOfObjects]
+  exports: [FilterArrayOfObjects],
+  providers: [FilterArrayOfObjects]
 })
 export class PipesModule { }

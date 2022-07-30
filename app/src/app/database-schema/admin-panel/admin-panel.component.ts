@@ -2,6 +2,7 @@ import { Component, EventEmitter, Inject, OnInit, Output } from '@angular/core';
 import { MatDialogRef} from '@angular/material/dialog';
 import { HexCode } from '@library/ui-canvas/src/lib/ui-canvas.models';
 import {MAT_DIALOG_DATA} from '@angular/material/dialog';
+import { KeyValue } from '@angular/common';
 
 @Component({
   selector: 'app-admin-panel',
@@ -38,5 +39,9 @@ export class AdminPanelComponent implements OnInit {
 
   close(){
     this.dialogRef.close();
+  }
+
+  private onCompare(_left: KeyValue<any, any>, _right: KeyValue<any, any>): number {
+    return -1;
   }
 }

@@ -1,4 +1,4 @@
-import { AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, EventEmitter, Input, OnInit, Output, TemplateRef } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, EventEmitter, Input, OnInit, Output, TemplateRef, ViewEncapsulation } from '@angular/core';
 import { Form, FormField, FormInputType, } from './models/form.model';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { ActionButton } from './models/actionButton.model';
@@ -9,6 +9,12 @@ import {COMMA, ENTER} from '@angular/cdk/keycodes';
 import { BehaviorSubject, combineLatest } from 'rxjs';
 import { IHTML_INPUT_TYPE } from './text-input/models';
 
+export interface IFormComponent{
+  formTemplate$$: BehaviorSubject<Form[]>,
+  actionButtons$$: BehaviorSubject<ActionButton[]>,
+  emitOnChange: boolean,
+  actionButtonsRaised: boolean
+}
 
 export interface PropertySettings{
   field: string,
@@ -22,14 +28,17 @@ export interface PropertySettings{
   selector: 'lib-form',
   templateUrl:'./form.component.html',
   styleUrls: ['./form.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  encapsulation: ViewEncapsulation.Emulated,
 })
-export class FormComponent implements OnInit, AfterViewInit {
+export class FormComponent implements IFormComponent, OnInit, AfterViewInit {
 
   @Input() formTemplate$$: BehaviorSubject<Form[]> = new BehaviorSubject([]);
   @Input() actionButtons$$: BehaviorSubject<ActionButton[]> = new BehaviorSubject([]);
   @Input() emitOnChange: boolean = false;
   @Input() actionButtonsRaised: boolean = true;
+
+  @Input() selectedFormIndex$$: BehaviorSubject<number>;
 
   @Output() action:EventEmitter<ActionEmit<Form>> = new EventEmitter();
 
@@ -41,7 +50,7 @@ export class FormComponent implements OnInit, AfterViewInit {
   public readonly separatorKeysCodes: number[] = [ENTER, COMMA];
   public readonly IHTML_INPUT_TYPES = IHTML_INPUT_TYPE;
   public readonly regexNumbersOnly = new RegExp(`^(-?[0-9]\\d*(\\.)?)?(\\d+)?$`);
-
+  
   get formTemplate(){
     return this.formTemplate$$.value;
   }
@@ -55,7 +64,6 @@ export class FormComponent implements OnInit, AfterViewInit {
   }
   ngAfterViewInit(): void {
     this.forms.forEach((form)=>{
-      console.log("do update");
       form.updateValueAndValidity();
     });
   }
@@ -66,7 +74,7 @@ export class FormComponent implements OnInit, AfterViewInit {
         return this.fb.group(
           form.fields.map((field: FormField<any>)=>{ //map each form[] field
             return {
-              [field.name]: new FormControl(field.defaultValue)
+              [field.name]: new FormControl(field?.value || field?.defaultValue)
             };
           }).reduce(((result, current) => Object.assign(result, current)), {}) //then reduce the array of objects to a flat object {[field:name]: Control}
         );
@@ -83,6 +91,13 @@ export class FormComponent implements OnInit, AfterViewInit {
         });
         if(this.emitOnChange){
           form.valueChanges.pipe(tap((change)=>{
+            Object.keys(form.value).forEach((fieldName)=>{
+              const field = (this.formTemplate[formIndex].fields.find((field)=>{
+                return field.name === fieldName && field.inputType !== FormInputType.CUSTOM;
+              }) as FormField<any>);
+              if(field)
+                field.value = form.value[fieldName];
+            });
             this.action.emit({
               actionType: Action.FORM_CHANGE,
               form: {
@@ -105,5 +120,12 @@ export class FormComponent implements OnInit, AfterViewInit {
         index: formIndex
       }
     });
+  }
+
+  hideForm(selectedFormIndex: number | null, formIndex: number){
+    if(selectedFormIndex !== null){
+      return selectedFormIndex !== formIndex;
+    }
+    return false;
   }
 }

@@ -14,16 +14,16 @@ $input-horizontal-padding: 1rem;
 $input-border-size: 1px;
 
 
-::ng-deep .inputIconWrapper{
+::ng-deep lib-chips .inputIconWrapper{
     width: 100%;
 }
 
-::ng-deep .hasChips .mat-chip-list-wrapper{
+::ng-deep lib-chips .hasChips .mat-chip-list-wrapper{
     padding: 0.5rem;
     border: 1px solid $border-color;
 }
 
-::ng-deep .mat-chip-list-wrapper {
+::ng-deep lib-chips .mat-chip-list-wrapper {
     margin: 0 !important;
     background: white;
     border-radius: 4px;
@@ -31,7 +31,7 @@ $input-border-size: 1px;
 }
 
 mat-chip{
-    background-color: mat-color($accent) !important;
+    background-color: mat-color($primary) !important;
     color: white !important;
 }
 

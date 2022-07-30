@@ -105,7 +105,7 @@ table th, table td{
 }
 
 tr.details, tr.details > td{
-  background: darken($app-background, 50%) !important;
+  background-color: darken(mat-color($accent), 20%) !important;
   padding: 1rem;
 }
 

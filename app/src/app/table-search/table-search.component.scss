@@ -2,3 +2,13 @@
     max-width:900px;
     margin:0 auto;
 }
+
+
+//overrides
+::ng-deep lib-form .forms.module{
+    background: transparent !important;
+    border: 0 !important;
+    margin: 0 !important;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}

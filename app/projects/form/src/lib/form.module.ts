@@ -7,7 +7,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { CommonModule } from '@angular/common';
 import {MatInputModule} from '@angular/material/input';
 import { FormBuilder, ReactiveFormsModule } from '@angular/forms';
-import { filterArrayOfObjects } from './pipes/filterArrayOfObjects.pipe';
+import { FilterArrayOfObjects } from './pipes/filterArrayOfObjects.pipe';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -22,6 +22,7 @@ import { PipesModule } from './pipes/pipes.module';
 import { SwitchModule } from './switch/switch.module';
 import { AutoCompleteTextInputModule } from './auto-complete-text-input/auto-complete-text-inpute.module';
 import { TextInputModule } from './text-input/text-input.module';
+import { ButtonModule } from '@library/button/src/projects';
 
 const child_modules = [
   PipesModule,
@@ -32,6 +33,7 @@ const library_modules = [
   ChipsModule,
   SwitchModule,
   TextInputModule,
+  ButtonModule,
 ];
 
 const material = [
@@ -59,6 +61,6 @@ const material = [
     ...material
   ],
   exports: [FormComponent],
-  providers: [FormBuilder, filterArrayOfObjects]
+  providers: [FormBuilder, FilterArrayOfObjects]
 })
 export class FormModule { }

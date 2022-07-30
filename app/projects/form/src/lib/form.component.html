@@ -1,6 +1,6 @@
-<div class="forms theme1">
+<div class="forms module">
     <ng-container *ngIf="formTemplate.length > 0 && formTemplate.length == forms.length">
-        <form *ngFor="let form of formTemplate; let formIndex=index" [formGroup]="forms[formIndex]" class="bgWhite">
+        <form *ngFor="let form of formTemplate; let formIndex=index" [formGroup]="forms[formIndex]" [class.hidden]="hideForm((selectedFormIndex$$ | async), formIndex)">
             <div fxLayout="row wrap" fxLayoutWrap>
                 <ng-container *ngFor="let field of formTemplate[formIndex].fields">
                     <div fxLayout="column" [fxFlex]="100 * (field.col / 12)" [fxFlex.xs]="100"
@@ -14,11 +14,8 @@
         </form>
     </ng-container>
     <div class="actions">
-        <button mat-button [class.mat-raised-button]="actionButtonsRaised" [color]="actionButton.style"
-            *ngFor="let actionButton of actionButtons" class="actionButtons"
-            (click)="onAction(actionButton.text, actionButton.outputForm)">{{actionButton.text}}</button>
+        <lib-button *ngFor="let actionButton of actionButtons" [button]="actionButton" [actionButtonsRaised]="actionButtonsRaised" (selected)="onAction($event, actionButton.outputForm)"></lib-button>
     </div>
-
 </div>
 
 <ng-template #inputField let-field="field" let-formIndex="formIndex">

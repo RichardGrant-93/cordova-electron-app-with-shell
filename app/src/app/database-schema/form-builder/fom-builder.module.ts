@@ -5,7 +5,8 @@ import { FormModule } from "@library/form/src/public-api";
 import { MatDialogModule } from "@angular/material/dialog";
 import { MatButtonModule } from "@angular/material/button";
 import { KebabMenuModule } from "@library/kebab-menu/src/projects";
-import { FieldBuilderComponent } from "./field-builder.component";
+import { FormBuilderComponent } from "./form-builder.component";
+import { MatIconModule } from "@angular/material/icon";
 
 
 const child_modules = [
@@ -21,6 +22,7 @@ const material = [
     DragDropModule,
     MatDialogModule,
     MatButtonModule,
+    MatIconModule,
 ];
 
 @NgModule({
@@ -30,8 +32,8 @@ const material = [
         ...library_modules, 
         ...material,
     ],
-    exports: [FieldBuilderComponent],
+    exports: [FormBuilderComponent],
     providers: [],
-    declarations: [FieldBuilderComponent],
+    declarations: [FormBuilderComponent],
 })
-export class FieldBuilderModule { }
+export class FormBuilderModule { }

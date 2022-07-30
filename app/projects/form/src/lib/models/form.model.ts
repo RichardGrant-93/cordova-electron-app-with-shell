@@ -21,6 +21,7 @@ export interface Lookup<T1>{
 
 export interface FormField<T1>{
     inputType: FormInputType;
+    value?: Lookup<T1> | T1 | Lookup<T1>[];
     defaultValue?: Lookup<T1> | T1 | Lookup<T1>[];
     placeholder?: string;
     options?: Lookup<T1>[];
@@ -30,6 +31,7 @@ export interface FormField<T1>{
 
 export interface ComponentField<T>{
     inputType: FormInputType;
+    name: string;
     parameters: T;
     col?: number
 }

@@ -14,8 +14,8 @@ $navigation-slider-amount: 80vw;
 // Define the palettes for your theme using the Material Design palettes available in palette.scss
 // (imported above). For each palette, you can optionally specify a default, lighter, and darker
 // hue. Available color palettes: https://material.io/design/color/
-$app-primary: mat-palette($mat-indigo, 500);
-$app-accent: mat-palette($mat-cyan, 600);
+$app-primary: mat-palette($mat-cyan, 600);
+$app-accent: mat-palette($mat-light-blue, 900);
 $app-background: rgb(241, 242, 244);
 
 
@@ -54,7 +54,7 @@ $header-height-mobile: mat-private-density-prop-value($mat-toolbar-mobile-densit
 ::ng-deep{
   .mat-tooltip {
     background-color: white;
-    color: mat-color(map-get($app-theme, primary)) !important;
+    color: mat-color($app-accent) !important;
     border: 1px solid $border-color;
     box-shadow:0 0 5px $border-color;
   }
@@ -65,6 +65,7 @@ $header-height-mobile: mat-private-density-prop-value($mat-toolbar-mobile-densit
   border:1px solid $border-color;
   overflow:hidden;
   box-sizing: border-box;
+  margin: 1rem;
 }
 
 ::ng-deep{
@@ -104,7 +105,7 @@ $header-height-mobile: mat-private-density-prop-value($mat-toolbar-mobile-densit
 }
 
 ::-webkit-scrollbar-thumb {
-  background-color: mat-color($app-accent);
+  background-color: mat-color($app-primary);
   border: 4px solid rgba(0, 0, 0, 0);
   background-clip: padding-box;
   border-radius: 9999px;

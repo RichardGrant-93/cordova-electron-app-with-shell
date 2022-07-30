@@ -1,11 +1,16 @@
-<lib-toolbar [actions]="toolbarActions" (buttonClick)="onToolbarAction($event)"></lib-toolbar>
-
-<div (window:resize)="onResize()"></div>
-<div class="module stretch-to-bottom">
-    <div class="canvasWrapper" (resize)="onResize()">
-        <div class="canvasInnerWrapper" #canvasWrapper><canvas ui-canvas mouse-controller (mousewheel)="onZoom($event)"></canvas></div>
-        <div class="panel">
-            <app-field-builder (action)="onAction($event)"></app-field-builder>
-        </div>
-    </div>
+<div class="fullscreen module stretch-to-bottom">
+    <lib-slideout>
+        <ng-template #body>
+            <div class="canvasWrapper">
+                <div class="canvasInnerWrapper" #canvasWrapper>
+                    <canvas ui-canvas mouse-controller (kebabAction)="onCanvasKebabAction($event)" (mousewheel)="onZoom($event)"></canvas>
+                    <lib-ui-canvas-context-menu #kebabContextMenus *ngFor="let contextMenu of contextMenus; trackBy: contextMenuTrackByFn" [canvasObject]="contextMenu"></lib-ui-canvas-context-menu>
+                </div>
+            </div>
+        </ng-template>
+        <ng-template #slideout>
+            <app-form-builder formName="Form Builder" [forms$$]="forms$$" [actionButtons$$]="actionButtons$$" [formIndexPath]="(selectedFormIndex$$?.value + '') || '0'" [selectedFormIndex$$]="selectedFormIndex$$" (formsAction)="onFormsAction($event)" (formFieldsAction)="onFormPropertiesAction($event)"></app-form-builder>
+        </ng-template>
+    </lib-slideout>
 </div>
+<lib-toolbar class="toolbar" [actions]="toolbarActions" (buttonClick)="onToolbarAction($event)"></lib-toolbar>

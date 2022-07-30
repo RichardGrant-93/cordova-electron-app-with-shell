@@ -1,5 +1,6 @@
-import { ChangeDetectorRef, Component, ElementRef, ViewChild } from '@angular/core';
+import { Component, ElementRef, ViewChild } from '@angular/core';
 import { MaterialIcon } from '@library/vertical-navigation/src/lib/models/materialIcon.model';
+import { VerticalNavigationService } from '@library/vertical-navigation/src/public-api';
 
 @Component({
   selector: 'app-root',
@@ -8,7 +9,7 @@ import { MaterialIcon } from '@library/vertical-navigation/src/lib/models/materi
 })
 export class AppComponent {
   title = 'app';
-  isExpanded = true;
+  isExpanded = false;
   finishedLoading = false;
   isFullscreen = false;
   navLinks = [
@@ -49,7 +50,12 @@ export class AppComponent {
 
   @ViewChild('drawerContainer', {read: ElementRef, static: false}) drawerContainer: ElementRef<HTMLElement>;
 
-  constructor(private cd: ChangeDetectorRef){
+  get isMini(){
+    return this.vn_.isMini$$.value;
+  }
+
+  constructor(private vn_: VerticalNavigationService){
+
   }
 
   detectmob() {
@@ -62,22 +68,5 @@ export class AppComponent {
 
   onToggle(toggleStatus: boolean){
     this.isExpanded = toggleStatus;
-  }
-
-  whichTransitionEvent(){
-    var t;
-    var el = document.createElement('fakeelement');
-    var transitions = {
-      'transition':'transitionEnd',
-      'OTransition':'oTransitionEnd',
-      'MozTransition':'transitionEnd',
-      'WebkitTransition':'webkitTransitionEnd',
-    }
-
-    for(t in transitions){
-        if( el.style[t] !== undefined ){
-            return transitions[t];
-        }
-    }
   }
 }

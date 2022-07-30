@@ -9,9 +9,10 @@ $secondary: map-get($app-theme, accent);
     border-top-left-radius: 0 !important;
     border-top-right-radius: 0 !important;
     border-bottom-right-radius: 0 !important;
+    background:transparent;
 
     .mat-menu-item{
-        background-color: darken(mat-color($primary), 35%) !important;
+        background-color: darken(mat-color($secondary), 20%) !important;
         &:not(:last-child){
             border-top-left-radius: 0 !important;
             border-top-right-radius: 0 !important;
@@ -27,9 +28,9 @@ $secondary: map-get($app-theme, accent);
             color: white !important;
         }
         &:hover{
-            background-color: darken(mat-color($primary), 30%) !important;
+            background-color: darken(mat-color($secondary), 20%) !important;
             &, *{
-                color: mat-color($secondary) !important;
+                color: mat-color($primary) !important;
             }
         }
     }
@@ -38,7 +39,7 @@ $secondary: map-get($app-theme, accent);
     }
 
     mat-divider{
-        border-top-color: darken(mat-color($primary), 20%) !important;
+        border-top-color: darken(mat-color($secondary), 15%) !important;
     }
     .matMenufooter{
         text-align:center;

@@ -5,6 +5,7 @@ import { TableSearchStore } from './component-store/table-search.store';
 import { SearchModule } from "@library/search/src/public-api";
 import { CommonModule } from "@angular/common";
 import { DetailsModule } from "./details/details.module";
+import { ButtonModule } from "@library/button/src/projects";
 
 export const routes: Routes = [
     {
@@ -18,7 +19,8 @@ const child_modules = [
 ];
 
 const library_modules = [
-    SearchModule
+    SearchModule,
+    ButtonModule,
 ];
   
 const material = [

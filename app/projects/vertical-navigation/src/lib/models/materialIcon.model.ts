@@ -901,6 +901,7 @@ export enum MaterialIcon {
     'strikethrough_s'= 'strikethrough_s' ,
     'subscript'= 'subscript' ,
     'superscript'= 'superscript' ,
+    'table'='table',
     'table_chart'= 'table_chart' ,
     'table_rows'= 'table_rows' ,
     'text_fields'= 'text_fields' ,

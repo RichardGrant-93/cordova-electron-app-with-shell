@@ -13,8 +13,7 @@ $background: map-get($app-theme, background);
 
 .details mat-card-title, .details mat-card-subtitle{
     margin:0;
-    color: darken($app-background, 50%);
-    background: mat-color($mat-grey, 200);
+    color: mat-color($accent);
 }
 
 .details mat-card-title{

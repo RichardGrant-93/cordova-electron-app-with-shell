@@ -25,6 +25,10 @@
         "dist/avatar/avatar",
         "dist/avatar"
       ],
+      "button": [
+        "dist/button/button",
+        "dist/button"
+      ],
       "canvas-ui": [
         "dist/canvas-ui/canvas-ui",
         "dist/canvas-ui"
@@ -64,6 +68,10 @@
       "search": [
         "dist/search/search",
         "dist/search"
+      ],
+      "slideout": [
+        "dist/slideout/slideout",
+        "dist/slideout"
       ],
       "toolbar": [
         "dist/toolbar/toolbar",

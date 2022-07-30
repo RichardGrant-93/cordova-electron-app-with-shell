@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { MatMenu } from '@angular/material/menu';
+import { MatMenu, MenuPositionX, MenuPositionY } from '@angular/material/menu';
 import { NavLink } from '@library/menu/src/lib/nav-link/models/navLink.model';
 
 @Component({
@@ -15,6 +15,9 @@ export class MenuComponent implements OnInit {
   @Output() buttonClick: EventEmitter<NavLink> = new EventEmitter();
 
   @ViewChild(MatMenu, {static: true}) matMenu: MatMenu;
+
+  xPosition: MenuPositionX = 'after';
+  yPosition: MenuPositionY = 'below';
 
   constructor() { }
 

@@ -4,7 +4,7 @@ import { FlexModule } from '@angular/flex-layout';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { CommonModule } from '@angular/common';
 import {MatInputModule} from '@angular/material/input';
-import { filterArrayOfObjects } from '../pipes/filterArrayOfObjects.pipe';
+import { FilterArrayOfObjects } from '../pipes/filterArrayOfObjects.pipe';
 import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { MatChipsModule } from '@angular/material/chips';
@@ -44,6 +44,6 @@ const material = [
     ...material
   ],
   exports: [ChipsComponent],
-  providers: [filterArrayOfObjects]
+  providers: [FilterArrayOfObjects]
 })
 export class ChipsModule { }

@@ -1,10 +1,17 @@
-import { AfterViewInit, Directive, ElementRef } from '@angular/core';
+import { AfterViewInit, ContentChild, ContentChildren, Directive, ElementRef, EventEmitter, Output, QueryList, ViewChildren } from '@angular/core';
 import { Point } from '@angular/cdk/drag-drop';
 import { BehaviorSubject } from 'rxjs/internal/BehaviorSubject';
 import { Bounds, HexCode } from './ui-canvas.models';
 import { skipWhile } from 'rxjs/operators';
 import { CURSOR, MouseControllerDirective } from '@library/mouse-controller/src/lib/mouse-controller.directive';
 import { COLOR } from './ui-canvas.models';
+import { X } from '@angular/cdk/keycodes';
+import { MaterialIcon } from '@library/vertical-navigation/src/lib/models/materialIcon.model';
+import { KebabMenu } from '@library/kebab-menu/src/projects';
+import { ContextMenuComponent } from './context-menu/context-menu.component';
+import { KebabActions } from '@app/table-search/component-store/table-search.models';
+import { ActionEmit } from '@library/form/src/lib/models/actionEmit.model';
+import { NavLink } from '@library/menu/src/lib/nav-link/models/navLink.model';
 
 export enum FONTWEIGHT {
   BOLD = 'Bold',
@@ -22,9 +29,16 @@ export enum FONTWEIGHT {
   _900 = '900',
 };
 
+export enum FontFamily {
+  Serif = 'Serif',
+  Sans_Serif = 'sans-serif',
+  Material_Icons = 'Material Icons',
+};
+
 interface IManifestEvent<T>{
   onHover?: (objArgs: T, event: MouseEvent, anchorPoint: Point)=> {};
   onClick?: (objArgs: T, event: MouseEvent, anchorPoint: Point)=> {};
+  onMouseDown?: (objArgs: T, event: MouseEvent, anchorPoint: Point)=> {};
   onDrag?: (objArgs: T, event: MouseEvent, anchorPoint: Point)=> {};
   onRedraw?: (objArgs: T)=> {};
   settings?: {
@@ -34,6 +48,8 @@ interface IManifestEvent<T>{
     beforeOnClick?: any
     isDrag: boolean,
     beforeOnDrag?: any
+    beforeOnMouseDown?: any;
+    isMouseDown: boolean;
   }
 };
 
@@ -44,56 +60,90 @@ interface IGroupManifestFunc<T>{
   cursor?: CURSOR,
 };
 
-interface IBoundsFunc extends IGroupManifestFunc<IBoundsFunc>{
+interface IPathArgs extends IGroupManifestFunc<IPathArgs>{
+  strokeWidth?: number,
+  strokeColor?: COLOR | HexCode,
+  selector1: string;
+  selector2: string;
+  lineDash?: number[];
+}
+
+interface IBoundsArgs extends IGroupManifestFunc<IBoundsArgs>{
   bounds: Bounds,
   backgroundColor?: COLOR | HexCode,
   borderColor?: COLOR | HexCode,
   borderRadius?: number,
   borderWidth?: number,
-  clip?: IBoundsFunc
+  clip?: IBoundsArgs
 };
 
-interface IFillTextFunc extends IGroupManifestFunc<IFillTextFunc>{
+export interface IKebabArgs extends IFillTextArgs{
+  options: NavLink[]
+}
+
+interface IText {
   text?: string;
   color?: COLOR | HexCode;
-  fontFamily?: string;
+  fontFamily?: FontFamily;
   fontWeight?: FONTWEIGHT;
   fontSize?: number;
+  maxWidth?: number;
+}
+
+interface IFillTextArgs extends IGroupManifestFunc<IFillTextArgs>{
+  text: IText;
   bounds?: Bounds;
 }
 
-interface ICanvasObject{
+export interface ICanvasObject<T>{//T is an interface that extends the IGroupManifestFunc
   func: Function,
-  args: any,
+  args: T,
   drawFromLog: boolean,
 };
 
 interface IGroupManifest{
   [key: string]: {
-    objects: ICanvasObject[],
+    objects: ICanvasObject<any>[],
     events?: IManifestEvent<any>
   }
 }
 
-interface Table extends IGroupManifestFunc<Table>{
+export interface ITableArgs extends IGroupManifestFunc<ITableArgs>{
+  titlePrefix?: IText,
+  title: IText,
   bounds: Bounds;
   cellSpacing: number;
   borderWidth: number;
   borderColor?: COLOR | HexCode;
   backgroundColor?: COLOR | HexCode;
   borderRadius?: number;
+  warning?: IText;
+  kebabMenu?: ()=> {
+    object: ICanvasObject<IFillTextArgs>,
+    events: IManifestEvent<any>
+  },
   rows: {
     cells: {
-      object: ICanvasObject,
+      object: ICanvasObject<IFillTextArgs>,
       events: IManifestEvent<any>
     }[]
   }[]
 }
 
+export interface UICanvasKebabActionEmit{
+  openAt: Point,
+  groupName: string,
+  objectName: string,
+  options: NavLink[]
+};
+
 @Directive({
   selector: 'canvas[ui-canvas]',
 })
 export class UiCanvasDirective implements AfterViewInit{
+
+  @Output() kebabAction: EventEmitter<UICanvasKebabActionEmit> = new EventEmitter();
+  
   private canvas_: HTMLCanvasElement;
   public width = 0;
   public height = 0;
@@ -108,6 +158,10 @@ export class UiCanvasDirective implements AfterViewInit{
 
   private cursorPosition = new BehaviorSubject<Point>({x: -1, y: -1});
   private isDragging_ = false;
+
+  get isDragging(){
+    return this.isDragging_;
+  }
 
   public groupManifest: IGroupManifest = {};
 
@@ -124,6 +178,7 @@ export class UiCanvasDirective implements AfterViewInit{
       isHover: false,
       isClick: false,
       isDrag: false,
+      isMouseDown: false,
     }
   }
 
@@ -148,6 +203,12 @@ export class UiCanvasDirective implements AfterViewInit{
     return this.canvas.getContext('2d');
   }
 
+  get contextMenus(){
+    return [...Object.keys(this.groupManifest).map((groupName)=>{
+      return this.groupManifest[groupName].objects.filter((obj)=> obj.args.objectName.includes('kebab') );
+    }).reduce((accumulator, value) => accumulator.concat(value), [])];
+  }
+
   constructor(private el: ElementRef<HTMLCanvasElement>, private mouseController: MouseControllerDirective){
     this.canvas_ = this.el.nativeElement;
     this.context.scale(window.devicePixelRatio, window.devicePixelRatio);
@@ -161,12 +222,12 @@ export class UiCanvasDirective implements AfterViewInit{
   event(
     eventName: string, 
     event: MouseEvent, 
-    entryCondition?: (obj: ICanvasObject)=> boolean, 
-    whileCondition?: (obj: ICanvasObject)=> boolean, 
-    exitCondition?: (obj: ICanvasObject)=> boolean, 
-    doOnEntry?: (obj: ICanvasObject, debug: string) => void, 
-    doOnwhile?:  (obj: ICanvasObject, debug: string) => void, 
-    doOnExit?:  (obj: ICanvasObject, debug: string) => void, 
+    entryCondition?: <T>(obj: ICanvasObject<T>)=> boolean, 
+    whileCondition?: <T>(obj: ICanvasObject<T>)=> boolean, 
+    exitCondition?: <T>(obj: ICanvasObject<T>)=> boolean, 
+    doOnEntry?: <T>(obj: ICanvasObject<T>, debug: string) => void, 
+    doOnwhile?:  <T>(obj: ICanvasObject<T>, debug: string) => void, 
+    doOnExit?:  <T>(obj: ICanvasObject<T>, debug: string) => void, 
     anchorPoint?: Point
   ){
     eventName = this.capitalizeFirstLetter(eventName);
@@ -177,7 +238,6 @@ export class UiCanvasDirective implements AfterViewInit{
     Object.keys(this.groupManifest).forEach((groupName)=>{
       //entry event
       if(entryCondition){
-
         //group
         if(this.groupManifest[groupName].events && 
           this.groupManifest[groupName].events['on' + eventName] && 
@@ -270,7 +330,7 @@ export class UiCanvasDirective implements AfterViewInit{
           this.groupManifest[groupName].events.settings['is' + eventName] &&
           this.groupManifest[groupName].objects.every((obj)=> exitCondition(obj))
         ){
-          this.groupManifest[groupName].objects.forEach((obj)=>{
+          this.groupManifest[groupName].objects.forEach((obj: ICanvasObject<IFillTextArgs>)=>{
             const newArgs = obj.args.events.settings['beforeOn' + eventName] || {};
 
             if(newArgs?.bounds){
@@ -320,14 +380,29 @@ export class UiCanvasDirective implements AfterViewInit{
   ngAfterViewInit(){
     this.mouseController.lastMouseClick.pipe(skipWhile((event)=> event === null)).subscribe((event)=>{
       this.event('click', event, 
-      (obj)=>{
+      (obj: ICanvasObject<any>)=>{
         return this.pointWithinBounds({x: event.offsetX, y: event.offsetY}, obj.args?.bounds as Bounds);
-      });
+      },
+      ()=>{
+        return false;
+      },
+      ()=>{
+        return true;
+      }
+    );
       
     });
 
     this.mouseController.lastMouseDown.pipe(skipWhile((event)=> event === null)).subscribe((event)=>{
       
+      this.event('mouseDown', event, 
+      (obj: ICanvasObject<any>)=>{
+        return this.pointWithinBounds({x: event.offsetX, y: event.offsetY}, obj.args?.bounds as Bounds);
+      },
+      undefined,
+      ()=>{
+        return true;
+      });
     });
 
 
@@ -335,13 +410,14 @@ export class UiCanvasDirective implements AfterViewInit{
 
     });
 
+    
     this.mouseController.lastMouseMove.pipe(skipWhile((event)=> event === null)).subscribe((event)=>{
       this.event('hover', event,
-        (obj)=>{
+        (obj: ICanvasObject<any>)=>{
           return this.pointWithinBounds({x: event.offsetX, y: event.offsetY}, obj.args?.bounds as Bounds);
         },
         undefined,
-        (obj)=>{
+        (obj: ICanvasObject<any>)=>{
           return !this.pointWithinBounds({x: event.offsetX, y: event.offsetY}, obj.args?.bounds as Bounds);
         }
       );
@@ -361,8 +437,9 @@ export class UiCanvasDirective implements AfterViewInit{
         this.zoomSettings.scrollY += diff.y;
       }
       
+      
       this.event('drag', event.event, 
-        (obj)=>{
+        (obj: ICanvasObject<any>)=>{
           return event.mouseDown[0] && this.pointWithinBounds({x: event.mouseDown.anchorPoint.x, y: event.mouseDown.anchorPoint.y}, obj.args?.bounds as Bounds);
         }, 
         (obj)=>{
@@ -394,7 +471,18 @@ export class UiCanvasDirective implements AfterViewInit{
 
   redraw(){
     this.context.clearRect(0,0,this.context.canvas.width/this.zoomSettings.scale, this.context.canvas.height/this.zoomSettings.scale);
-    Object.values(this.groupManifest).forEach((group)=>{
+
+    const groups = Object.assign({}, this.groupManifest);
+
+    if(this.groupManifest['constraints']){
+      delete groups['constraints'];
+
+      this.groupManifest['constraints'].objects.filter((obj)=>obj.drawFromLog).forEach((obj)=>{
+        const exec = obj.func.apply(this, [this.argsScaler(obj.args)]);
+      });
+    }
+
+    Object.values(groups).forEach((group)=>{
       group.objects.filter((obj)=>obj.drawFromLog).forEach((obj)=>{
         const exec = obj.func.apply(this, [this.argsScaler(obj.args)]);
       });
@@ -449,7 +537,7 @@ export class UiCanvasDirective implements AfterViewInit{
     }
   }
 
-  clearBounds(args: IBoundsFunc, addToLog:boolean = true, drawFromLog: boolean = true){
+  clearBounds(args: IBoundsArgs, addToLog:boolean = true, drawFromLog: boolean = true){
     this.context.fillStyle = '#ffffff00' as HexCode;
     this.context.strokeStyle = '#ffffff00' as HexCode;
     this.context.lineWidth = args.borderWidth;
@@ -465,10 +553,11 @@ export class UiCanvasDirective implements AfterViewInit{
     }
   }
 
-  drawBounds(args: IBoundsFunc, addToLog:boolean = true, drawFromLog: boolean = true): ICanvasObject{
+  drawBounds(args: IBoundsArgs, addToLog:boolean = true, drawFromLog: boolean = true): ICanvasObject<IBoundsArgs>{
     this.context.fillStyle = args.backgroundColor;
     this.context.strokeStyle = args.borderColor;
     this.context.lineWidth = args.borderWidth;
+    this.context.setLineDash([]);
 
     this.roundRect(args.bounds.x, args.bounds.y, args.bounds.width, args.bounds.height, args.borderRadius, !!args.backgroundColor, args.borderWidth, false);
     
@@ -476,6 +565,79 @@ export class UiCanvasDirective implements AfterViewInit{
       return this.addToLog(this.drawBounds, args, args.groupName, args.objectName, drawFromLog);
     return {
       func: this.drawBounds,
+      args: args,
+      drawFromLog: drawFromLog
+    }
+  }
+
+  drawPath(args: IPathArgs, addToLog:boolean = true, drawFromLog: boolean = true): ICanvasObject<IPathArgs>{
+    const selector1 = args.selector1.split('.');
+    const selector2 = args.selector2.split('.');
+    const obj1 = this.argsScaler(this.objectSelector(selector1[0], selector1[1])?.args);
+    const obj2 = this.argsScaler(this.objectSelector(selector2[0], selector2[1])?.args);
+
+    if(!obj1 || !obj2)
+      return;
+
+    if(Object.keys(obj1).length === 0 || Object.keys(obj2).length === 0)
+      return;
+
+    const startCenterX = obj1.bounds.x + (obj1.bounds.width / 2);
+
+    const obj1_is_left = obj1.bounds.x + obj1.bounds.width < obj2.bounds.x;
+    const obj1_is_right = obj1.bounds.x > obj2.bounds.x + obj2.bounds.width;
+
+    const obj1_is_top = obj1.bounds.y + obj1.bounds.height < obj2.bounds.y;
+    const obj1_is_bottom = obj1.bounds.y > obj2.bounds.y + obj2.bounds.height;
+
+    let offsetX = (obj2.bounds.x + (obj2.bounds.width / 2));
+    let offsetY = obj1.bounds.y - (obj2.bounds.y - obj2.bounds.height);
+
+    const startPoint = {x: startCenterX, y: obj1.bounds.y};
+    if(obj1_is_top){
+      startPoint.y = obj1.bounds.y + obj1.bounds.height;
+      offsetY = obj1.bounds.y - (obj2.bounds.y - obj2.bounds.height);
+    }else if(obj1_is_bottom){
+      startPoint.y = obj1.bounds.y;
+      offsetY = (obj1.bounds.y - obj1.bounds.height) - obj2.bounds.y;
+    }else{
+      startPoint.y = obj1.bounds.y;
+      offsetY = obj1.bounds.y - (obj2.bounds.y);
+
+  
+      offsetY += 100;
+    }
+
+    const endPoint = {x: offsetX, y: obj2.bounds.y};
+    if(obj1_is_bottom){
+      endPoint.y = obj2.bounds.y + obj2.bounds.height;
+    }
+
+
+    const path: Point[] = [
+      {x: startPoint.x, y: startPoint.y },
+      {x: startPoint.x, y: startPoint.y - (offsetY / 2)},
+      {x: offsetX, y: startPoint.y - (offsetY / 2)},
+      {x: endPoint.x, y: endPoint.y},
+    ];
+
+    this.context.beginPath();
+    if(args.lineDash){
+      this.context.setLineDash(args.lineDash);
+    }
+    this.context.strokeStyle = args.strokeColor;
+    this.context.lineWidth = args.strokeWidth;
+    this.context.moveTo(path[0].x, path[0].y);
+    path.slice(1).forEach((point)=>{
+      this.context.lineTo(point.x, point.y);
+    });
+    this.context.stroke();
+    this.context.closePath();
+    
+    if(addToLog)
+      return this.addToLog(this.drawPath, args, args.groupName, args.objectName, drawFromLog);
+    return {
+      func: this.drawPath,
       args: args,
       drawFromLog: drawFromLog
     }
@@ -497,17 +659,33 @@ export class UiCanvasDirective implements AfterViewInit{
     }
 
   }
-  drawText(args: IFillTextFunc, addToLog: boolean = true, drawFromLog: boolean = true): ICanvasObject{
+
+  drawText(args: IFillTextArgs, addToLog: boolean = true, drawFromLog: boolean = true): ICanvasObject<IFillTextArgs>{
     this.updateExistingManifest(args);
 
-    this.context.fillStyle = args.color;
-    this.context.font = args.fontWeight + ' ' + (args.fontSize) + 'px ' + args.fontFamily;
+    this.context.fillStyle = args.text.color;
+    this.context.font = args.text.fontWeight + ' ' + (args.text.fontSize) + 'px ' + args.text.fontFamily;
 
-    const textHeight = this.getTextHeight(args.text, this.context.font);
+    const textHeight = this.getTextHeight(args.text.text, this.context.font);
+
     args.bounds.height = textHeight;
-    args.bounds.width = this.getTextWidth(args.text, this.context.font);
+    args.bounds.width = this.getTextWidth(args.text.text, this.context.font);
 
-    this.context.fillText(args.text, args.bounds.x, args.bounds.y + (textHeight), args.bounds.width);
+    const wasText = '...';
+    const was = args.bounds.width > args.text.maxWidth;
+    const wasWidth = was? this.getTextWidth(wasText, this.context.font) : 0;
+    if(args.text.maxWidth && (args.text.maxWidth > args.text.fontSize) && (args.bounds.width > args.text.maxWidth - wasWidth)){
+      while(args.bounds.width > args.text.maxWidth - wasWidth){
+        args.text.text = args.text.text.slice(0, -1);
+        args.bounds.width = this.getTextWidth(args.text.text, this.context.font);
+      }
+      if(was){
+        args.text.text += wasText;
+      }
+    }
+
+
+    this.context.fillText(args.text.text, args.bounds.x, args.bounds.y + (textHeight), args.bounds.width);
 
     if(addToLog)
       return this.addToLog(this.drawText, args, args.groupName, args.objectName, drawFromLog);
@@ -520,7 +698,8 @@ export class UiCanvasDirective implements AfterViewInit{
 
   private getTextWidth(text: string, font: string) {
     this.context.font = font;
-    return this.context.measureText(text).width;
+    let metrics = this.context.measureText(text);
+    return metrics.width;
   }
 
   private getTextHeight(text: string, font: string) {
@@ -559,7 +738,8 @@ export class UiCanvasDirective implements AfterViewInit{
     return copyArgs;
   }
 
-  addToLog(func: Function, args: IGroupManifestFunc<any>, groupName: string, objectName: string, drawFromLog: boolean): ICanvasObject{
+  /*args should be any type that extends IGroupManifestFunc<T>*/
+  addToLog<T>(func: Function, args: any | IGroupManifestFunc<T>, groupName: string, objectName: string, drawFromLog: boolean): ICanvasObject<T>{ //the T is an interface that extends IGroupManifestFunc
     if(!this.groupManifest[groupName]){
       this.groupManifest[groupName] = {
         objects: []
@@ -585,11 +765,12 @@ export class UiCanvasDirective implements AfterViewInit{
       });
       return this.groupManifest[groupName].objects[this.groupManifest[groupName].objects.length - 1];
     }
+
     return {
       func: func, 
       args: args,
       drawFromLog: drawFromLog
-    };
+    } as ICanvasObject<T>;
   }
 
   onDragEvent(objArgs, event, anchorPoint){
@@ -602,16 +783,62 @@ export class UiCanvasDirective implements AfterViewInit{
     }
   }
 
-  drawTable(table: Table, addToLog: boolean = true){
+  getGroupManifestBySelector(groupName: string){
+    return this.groupManifest[groupName];
+  }
+
+  objectSelector(groupName: string, objectName: string){
+    if(this.groupManifest[groupName])
+      return this.groupManifest[groupName].objects.find(obj=>{
+        return obj.args.objectName === objectName;
+      });
+  }
+
+  drawLink(selector1_: string, selector2_: string, color: COLOR | HexCode){
+    this.drawPath({
+      strokeColor: color,
+      strokeWidth: 1,
+      selector1: selector1_,
+      selector2: selector2_,
+      groupName: 'constraints',
+      objectName: selector1_ + ':' + selector2_,
+      lineDash: [8, 8]
+    }, true, true);
+  }
+
+  clearLinks(){
+    delete this.groupManifest['constraints'];
+  }
+
+  drawTable(table: ITableArgs){
     if(this.groupManifest[table.groupName])
       this.groupManifest[table.groupName].objects = [];
-    
+    if(table.kebabMenu){
+      table.rows.forEach((row, rowIndex)=>{
+        const kebab = table.kebabMenu();
+        if(rowIndex === 0)
+          kebab.object.args.text.text = '';
+        kebab.object.args.objectName = `${table.groupName}-kebab-${rowIndex}`;
+        kebab.object.args.events['onClick'] = (objArgs: any, event: PointerEvent)=>{
+          this.kebabAction.emit({
+            openAt: {x: event.offsetX - 50, y: event.offsetY + table.cellSpacing} as Point,
+            groupName: objArgs.groupName,
+            objectName: objArgs.objectName,
+            options: objArgs.options
+          });
+
+          return {}
+        };
+        return row.cells.push(kebab);
+      });
+    }
+      
     const BORDER_OFFSET = 0;
 
     const cellMaxWidths = [];
     const cellWidths = table.rows.map((row)=>{
       row.cells.map((cell, cellIndex)=>{
-        const cellWidth = this.getTextWidth(cell.object.args.text, cell.object.args.fontWeight + ' ' + (cell.object.args.fontSize) + 'px ' + cell.object.args.fontFamily);
+        const cellWidth = this.getTextWidth(cell.object.args.text.text, cell.object.args.text.fontWeight + ' ' + (cell.object.args.text.fontSize) + 'px ' + cell.object.args.text.fontFamily);
         if(cellMaxWidths[cellIndex] === undefined || cellWidth > cellMaxWidths[cellIndex]){
           cellMaxWidths[cellIndex] = cellWidth;
         }
@@ -632,7 +859,7 @@ export class UiCanvasDirective implements AfterViewInit{
     const maxColumnLength = Math.max(...table.rows.map((row, rowIndex)=>{
       let x = 0;
       const rowHeight = Math.max(...row.cells.map((cell)=>{
-        return this.getTextHeight(cell.object.args.text, (cell.object.args.fontSize) + 'px ' + cell.object.args.fontFamily);
+        return this.getTextHeight(cell.object.args.text.text, (cell.object.args.text.fontSize) + 'px ' + cell.object.args.text.fontFamily);
       }));
 
       row.cells.forEach((cell, cellIndex)=>{
@@ -656,34 +883,19 @@ export class UiCanvasDirective implements AfterViewInit{
       backgroundColor: table.backgroundColor, 
       borderColor: table.borderColor, 
       borderWidth: table.borderWidth,
-      borderRadius: (table.borderRadius / 100) * (100 / table.rows.length),
+      borderRadius: table.rows.length === 0 && !!table.warning?.text? (table.borderRadius / 100) * (100 / 2): ((table.borderRadius / 100) * (100 / table.rows.length)),
       groupName: table.groupName, 
       objectName: 'bounds',
       events: {
       },
       cursor: table.cursor,
     }, true, true);
-
-
-
-    this.groupManifest[table.groupName].events = {
-      ...table.events,
-      settings: this.defaultEventSettings
-    };
     
 
     table.rows.forEach((row, rowIndex)=>{
       const rowHeight = Math.max(...row.cells.map((cell, cellIndex)=>{
-        return this.getTextHeight(cell.object.args.text, cell.object.args.fontWeight + ' ' + (cell.object.args.fontSize) + 'px ' + cell.object.args.fontFamily);
+        return this.getTextHeight(cell.object.args.text.text, cell.object.args.text.fontWeight + ' ' + (cell.object.args.text.fontSize) + 'px ' + cell.object.args.text.fontFamily);
       }));
-
-      /*
-
-      const cellCenterOffset = row.cells.map((cell, cellIndex)=>{
-        const cellWidth = this.getTextWidth(cell.object.args.text, cell.object.args.fontWeight + ' ' + (cell.object.args.fontSize) + 'px ' + cell.object.args.fontFamily);
-        const centerText = ((cellMaxWidths[cellIndex] - cellWidth) / 2);
-        return centerText;
-      }).reduce((sum, current) => sum + current, 0);*/
 
       const rowBounds: Bounds = {
         x: row.cells[0]?.object?.args?.bounds?.x - table.cellSpacing, 
@@ -707,9 +919,9 @@ export class UiCanvasDirective implements AfterViewInit{
       }, true, true);
       
       row.cells.forEach((cell, cellIndex)=>{
-        cell.object.args.bounds.y -= (rowBounds.height - this.getTextHeight(cell.object.args.text, (cell.object.args.fontSize) + 'px ' + cell.object.args.fontFamily)) / 2;
+        cell.object.args.bounds.y -= (rowBounds.height - this.getTextHeight(cell.object.args.text.text, (cell.object.args.text.fontSize) + 'px ' + cell.object.args.text.fontFamily)) / 2;
         cell.object.args.bounds.y -= 2;     
-        const cellWidth = this.getTextWidth(cell.object.args.text, cell.object.args.fontWeight + ' ' + (cell.object.args.fontSize) + 'px ' + cell.object.args.fontFamily);
+        const cellWidth = this.getTextWidth(cell.object.args.text.text, cell.object.args.text.fontWeight + ' ' + (cell.object.args.text.fontSize) + 'px ' + cell.object.args.text.fontFamily);
         const centerText = ((cellMaxWidths[cellIndex] - cellWidth) / 2);
         cell.object.args.bounds.x += centerText;
         
@@ -718,109 +930,83 @@ export class UiCanvasDirective implements AfterViewInit{
     });
 
 
+    if(table.warning?.text){
+      const tableWarningHeight = this.getTextHeight(table.warning.text, table.warning.fontWeight + ' ' + (table.warning.fontSize) + 'px ' + table.warning.fontFamily) + (table.cellSpacing / 2);
+      const tableWarningWidth = this.getTextWidth(table.warning.text, table.warning.fontWeight + ' ' + (table.warning.fontSize) + 'px ' + table.warning.fontFamily);
+      const tableWidth = tableWarningWidth
+        + (table.cellSpacing / 2)
+        + 50;
+      table.bounds.height += (tableWarningHeight * 2);
+      if(table.bounds.width <= tableWidth)
+        table.bounds.width = tableWidth;
 
-    return this.addToLog(this.drawTable, table, table.groupName, table.objectName, false);
-  }
+      this.drawText({
+        text: {
+          ...table.warning,
+          maxWidth: table.bounds.width - (table.cellSpacing / 2),
+        },
+        objectName: table.objectName + '-warning',
+        groupName: table.groupName,
+        bounds: {...table.bounds, x: table.bounds.x + ((table.bounds.width / 2) - (tableWarningWidth / 2)), y: (table.bounds.y + (tableWarningHeight / 2))}
+      }, true, true);
+    }
 
-  draw(){
+    const titlePrefixSpacing = 5;
+    let tableTitlePrefixWidth = this.getTextWidth('i', table.titlePrefix.fontWeight + ' ' + (table.titlePrefix.fontSize) + 'px ' + table.titlePrefix.fontFamily);
+    if(table.titlePrefix?.text){
+      const tableTitlePrefixHeight = this.getTextHeight(table.titlePrefix.text, table.titlePrefix.fontWeight + ' ' + (table.titlePrefix.fontSize) + 'px ' + table.titlePrefix.fontFamily)
+      this.drawText({
+        text: {
+          ...table.titlePrefix,
+          color: table.borderColor
+        },
+        objectName: table.objectName + '-title-prefix',
+        groupName: table.groupName,
+        bounds: {x: table.bounds.x + (table.cellSpacing / 2), y: table.bounds.y - tableTitlePrefixHeight - 4, width: 0, height: 0}
+      }, true, true);
+    }
 
-    
-    /*
+    const tableTitleHeight = this.getTextHeight(table.title.text, table.title.fontWeight + ' ' + (table.title.fontSize) + 'px ' + table.title.fontFamily)
     this.drawText({
-      text: `text`,
-      color: "#ffffff" as HexCode,
-      fontFamily: "serif",
-      fontWeight: FONTWEIGHT.BOLD,
-      fontSize: 40,
-      bounds: {x: 70, y: 150, width: 0, height: 0},
-      groupName: 'text',
-      objectName: `text`,
-      cursor: CURSOR.DEFAULT,
-      events: {
-        onHover: (obj)=>{
-          return {
-            color: 'red'
-          }
-        }
-      }
-    });*/
-
-    this.drawBounds({
-        backgroundColor: COLOR.CYAN,
-        bounds: { x: 50, y: 200, width: 100, height: 58 },
-        groupName: 'BGTEST',
-        objectName: `BGTEST`,
-        borderColor: COLOR.WHITE,
-        borderRadius: 100,
-        borderWidth: 2,
-        cursor: CURSOR.DEFAULT,
-        events: {
-          onDrag: this.onDragEvent.bind(this),
-          onHover: (obj)=>{
-            return {
-              borderColor: COLOR.RED,
-              cursor: CURSOR.GRAB,
-            }
-          }
-        }
+      text: {
+        ...table.title,
+        maxWidth: table.bounds.width - (table.cellSpacing / 2) - tableTitlePrefixWidth - titlePrefixSpacing
+      },
+      objectName: table.objectName + '-title',
+      groupName: table.groupName,
+      bounds: {x: table.bounds.x + (table.cellSpacing / 2) + tableTitlePrefixWidth + titlePrefixSpacing, y: table.bounds.y - tableTitleHeight - 5, width: 0, height: 0},
     }, true, true);
 
     
-    
-    this.drawTable({
-      objectName: 'test',
-      groupName: 'test',
-      borderWidth: 3,
-      borderColor: '#575b68' as HexCode,
-      backgroundColor: '#24262d' as HexCode,
-      bounds: {x: 50, y: 0, width: 200, height: 100},
-      cellSpacing: 10,
-      cursor: CURSOR.DEFAULT,
-      rows: [1,2,3].map((rowVal, rowKey)=>{
-        return {
-          cells:[1,2,3].map((cellVal, cellKey)=>{
-            return {
-              object: {
-                func: this.drawText,
-                args: {
-                  text: `row${rowKey}.cell${cellKey}`,
-                  color: '#d3d6da' as HexCode,
-                  fontFamily: "sans-serif",
-                  fontWeight: FONTWEIGHT.BOLD,
-                  fontSize: 11,
-                  bounds: {x: 0, y: 0, width: 0, height: 0},
-                  groupName: 'test',
-                  objectName: `row${rowKey}.cell${cellKey}`,
-                  cursor: CURSOR.GRAB,
-                  events: {
-                    onHover: (obj)=>{
-                      return {
-                        color: COLOR.RED,
-                        cursor: CURSOR.POINTER
-                      }
-                    }
-                  }
-                },
-                drawFromLog: false
-              },
-              events: {
-                
-              }
-            }
-          })
-        };
-      }),
-      events: {
-        onDrag: this.onDragEvent.bind(this),
-        onHover: (obj)=>{
-          return {
-            borderColor: COLOR.RED,
-            backgroundColor: 'blue',
-            cursor: CURSOR.GRAB
-          }
-        }
-      }
-    });
+    this.groupManifest[table.groupName].events = {
+      ...table.events,
+      onClick: (objArgs, event, anchorPoint)=> {
+        if(table.events?.onClick)
+          return table.events.onClick(objArgs, event, anchorPoint);
+        return {};
+      },
+      onHover: (objArgs, event, anchorPoint)=> {
+        if(table.events?.onHover)
+          return table.events.onHover(objArgs, event, anchorPoint);
+        return {};
+      },
+      onDrag: (objArgs, event, anchorPoint)=> {
+        if(table.events?.onDrag)
+          return table.events.onDrag(objArgs, event, anchorPoint);
+        return {};
+      },
+      onMouseDown: (objArgs, event, anchorPoint)=> {
+        if(table.events?.onMouseDown)
+          return table.events.onMouseDown(objArgs, event, anchorPoint);
+        return {};
+      },
+      settings: this.defaultEventSettings
+    };
+
+
+
+
+    return this.addToLog(this.drawTable, table, table.groupName, table.objectName, false);
   }
 
   setCanvasDimensions(width: number, height: number){
@@ -861,5 +1047,12 @@ export class UiCanvasDirective implements AfterViewInit{
     const withinVertical = point.y >= bounds.y && point.y <= (bounds.y + bounds.height);
 
     return withinHorizontal && withinVertical;
+  }
+
+  get centerPoint(): Point{
+    return {
+      x: this.zoomSettings.scrollX + ((this.width / this.zoomSettings.scale) / 2),
+      y: this.zoomSettings.scrollY + ((this.height / this.zoomSettings.scale) / 2)
+    }
   }
 }

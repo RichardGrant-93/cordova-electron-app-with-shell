@@ -1,0 +1,10 @@
+<button mat-button-toggle mat-button [color]="button.style" [matMenuTriggerFor]="buttonDropdownMenu">
+    <mat-icon *ngIf="button?.icon">{{button?.icon}}</mat-icon>{{ button.text }}
+    <mat-icon>arrow_drop_down</mat-icon>
+</button>
+
+<mat-menu #buttonDropdownMenu="matMenu">
+    <button mat-menu-item *ngFor="let option of button.options" (click)="onClick(option.text)">
+        <mat-icon *ngIf="option?.icon">{{button?.icon}}</mat-icon>{{option.text}}
+    </button>
+</mat-menu>

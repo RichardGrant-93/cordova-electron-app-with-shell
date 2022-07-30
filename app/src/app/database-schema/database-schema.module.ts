@@ -13,7 +13,18 @@ import { MatButtonModule } from "@angular/material/button";
 import { TableSearchStore } from "@app/table-search/component-store/table-search.store";
 import { MouseControllerModule } from "@library/mouse-controller/src/public-api";
 import { DatabaseSchemaStore } from "./component-store/database-schema.store";
-import { FieldBuilderModule } from "./field-builder/field-builder.module";
+import { FormBuilderModule } from "./form-builder/fom-builder.module";
+import { SlideoutModule } from "@library/slideout/src/projects";
+import { VerticalNavigationComponent } from "@library/vertical-navigation/src/lib/vertical-navigation.component";
+import { MouseControllerDirective } from "@library/mouse-controller/src/lib/mouse-controller.directive";
+import { AvatarModule } from "@library/avatar/src/public-api";
+import { MatMenuModule } from "@angular/material/menu";
+import { MatTooltipModule } from "@angular/material/tooltip";
+import { MenuModule } from "@library/menu/src/lib/menu/menu.module";
+import { ConstraintBuilderComponent } from './constraint-builder/constraint-builder.component';
+import { StoreModule } from '@ngrx/store';
+import { EffectsModule } from '@ngrx/effects';
+import { DatabaseSchemaEffects } from './store/database-schema.effects';
 
 export const routes: Routes = [
     {
@@ -23,7 +34,10 @@ export const routes: Routes = [
 ];
 
 const child_modules = [
-    FieldBuilderModule
+    FormBuilderModule,
+    AvatarModule,
+
+    MenuModule
 ];
 
 const library_modules = [
@@ -31,13 +45,17 @@ const library_modules = [
     FormModule,
     MutableListModule,
     UiCanvasModule,
-    MouseControllerModule
+    MouseControllerModule,
+    SlideoutModule,
 ];
   
 const material = [
     DragDropModule,
     MatDialogModule,
     MatButtonModule,
+
+    MatMenuModule,
+    MatTooltipModule
 ];
 
 @NgModule({
@@ -46,14 +64,19 @@ const material = [
         RouterModule.forChild(routes),
         ...child_modules,
         ...library_modules, 
-        ...material,
+        ...material, 
+        EffectsModule.forFeature([DatabaseSchemaEffects]),
     ],
     exports: [],
-    providers: [TableSearchStore, DatabaseSchemaStore,
+    providers: [
+        TableSearchStore, 
+        DatabaseSchemaStore,
+        MouseControllerDirective,
         {
             provide: MatDialogRef,
             useValue: {}
-          }],
-    declarations: [DatabaseSchemaComponent, AdminPanelComponent],
+        },
+    ],
+    declarations: [DatabaseSchemaComponent, AdminPanelComponent, ConstraintBuilderComponent],
 })
 export class DatabaseSchemaModule { }

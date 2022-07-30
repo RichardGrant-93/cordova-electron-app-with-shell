@@ -19,7 +19,7 @@
 <!--https://www.synerzip.com/blogs/getting-started-with-angular-flex-layout/-->
 <mat-drawer-container #drawerContainer style="height:100vh;" [hasBackdrop]="false" [ngClass]="{'expanded': isExpanded}"
   class="mat-app-background slide desktop-only-slide" style="--desktop-navigation-slider-amount: 15em;">
-  <mat-drawer #sidenav mode="side" opened class="sidenav desktop-only-slide" style="--desktop-navigation-slider-amount: 15em;">
+  <mat-drawer #sidenav mode="side" opened class="sidenav desktop-only-slide" [class.isNotMini]="!isMini" style="--desktop-navigation-slider-amount: 15em;">
     <lib-vertical-navigation [isExpanded]="isExpanded" (toggled)="onToggle($event)" [navLinks]="navLinks"></lib-vertical-navigation>
   </mat-drawer>
 
@@ -27,22 +27,7 @@
   <mat-drawer-content class="mat-app-background">
     <div class="main-content no-margin-top">
       <div class="header-spacer"></div>
-      <!--<lib-search [formTemplate]="formTemplate" [actionButtons]="actionButtons"></lib-search>-->
       <div class="router-outlet-wrapper"><router-outlet></router-outlet></div>
-      <!--<div fxLayout="row">
-      <div fxFlex="33"> Child - One </div>
-      <div fxFlex="33"> Header </div>
-      <div fxFlex="33"> NAV </div>
     </div>
-
-    <div fxLayout="row" fxLayout.xs="column">
-      <div fxFlex="35"> Child - One </div>
-      <div fxFlex="30" fxHide.lt-md> Child - Two </div>
-      <div fxFlex="35" fxLayoutAlign="space-around center">
-        <div fxFlex="50" fxFlex.lt-lg="80"> Sub-child - One</div>
-      </div>
-    </div>-->
-    </div>
-    <mat-toolbar class="footer">Footer</mat-toolbar>
   </mat-drawer-content>
 </mat-drawer-container>

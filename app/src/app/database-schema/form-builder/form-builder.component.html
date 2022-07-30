@@ -1,0 +1,78 @@
+<div class="form-builder" [class]="'formtype-' + formType">
+    <div class="header" *ngIf="formName">
+        <span class="subHeader table">{{formName}}</span>
+        <!--<div class="actions">
+            <button (click)="onFormActionButtonClick(button?.text)" *ngFor="let button of (actionButtons$$ | async)" mat-button [class.mat-raised-button]="true" [color]="button?.style" class="actionButtons">
+                <mat-icon>{{button?.icon}}</mat-icon>{{button?.text}}
+            </button>
+        </div>-->
+    </div>
+    <lib-form [selectedFormIndex$$]="selectedFormIndex$$" [formTemplate$$]="forms$$" [actionButtons$$]="actionButtons$$" [emitOnChange]="true" (action)="onAction($event, formType)">
+        <ng-template #customTemplate let-field="field" let-formIndex="formIndex">
+            <ng-container [ngSwitch]="field?.name">
+                <ng-container *ngSwitchCase="ComponentFieldName.Kebab">
+                    <lib-kebab-menu [navLinks]="field.parameters?.navLinks" (kebabButtonClick)="onKebabButtonClick($event, parentFormIndex, formIndex)"></lib-kebab-menu>
+                </ng-container>
+                <ng-container *ngSwitchCase="ComponentFieldName.PropertiesForm">
+                    <app-form-builder 
+                        [forms$$]="field.parameters?.formTemplate$$" 
+                        [actionButtons$$]="field.parameters?.actionButtons$$" 
+                        [formName]="field?.name"
+                        [formIndexPath]="formIndexPath + '.' + formIndex" 
+                        [formType]="FormType.Properties"
+                        (formsAction)="formsAction.emit($event)"
+                        (formFieldsAction)="formFieldsAction.emit($event)"
+                        [class]="'app-form-builder-' + FormType.Properties"
+                    ></app-form-builder>
+                </ng-container>
+                <ng-container *ngSwitchCase="ComponentFieldName.PropertiesFormSwitches">
+                    <app-form-builder 
+                        [forms$$]="field.parameters?.formTemplate$$" 
+                        [actionButtons$$]="field.parameters?.actionButtons$$"
+                        [formIndexPath]="formIndexPath + '.' + formIndex" 
+                        [formType]="FormType.PropertiesFormSwitches"
+                        (formsAction)="formsAction.emit($event)"
+                        (formFieldsAction)="formFieldsAction.emit($event)"
+                        [class]="'app-form-builder-' + FormType.PropertiesFormSwitches"
+                    ></app-form-builder>
+                </ng-container>
+                <ng-container *ngSwitchCase="ComponentFieldName.ForeignKeyConstraint">
+                    <app-form-builder 
+                        [forms$$]="field.parameters?.formTemplate$$" 
+                        [actionButtons$$]="field.parameters?.actionButtons$$" 
+                        [formName]="field?.name"
+                        [formIndexPath]="formIndexPath + '.' + formIndex" 
+                        [formType]="FormType.ForeignKeyConstraints"
+                        (formsAction)="formsAction.emit($event)"
+                        (formFieldsAction)="formFieldsAction.emit($event)"
+                        [class]="'app-form-builder-' + FormType.ForeignKeyConstraints"
+                    ></app-form-builder>
+                </ng-container>
+                <ng-container *ngSwitchCase="ComponentFieldName.CheckConstraint">
+                    <app-form-builder 
+                        [forms$$]="field.parameters?.formTemplate$$" 
+                        [actionButtons$$]="field.parameters?.actionButtons$$" 
+                        [formName]="field?.name"
+                        [formIndexPath]="formIndexPath + '.' + formIndex" 
+                        [formType]="FormType.CheckConstraints"
+                        (formsAction)="formsAction.emit($event)"
+                        (formFieldsAction)="formFieldsAction.emit($event)"
+                        [class]="'app-form-builder-' + FormType.CheckConstraints"
+                    ></app-form-builder>
+                </ng-container>
+                <ng-container *ngSwitchCase="ComponentFieldName.Conditions">
+                    <app-form-builder 
+                        [forms$$]="field.parameters?.formTemplate$$" 
+                        [actionButtons$$]="field.parameters?.actionButtons$$" 
+                        [formName]="field?.name"
+                        [formIndexPath]="formIndexPath + '.' + formIndex" 
+                        [formType]="FormType.Conditions"
+                        (formsAction)="formsAction.emit($event)"
+                        (formFieldsAction)="formFieldsAction.emit($event)"
+                        [class]="'app-form-builder-' + FormType.Conditions"
+                    ></app-form-builder>
+                </ng-container>
+            </ng-container>
+        </ng-template>
+    </lib-form>
+</div>

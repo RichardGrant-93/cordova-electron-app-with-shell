@@ -1,0 +1,103 @@
+@import '../../../custom-theme.scss';
+@import '@angular/material/_theming.scss';
+
+$primary: map-get($app-theme, primary);
+$accent: map-get($app-theme, accent);
+$background: map-get($app-theme, background);
+
+::ng-deep app-form-builder .subHeader.table{
+    font-size:2rem;
+    line-height: 2rem;
+}
+::ng-deep app-form-builder .subHeader.fields{
+    font-size:1rem;
+}
+
+::ng-deep app-form-builder lib-kebab-menu{
+    padding:1rem 0;
+    button{
+        float: right;
+    }
+}
+
+::ng-deep app-form-builder .form-builder{
+    .header{
+        display: table;
+        width: 100%;
+        span, .actions{
+            display: table-cell;
+            width: 50%;
+            vertical-align: middle;
+        }
+        span{
+            text-align: left;
+        }
+        .actions{
+            text-align: right;
+            button{
+                width: auto !important;
+            }
+        }
+    }
+    .subHeader{
+        font-weight: 500;
+    }
+    .forms{
+        padding: 0 !important;
+        margin: 0 !important;
+    }
+    form{
+        .header{
+            padding: 1rem 0;
+        }
+        form{
+            padding: 0.5rem !important;
+            margin: 0 !important;
+        }
+    }
+}
+
+
+::ng-deep .form-builder{
+    &:not(.formtype-Builder){
+        padding: 1rem;
+    }
+    &.formtype-Builder > lib-form > .forms > form,
+    &.formtype-PropertiesFormSwitches,
+    app-form-builder.app-form-builder-PropertiesFormSwitches,
+    &.formtype-PropertiesFormSwitches > lib-form > .forms > form{
+        padding: 0 !important;
+        background: transparent !important;
+    }
+}
+::ng-deep app-form-builder .form-builder.formtype-Builder{
+    div:nth-child(odd) > app-form-builder{
+        .form-builder:not(.formtype-CheckConstraints) form:nth-child(odd){
+            background: rgba(darken(mat-color($primary), 20%), 0.8);
+        }
+        background: rgba(darken(mat-color($primary), 20%), 0.25);
+    }
+}
+
+
+
+
+/*
+::ng-deep app-form-builder .form-builder > lib-form > .forms > form{
+    form{
+        background: transparent !important;
+    }
+    form:nth-child(odd){
+        background: rgba(0,0,0,0.35) !important;
+    }
+    &> div > .field-padding:last-child{
+        padding: 0 !important;
+    }
+}*/
+
+
+::ng-deep app-form-builder form{
+    .actions button{
+        width: 100%;
+    }
+}

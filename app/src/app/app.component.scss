@@ -1,6 +1,8 @@
 @import '../custom-theme.scss';
 @import '@angular/material/_theming.scss';
 
+@include mat-core();
+
 $primary: map-get($app-theme, primary);
 $accent: map-get($app-theme, accent);
 $background: map-get($app-theme, background);
@@ -8,7 +10,7 @@ $background: map-get($app-theme, background);
 button.expander{
     @include header-height('height');
     .text{
-        color: rgba(0,0,0, 0.33);
+        color: $app-background;
     }
 }
 
@@ -22,7 +24,7 @@ button.expander, mat-nav-list{
 
 .header{
     color: mat-color($primary);
-    background-color: white;
+    background-color: transparent;
     position:absolute;
     z-index: 1000;
 }
@@ -40,11 +42,15 @@ button.expander, mat-nav-list{
 mat-drawer-container{
     mat-drawer{
         overflow-y:initial;
-        background-color:transparent;
+        background-color: mat-color($primary, 0.65);
         border:0;
+        height: fit-content;
     }
-
-
+    mat-drawer.isNotMini{
+        background-color: mat-color($primary);
+        height: 100%;
+    }
+       
     mat-drawer-content{
         margin-left: 5em !important;
         min-height:100vh;
@@ -60,32 +66,11 @@ mat-drawer-container{
         }
 
 
-        @mixin content-height-toolbar-compensation($toolbar-height){
-            min-height: calc(100vh - (#{$toolbar-height} * 2) + 2rem); /* mat-toolbar is 64 height. 100vh - (toolbar-height * 2) - (margin-top * 2) */
-        }
         .main-content{
-            margin:2em 2em 2em 0;
+            margin:0;
             display: flex;
             flex-direction: column;
-            @include content-height-toolbar-compensation(64px);
-        }
-
-        @media only screen and (max-width: 599px){ /* mat-toolbard height is changed to 56 when width is <= 599 */
-            .main-content{
-                @include content-height-toolbar-compensation(56px);
-            }
-        }
-
-        @media only screen and (max-width: 412px) {/*when small mobile*/
-            .main-content{
-                margin:0 0.5em 0 0 !important;
-            }
-        }
-        .footer{
-            color: mat-color($primary);
-            background-color: transparent;
-            padding-right:2em !important;
-            padding-left: 0 !important;
+            min-height:100vh;
         }
     }
 

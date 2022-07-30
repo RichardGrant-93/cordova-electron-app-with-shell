@@ -10,6 +10,8 @@ import { BehaviorSubject, Observable, of } from 'rxjs';
 import { KebabActions } from './component-store/table-search.models';
 import { TableSearchStore } from './component-store/table-search.store';
 import { DetailActionButton } from './details/component-store/details.model';
+import { MaterialIcon } from '@library/vertical-navigation/src/lib/models/materialIcon.model';
+import { Button } from '@library/button/src/lib/button/button.component';
 
 const ELEMENT_DATA: Observable<contracts[]> = of([
   {contractId: '123', jobType: 'Cut Grass', contractType: 'Recurring', distance: 50, averagePrice: { type: AdvancedTypes.MONEY, value: 60 }, clientRating: 5, sqft: 500, completionEstimate: '5 hours'},
@@ -23,6 +25,26 @@ const ELEMENT_DATA: Observable<contracts[]> = of([
 })
 @Injectable()
 export class TableSearchComponent implements OnInit {
+
+  public button: Button = {
+    style: 'primary',
+    text: 'Action',
+    icon: MaterialIcon.plus_one,
+    options: [
+      {
+        style: 'primary',
+        text: 'Button 1',
+        icon: MaterialIcon.plus_one,
+      },
+      {
+        style: 'primary',
+        text: 'Button 2',
+        icon: MaterialIcon.plus_one,
+    
+      }
+    ]
+  };
+
   
   public formInputType = FormInputType;
 

@@ -1,0 +1,9 @@
+<ng-container *ngIf="button.options; else normalButton">
+    <lib-split-button [button]="button" [actionButtonsRaised]="actionButtonsRaised" (selected)="selected.emit($event)"></lib-split-button>
+</ng-container>
+<ng-template #normalButton>
+    <button mat-button [class.mat-raised-button]="actionButtonsRaised" [color]="button.style"
+        (click)="onClick(button.text)">
+        <mat-icon *ngIf="button?.icon">{{button?.icon}}</mat-icon>{{button.text}}
+    </button>
+</ng-template>

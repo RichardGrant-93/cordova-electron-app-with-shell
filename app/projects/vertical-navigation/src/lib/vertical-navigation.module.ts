@@ -9,6 +9,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { RouterModule } from '@angular/router';
 import { VerticalNavigationComponent } from './vertical-navigation.component';
+import { VerticalNavigationService } from './vertical-navigation.service';
 
 const child_modules = [];
 const library_modules = [];
@@ -32,6 +33,7 @@ const material = [
     ...library_modules,
     ...material
   ],
+  providers: [VerticalNavigationService],
   exports: [VerticalNavigationComponent]
 })
 export class VerticalNavigationModule { }

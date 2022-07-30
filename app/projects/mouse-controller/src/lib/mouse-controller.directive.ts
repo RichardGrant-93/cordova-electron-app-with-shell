@@ -41,7 +41,7 @@ export enum CURSOR {
   ZOOM_OUT = 'zoom-out'
 };
 
-enum MouseButton{
+export enum MouseButton{
   LEFT = 0,
   MIDDLE = 1,
   RIGHT = 2
@@ -77,7 +77,7 @@ export class MouseControllerDirective{
     }
   }
 
-  @HostListener('mousemove', ['$event'])
+  @HostListener('window:mousemove', ['$event'])
   onMouseMove(event: MouseEvent) {
     if(event){
       if(Object.values(this.mouseDown).includes(true))
