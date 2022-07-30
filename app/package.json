@@ -29,7 +29,6 @@
     "@angular/router": "~12.2.16",
     "@ionic-native/core": "^5.33.0",
     "@ionic-native/keyboard": "^5.33.0",
-    "@ngrx/component-store": "^11.1.1",
     "@types/fabric": "^4.5.4",
     "@types/html2canvas": "^1.0.0",
     "concurrently": "^6.0.0",
