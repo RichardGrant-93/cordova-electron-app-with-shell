@@ -1,7 +1,9 @@
 {
   "$schema": "./node_modules/@angular/cli/lib/config/schema.json",
   "cli": {
-    "defaultCollection": "@ngrx/schematics"
+    "schematicCollections": [
+      "@ngrx/schematics"
+    ]
   },
   "version": 1,
   "newProjectRoot": "projects",
@@ -569,6 +571,5 @@
     "@schematics/angular:component": {
       "styleext": "scss"
     }
-  },
-  "defaultProject": "app"
+  }
 }
